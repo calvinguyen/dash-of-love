@@ -3,6 +3,9 @@ import cors from "cors"
 import dotenv from "dotenv"
 import morgan from "morgan"
 
+//Import routes
+import testDataRoute from "./routes/test.js";
+
 dotenv.config()
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +19,9 @@ app.use(cors(
 
 app.use(express.json())
 app.use(morgan("dev"))
+
+//Setup middleware for routes
+app.use("/testData", testDataRoute)
 
 app.listen(PORT, () => {
     console.log("Server started listening on port: ", PORT);
