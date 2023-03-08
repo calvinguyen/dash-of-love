@@ -1,7 +1,7 @@
 import express from "express"
 import { 
     getTests, getTestById, createTest, updateTestById, deleteTestById 
-} from "../controllers/test.js"
+} from "../controllers/tests.js"
 
 const router = express.Router()
 
@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     res.json(data);
 })
 
-// Create a test entry to testing
+// Create a test 
 router.post("/", async (req, res) => {
     const {name, price} = req.body;
     

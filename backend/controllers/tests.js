@@ -1,5 +1,6 @@
 import {db} from "../database.js"
 
+// Get all tests
 export async function getTests() {
   const sql = "select * from testing";
   const [results] = await db.query(sql);
@@ -7,6 +8,7 @@ export async function getTests() {
   return results
 }
 
+// Get a test by id
 export async function getTestById(id) {
   const sql = `
     select *
@@ -17,6 +19,7 @@ export async function getTestById(id) {
   return rows[0];
 }
 
+// Create a test
 export async function createTest(name, price) {
   const sql = `
     insert into testing (name, price)
@@ -28,6 +31,7 @@ export async function createTest(name, price) {
   return getTestById(id);
 }
 
+// Update a test by id
 export async function updateTestById(id, name, price) {
   const sql = `
     update testing
@@ -40,6 +44,7 @@ export async function updateTestById(id, name, price) {
   return getTestById(id);
 }
 
+// Delete a test by id
 export async function deleteTestById(id) {
   const sql = `
     delete from testing
