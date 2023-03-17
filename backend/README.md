@@ -1,5 +1,5 @@
 # Backend
-
+Backend built with Express and MySQL.
 
 ## Project setup
 ```
