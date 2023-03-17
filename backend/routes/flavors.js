@@ -1,6 +1,6 @@
 import express from "express"
 import { 
-    getFlavors, getFlavorById, createFlavor, updateFlavorById, deleteFlavorById 
+    getFlavors, getFlavorById, createFlavor, updateFlavorById, updateFlavorStatusById 
 } from "../controllers/flavors.js"
 
 const router = express.Router()
@@ -21,31 +21,32 @@ router.get("/:id", async (req, res) => {
 })
 
 // Create a flavor
-//!TODO: Need to test in postman 
 router.post("/", async (req, res) => {
-    const flavor = req.body.flavor;
+    const flavor = req.body.flavors;
+    const status = req.body.status;
     
-    const data = await createFlavor(flavor);
+    const data = await createFlavor(flavor, status);
     res.json(data);
 })
 
 // Update a flavor by id
-//!TODO: Need to test in postman 
 router.put("/:id", async (req, res) => {
-    const flavor = req.body.flavor;
+    const flavor = req.body.flavors;
+    const status = req.body.status;
     const flavorId = req.params.id;
 
-    const result = await updateFlavorById(flavorId, flavor);
+    const result = await updateFlavorById(flavorId, flavor, status);
     res.json(result);
 })
 
-// Delete a flavor by id
-//!TODO: Need to test in postman 
-router.delete("/:id", async (req, res) => {
+// Update a flavor's status by id
+router.put("/status/:id", async (req, res) => {
     const flavorId = req.params.id;
-    const result = await deleteFlavorById(flavorId);
+    const status = req.body.status;
 
-    res.json("Succesfully deleted flavor");
+    const result = await updateFlavorStatusById(flavorId, status);
+
+    res.json(result);
 })
 
 export default router
