@@ -23,8 +23,8 @@ export async function getCustomerById(id) {
   // Create a customer
 export async function createCustomer(first_name, last_name, email, phone, status) {
     const sql = `
-      insert into Cake_Flavor (first_name, last_name, email, phone, status)
-      values (?, ?)
+      insert into Customer (first_name, last_name, email, phone, status)
+      values (?, ?, ?, ?, ?)
     `;
     const [result] = await db.query(sql, [first_name, last_name, email, phone, status]);
     const id = result.insertId;
@@ -36,7 +36,7 @@ export async function createCustomer(first_name, last_name, email, phone, status
 export async function updateCustomerById(id, first_name, last_name, email, phone, status) {
     const sql = `
       update Customer
-      set first_name = ?, last_name = ? email = ?,
+      set first_name = ?, last_name = ?, email = ?,
       phone = ?, status = ?
       where customerID = ?
     `;
