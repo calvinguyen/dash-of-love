@@ -7,3 +7,42 @@ export async function getCustomers() {
 
     return results
 }
+
+// Get a customer by ID
+export async function getCustomerById(id) {
+    const sql = `
+      select *
+      from Customer
+      where customerID = ?
+    `;
+    const [rows] = await db.query(sql, [id]);
+    return rows[0];
+  }
+
+
+  // Create a customer
+export async function createCustomer(first_name, last_name, email, phone, status) {
+    const sql = `
+      insert into Cake_Flavor (first_name, last_name, email, phone, status)
+      values (?, ?)
+    `;
+    const [result] = await db.query(sql, [first_name, last_name, email, phone, status]);
+    const id = result.insertId;
+  
+    return getCustomerById(id);
+  }
+
+  // Update a customer by id
+export async function updateCustomerById(id, first_name, last_name, email, phone, status) {
+    const sql = `
+      update Customer
+      set first_name = ?, last_name = ? email = ?,
+      phone = ?, status = ?
+      where customerID = ?
+    `;
+    const [result] = await db.query(sql, [first_name, last_name, email, phone, status, id]);
+    
+    return getFlavorById(id);
+  }
+  
+  
