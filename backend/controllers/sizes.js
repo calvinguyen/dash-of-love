@@ -32,26 +32,26 @@ export async function createSize(type, price, status) {
   }
 
   // Update a size by id
-export async function updateSizeById(typeID, price, status) {
+export async function updateSizeById(id, price, status) {
     const sql = `
       update Cake_Size
       set price = ?,
       status = ?
       where typeID = ?
     `;
-    const [result] = await db.query(sql, [price, status, typeID]);
+    const [result] = await db.query(sql, [price, status, id]);
     
     return getSizeById(id);
   }
 
   // Update a sizes's status -> NO hard deletes
-export async function updateSizeStatusById(typeID, status) {
+export async function updateSizeStatusById(id, status) {
     const sql = `
       update Cake_Size
       set status = ?
       where typeID = ?
     `;
-    const [result] = await db.query(sql, [status, typeID]);
+    const [result] = await db.query(sql, [status, id]);
   
     return getSizeById(id);
   }

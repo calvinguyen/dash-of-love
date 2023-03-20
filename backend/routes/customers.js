@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const email = req.body.email;
-    const phone = req.body.status;
+    const phone = req.body.phone;
     const status = req.body.status;
     
     const data = await createCustomer(first_name, last_name, email, phone, status);

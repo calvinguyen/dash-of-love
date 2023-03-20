@@ -36,7 +36,7 @@ router.put("/:id", async (req, res) => {
     const status = req.body.status;
     const typeID = req.params.id;
 
-    const result = await updateSizeById(price, status, typeID);
+    const result = await updateSizeById(typeID, price, status);
     res.json(result);
 })
 
