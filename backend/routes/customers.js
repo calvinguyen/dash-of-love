@@ -1,6 +1,6 @@
 import express from "express"
 import {
-     getCustomers, getCustomerById, createCustomer, updateCustomerById
+     getCustomers, getCustomerById, createCustomer, updateCustomerById, updateCustomerStatusById
 } from "../controllers/customers.js"
 
 const router = express.Router()
@@ -45,4 +45,13 @@ router.put("/:id", async (req, res) => {
     res.json(result);
 })
 
+// Update a customer's status by id
+router.put("/status/:id", async (req, res) => {
+    const customerID = req.params.id;
+    const status = req.body.status;
+
+    const result = await updateCustomerStatusById(customerID, status);
+
+    res.json(result);
+})
 export default router
