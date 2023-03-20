@@ -32,12 +32,11 @@ router.post("/", async (req, res) => {
 
 // Update a size by id
 router.put("/:id", async (req, res) => {
-    const type = req.body.type
     const price = req.body.price;
     const status = req.body.status;
     const typeID = req.params.id;
 
-    const result = await updateSizeById(typeID, type, price, status);
+    const result = await updateSizeById(price, status, typeID);
     res.json(result);
 })
 
