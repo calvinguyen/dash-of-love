@@ -22,8 +22,8 @@ router.get("/:id", async (req, res) => {
 
 // Create a flavor
 router.post("/", async (req, res) => {
-    const flavor = req.body.flavors;
-    const status = req.body.status;
+    const flavor = req.body.flavor;
+    const status = req.body.statusID;
     
     const data = await createFlavor(flavor, status);
     res.json(data);
@@ -31,8 +31,8 @@ router.post("/", async (req, res) => {
 
 // Update a flavor by id
 router.put("/:id", async (req, res) => {
-    const flavor = req.body.flavors;
-    const status = req.body.status;
+    const flavor = req.body.flavor;
+    const status = req.body.statusID;
     const flavorId = req.params.id;
 
     const result = await updateFlavorById(flavorId, flavor, status);
@@ -42,7 +42,7 @@ router.put("/:id", async (req, res) => {
 // Update a flavor's status by id
 router.put("/status/:id", async (req, res) => {
     const flavorId = req.params.id;
-    const status = req.body.status;
+    const status = req.body.statusID;
 
     const result = await updateFlavorStatusById(flavorId, status);
 

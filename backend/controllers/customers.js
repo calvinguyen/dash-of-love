@@ -20,19 +20,19 @@ export async function getCustomerById(id) {
   }
 
 
-  // Create a customer
-export async function createCustomer(first_name, last_name, email, phone, status) {
+// Create a customer
+export async function createCustomer(first_name, last_name, email, phone) {
     const sql = `
-      insert into Customer (first_name, last_name, email, phone, status)
-      values (?, ?, ?, ?, ?)
+      insert into Customer (first_name, last_name, email, phone)
+      values (?, ?, ?, ?)
     `;
-    const [result] = await db.query(sql, [first_name, last_name, email, phone, status]);
+    const [result] = await db.query(sql, [first_name, last_name, email, phone]);
     const id = result.insertId;
   
     return getCustomerById(id);
   }
 
-  // Update a customer by id
+// Update a customer by id
 export async function updateCustomerById(id, first_name, last_name, email, phone, status) {
     const sql = `
       update Customer
@@ -45,7 +45,7 @@ export async function updateCustomerById(id, first_name, last_name, email, phone
     return getCustomerById(id);
   }
   
-    // Update a customer status -> NO hard deletes
+// Update a customer status -> NO hard deletes
 export async function updateCustomerStatusById(id, status) {
   const sql = `
     update Customer
@@ -56,4 +56,3 @@ export async function updateCustomerStatusById(id, status) {
 
   return getCustomerById(id);
 }
-  

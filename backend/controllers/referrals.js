@@ -2,7 +2,7 @@ import {db} from "../database.js"
 
 // Get all referrals
 export async function getReferrals() {
-    const sql = "select * from Referral";
+    const sql = "select * from Referral_Source";
     const [results] = await db.query(sql);
   
     return results
@@ -12,7 +12,7 @@ export async function getReferrals() {
 export async function getReferralById(id) {
     const sql = `
       select *
-      from Referral
+      from Referral_Source
       where referralID = ?
     `;
     const [rows] = await db.query(sql, [id]);
@@ -22,7 +22,7 @@ export async function getReferralById(id) {
 // Create a referral
 export async function createReferral(type) {
     const sql = `
-      insert into Referral (Type)
+      insert into Referral_Source (type)
       values (?)
     `;
     const [result] = await db.query(sql, [type]);
@@ -34,8 +34,8 @@ export async function createReferral(type) {
 // Update a flavor by id
 export async function updateReferralById(id, type) {
     const sql = `
-      update Referral
-      set Type = ?
+      update Referral_Source
+      set type = ?
       where referralID = ?
     `;
     const [result] = await db.query(sql, [type, id]);

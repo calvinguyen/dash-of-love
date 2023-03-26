@@ -7,11 +7,10 @@ import morgan from "morgan"
 import testsRoute from "./routes/tests.js"
 import flavorsRoute from "./routes/flavors.js"
 import customersRoute from "./routes/customers.js"
-import invoicesRoute from "./routes/invoices.js"
 import menuRoute from "./routes/menu.js"
 import referralsRoute from "./routes/referrals.js"
-import requestsRoute from "./routes/requests.js"
-import sizesRoute from "./routes/sizes.js"
+import ordersRoute from "./routes/orders.js"
+import typesRoute from "./routes/types.js"
 
 dotenv.config()
 const PORT = process.env.PORT || 3000;
@@ -31,11 +30,10 @@ app.use(morgan("dev"))
 app.use("/tests", testsRoute)
 app.use("/flavors", flavorsRoute)
 app.use("/customers", customersRoute)
-app.use("/invoices", invoicesRoute)
 app.use("/menu", menuRoute)
 app.use("/referrals", referralsRoute)
-app.use("/requests", requestsRoute)
-app.use("/sizes", sizesRoute)
+app.use("/orders", ordersRoute)
+app.use("/types", typesRoute)
 
 app.listen(PORT, () => {
     console.log("Server started listening on port: ", PORT);

@@ -22,7 +22,7 @@ export async function getFlavorById(id) {
 // Create a flavor
 export async function createFlavor(flavor, status) {
   const sql = `
-    insert into Cake_Flavor (flavors, status)
+    insert into Cake_Flavor (flavor, statusID)
     values (?, ?)
   `;
   const [result] = await db.query(sql, [flavor, status]);
@@ -35,8 +35,8 @@ export async function createFlavor(flavor, status) {
 export async function updateFlavorById(id, flavor, status) {
   const sql = `
     update Cake_Flavor
-    set flavors = ?,
-    status = ?
+    set flavor = ?,
+    statusID = ?
     where flavorID = ?
   `;
   const [result] = await db.query(sql, [flavor, status, id]);
@@ -48,10 +48,16 @@ export async function updateFlavorById(id, flavor, status) {
 export async function updateFlavorStatusById(id, status) {
   const sql = `
     update Cake_Flavor
-    set status = ?
+    set statusID = ?
+    where flavorID = ?
+  `;
+  const query = `
+    update Product_Menu
+    set statusID = ?
     where flavorID = ?
   `;
   const [result] = await db.query(sql, [status, id]);
+  const [res] = await db.query(query, [status, id]);
 
   return getFlavorById(id);
 }

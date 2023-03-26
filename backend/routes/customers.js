@@ -26,9 +26,8 @@ router.post("/", async (req, res) => {
     const last_name = req.body.last_name;
     const email = req.body.email;
     const phone = req.body.phone;
-    const status = req.body.status;
     
-    const data = await createCustomer(first_name, last_name, email, phone, status);
+    const data = await createCustomer(first_name, last_name, email, phone);
     res.json(data);
 })
 
