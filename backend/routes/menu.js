@@ -1,6 +1,7 @@
 import express from "express"
 import {
-    getMenu, getMenuItemById, getFlavorsOfferedByCakeType, getCakeTypesOfferedByFlavor, assignFlavorToCake, removeCakeFlavorAssignment
+    getMenu, getMenuItemById, getFlavorsOfferedByCakeType, getCakeTypesOfferedByFlavor,
+    assignFlavorToCake, updateMenuItemStatus, getMenuFullJoin,
 } from "../controllers/menu.js"
 
 const router = express.Router()
@@ -45,14 +46,20 @@ router.post("/", async (req, res) => {
     res.json(data);
 })
 
-// Remove a cake-type to flavor assignment by cakesID
-router.delete("/:id", async (req, res) => {
+// Update a menu item's status
+router.put("/status/:id", async (req, res) => {
     const cakesId = req.params.id;
+    const statusID = req.body.statusID;
 
-    removeCakeFlavorAssignment(cakesId)
-        .then(result => {
-            res.json("Successfully deleted a menu item");
-        })
+    const result = await updateMenuItemStatus(cakesId, statusID);
+    res.json(result);
+})
+
+// Get Menu table with type and flavor names --> (joins menu, cake_type, cake_flavor tables)
+router.get("/type-flavor/full-join", async (req, res) => {
+    const data = await getMenuFullJoin();
+
+    res.json(data);
 })
 
 export default router

@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
 
 // Create a referral
 router.post("/", async (req, res) => {
-    const type = req.body.Type;
+    const type = req.body.type;
     
     const data = await createReferral(type);
     res.json(data);
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
 // Update a referral by id
 router.put("/:id", async (req, res) => {
     const referallId = req.params.id;
-    const type = req.body.Type;
+    const type = req.body.type;
 
     const result = await updateReferralById(referallId, type);
     res.json(result);

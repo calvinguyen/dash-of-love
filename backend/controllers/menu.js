@@ -2,7 +2,7 @@ import {db} from "../database.js"
 
 // Get all Menu cake flavors
 export async function getMenu() {
-    const sql = "select * from Menu";
+    const sql = "select * from Product_Menu";
     const [results] = await db.query(sql);
   
     return results
@@ -12,7 +12,7 @@ export async function getMenu() {
 export async function getMenuItemById(id) {
     const sql = `
       select *
-      from Menu
+      from Product_Menu
       where cakesID = ?
     `;
     const [rows] = await db.query(sql, [id]);
@@ -23,7 +23,7 @@ export async function getMenuItemById(id) {
 export async function getFlavorsOfferedByCakeType(typeID) {
     const sql = `
       select *
-      from Menu
+      from Product_Menu
       where typeID = ?
     `;
     const [rows] = await db.query(sql, [typeID]);
@@ -34,7 +34,7 @@ export async function getFlavorsOfferedByCakeType(typeID) {
 export async function getCakeTypesOfferedByFlavor(flavorID) {
     const sql = `
       select *
-      from Menu
+      from Product_Menu
       where flavorID = ?
     `;
     const [rows] = await db.query(sql, [flavorID]);
@@ -44,7 +44,7 @@ export async function getCakeTypesOfferedByFlavor(flavorID) {
 // Assign a flavor to cake type
 export async function assignFlavorToCake(typeID, flavorID) {
     const sql = `
-      insert into Menu (typeID, flavorID)
+      insert into Product_Menu (typeID, flavorID)
       values (?, ?)
     `;
     const [result] = await db.query(sql, [typeID, flavorID]);
@@ -53,13 +53,32 @@ export async function assignFlavorToCake(typeID, flavorID) {
     return getMenuItemById(id);
 }
 
-// Delete a cake type to flavor assignment
-export async function removeCakeFlavorAssignment(cakesID) {
+// Update a menu item's status
+export async function updateMenuItemStatus(cakesID, statusID) {
     const sql = `
-      delete from Menu
+      update Product_Menu
+      set statusID = ?
       where cakesID = ?
     `;
-    const [result] = await db.query(sql, [cakesID]);
+    const [result] = await db.query(sql, [statusID, cakesID]);
   
-    return result;
+    return getMenuItemById(cakesID);
+}
+
+// Get Menu table with type and flavor names 
+// --> (joins menu, cake_type, cake_flavor tables)
+export async function getMenuFullJoin() {
+    const sql = `
+        select Product_Menu.cakesID, Product_Menu.typeID, Cake_Type.type, Product_Menu.flavorID, Cake_Flavor.flavor
+        from Product_Menu
+        inner join Cake_Type
+        on Product_Menu.typeID = Cake_Type.typeID
+        inner join Cake_Flavor
+        on Product_Menu.flavorID = Cake_Flavor.flavorID
+        order by Product_Menu.typeID, Product_Menu.flavorID
+    `;
+
+    const [results] = await db.query(sql);
+  
+    return results
 }
