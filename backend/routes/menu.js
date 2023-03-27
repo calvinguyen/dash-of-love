@@ -1,7 +1,7 @@
 import express from "express"
 import {
     getMenu, getMenuItemById, getFlavorsOfferedByCakeType, getCakeTypesOfferedByFlavor,
-    assignFlavorToCake, updateMenuItemStatus, getMenuFullJoin,
+    assignFlavorToCake, updateMenuItemStatus, getActiveMenuFlavors, getActiveMenuTypes
 } from "../controllers/menu.js"
 
 const router = express.Router()
@@ -55,9 +55,16 @@ router.put("/status/:id", async (req, res) => {
     res.json(result);
 })
 
-// Get Menu table with type and flavor names --> (joins menu, cake_type, cake_flavor tables)
-router.get("/type-flavor/full-join", async (req, res) => {
-    const data = await getMenuFullJoin();
+// Get all Active Menu FLavors
+router.get("/active-menu/flavors", async (req, res) => {
+    const data = await getActiveMenuFlavors();
+
+    res.json(data);
+})
+
+// Get all Active Menu FLavors
+router.get("/active-menu/types", async (req, res) => {
+    const data = await getActiveMenuTypes();
 
     res.json(data);
 })

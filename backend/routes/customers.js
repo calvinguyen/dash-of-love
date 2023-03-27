@@ -1,6 +1,7 @@
 import express from "express"
 import {
-     getCustomers, getCustomerById, createCustomer, updateCustomerById, updateCustomerStatusById
+    getCustomers, getCustomerById, createCustomer, updateCustomerById, updateCustomerStatusById,
+    getCustomerByEmail
 } from "../controllers/customers.js"
 
 const router = express.Router()
@@ -20,11 +21,19 @@ router.get("/:id", async (req, res) => {
     res.json(data);
 })
 
+// Get customer from customers by email
+router.get("/email/:email", async (req, res) => {
+    const email = req.params.email;
+    const data = await getCustomerByEmail(email);
+
+    res.json(data);
+})
+
 // Create a customer
 router.post("/", async (req, res) => {
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const phone = req.body.phone;
     
     const data = await createCustomer(first_name, last_name, email, phone);
@@ -37,7 +46,7 @@ router.put("/:id", async (req, res) => {
     const last_name = req.body.last_name;
     const email = req.body.email;
     const phone = req.body.phone;
-    const status = req.body.status;
+    const status = req.body.statusID;
     const customerId = req.params.id;
 
     const result = await updateCustomerById(customerId, first_name, last_name, email, phone, status);
@@ -47,7 +56,7 @@ router.put("/:id", async (req, res) => {
 // Update a customer's status by id
 router.put("/status/:id", async (req, res) => {
     const customerID = req.params.id;
-    const status = req.body.status;
+    const status = req.body.statusID;
 
     const result = await updateCustomerStatusById(customerID, status);
 
