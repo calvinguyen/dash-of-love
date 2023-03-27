@@ -52,13 +52,7 @@ export async function updateTypeStatusById(id, status) {
       set statusID = ?
       where typeID = ?
     `;
-    const query = `
-        update Product_Menu
-        set statusID = ?
-        where typeID = ?
-    `;
     const [result] = await db.query(sql, [status, id]);
-    const [res] = await db.query(query, [status, id]);
   
     return getTypeById(id);
   }

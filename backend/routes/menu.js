@@ -62,7 +62,7 @@ router.get("/active-menu/flavors", async (req, res) => {
     res.json(data);
 })
 
-// Get all Active Menu FLavors
+// Get all Active Menu Types
 router.get("/active-menu/types", async (req, res) => {
     const data = await getActiveMenuTypes();
 

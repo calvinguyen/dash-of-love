@@ -51,13 +51,7 @@ export async function updateFlavorStatusById(id, status) {
     set statusID = ?
     where flavorID = ?
   `;
-  const query = `
-    update Product_Menu
-    set statusID = ?
-    where flavorID = ?
-  `;
   const [result] = await db.query(sql, [status, id]);
-  const [res] = await db.query(query, [status, id]);
 
   return getFlavorById(id);
 }

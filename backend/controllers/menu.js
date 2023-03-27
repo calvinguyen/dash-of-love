@@ -83,7 +83,7 @@ export async function getActiveMenuFlavors() {
     return results
 }
 
-// Get all Active Menu FLavors
+// Get all Active Menu Types
 export async function getActiveMenuTypes() {
     const sql = `
         select Cake_Type.typeID, Cake_Type.type
