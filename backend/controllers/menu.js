@@ -86,7 +86,7 @@ export async function getActiveMenuFlavors() {
 // Get all Active Menu Types
 export async function getActiveMenuTypes() {
     const sql = `
-        select Cake_Type.typeID, Cake_Type.type
+        select Cake_Type.typeID, Cake_Type.type, Cake_Type.price
         from Product_Menu
         inner join Cake_Type
         on Product_Menu.typeID = Cake_Type.typeID
