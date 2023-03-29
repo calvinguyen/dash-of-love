@@ -1,7 +1,8 @@
 import express from "express"
 
 import {
-    getOrders, getOrderById, createOrder, updateOrderStatusById
+    getOrders, getOrderById, createOrder, updateOrderStatusById,
+    getAdminOrderView, getOrderStatusDescriptions
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -24,10 +25,10 @@ router.get("/:id", async (req, res) => {
 // Create a order
 router.post("/", async (req, res) => {
     const { 
-        customerID, cakesID, referralID, details, desired_date 
+        customerID, cakesID, referralID, cake_details, desired_date 
     } = req.body;
     
-    const data = await createOrder(customerID, cakesID, referralID, details, desired_date);
+    const data = await createOrder(customerID, cakesID, referralID, cake_details, desired_date);
     res.json(data);
 })
 
@@ -41,4 +42,18 @@ router.put("/status/:id", async (req, res) => {
     res.json(result);
 })
 
+// Get Order View for Admin Order Table 
+router.get("/admin/order", async (req, res) => {
+    const data = await getAdminOrderView();
+
+    res.json(data);
+})
+
 export default router
+
+// Get all rows from orders 
+router.get("/status/descriptions", async (req, res) => {
+    const data = await getOrderStatusDescriptions();
+
+    res.json(data);
+})

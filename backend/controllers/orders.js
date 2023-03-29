@@ -22,7 +22,7 @@ export async function getOrderById(id) {
 // Create a order
 export async function createOrder(customerID, cakesID, referralID, details, desiredDate) {
     const sql = `
-      insert into \`Order\` (customerID, cakesID, referralID, details, desired_date)
+      insert into \`Order\` (customerID, cakesID, referralID, cake_details, desired_date)
       values (?, ?, ?, ?, ?)
     `;
     const [result] = await db.query(sql, [customerID, cakesID, referralID, details, desiredDate]);
@@ -41,4 +41,37 @@ export async function updateOrderStatusById(orderID, status) {
     const [result] = await db.query(sql, [status, orderID]);
     
     return getOrderById(orderID);
+}
+
+// Get Order View for Admin Order Table
+export async function getAdminOrderView() {
+    const sql = `
+        select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
+        Customer.first_name, Customer.last_name, Customer.email, Customer.phone,
+        Cake_Type.type, Cake_Flavor.flavor,
+        \`Order\`.cake_details, \`Order\`.statusID, Order_Status.description,
+        \`Order\`.desired_date, \`Order\`.pick_up_details
+        from \`Order\`
+        Inner join Order_Status
+        On \`Order\`.statusID = Order_Status.statusID
+        Inner join Customer
+        On \`Order\`.customerID = Customer.customerID
+        Inner join Product_Menu
+        On \`Order\`.cakesID = Product_Menu.cakesID
+        Inner join Cake_Type
+        On Product_Menu.typeID = Cake_Type.typeID
+        Inner join Cake_Flavor
+        On Product_Menu.flavorID = Cake_Flavor.flavorID
+    `;
+    const [results] = await db.query(sql);
+  
+    return results
+}
+
+// Get Order Status Descriptions from status table
+export async function getOrderStatusDescriptions() {
+    const sql = "select * from Order_Status";
+    const [results] = await db.query(sql);
+  
+    return results
 }
