@@ -31,6 +31,19 @@ export async function createOrder(customerID, cakesID, referralID, details, desi
     return getOrderById(id);
 }
 
+// Update an order by id
+export async function updateOrderById(orderID, status, pickup) {
+    const sql = `
+      update \`Order\`
+      set statusID = ?,
+      pick_up_details = ?
+      where orderID = ?
+    `;
+    const [result] = await db.query(sql, [status, pickup, orderID]);
+    
+    return getOrderById(orderID);
+}
+
 // Update an order's status by id
 export async function updateOrderStatusById(orderID, status) {
     const sql = `

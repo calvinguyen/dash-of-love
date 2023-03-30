@@ -1,8 +1,8 @@
 import express from "express"
 
 import {
-    getOrders, getOrderById, createOrder, updateOrderStatusById,
-    getAdminOrderView, getOrderStatusDescriptions
+    getOrders, getOrderById, createOrder, updateOrderById,
+    updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -30,6 +30,17 @@ router.post("/", async (req, res) => {
     
     const data = await createOrder(customerID, cakesID, referralID, cake_details, desired_date);
     res.json(data);
+})
+
+// Update an order by id
+router.put("/:id", async (req, res) => {
+    const orderId = req.params.id;
+    const status = req.body.statusID;
+    const pickup = req.body.pick_up_details;
+
+    const result = await updateOrderById(orderId, status, pickup);
+
+    res.json(result);
 })
 
 // Update a order's status by id
