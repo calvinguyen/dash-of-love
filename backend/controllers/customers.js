@@ -66,3 +66,25 @@ export async function updateCustomerStatusById(id, status) {
 
   return getCustomerById(id);
 }
+
+//Get Customer View for Admin Table
+export async function getAdminCustomerView() {
+    const sql = `
+        select Customer.customerID, Customer.first_name, Customer.last_name,
+        Customer.email, Customer.phone, Customer.statusID, Customer_Status.description
+        from Customer
+        inner join Customer_Status on Customer.statusID = Customer_Status.statusID
+    `;
+
+    const [results] = await db.query(sql);
+
+    return results
+}
+
+//Get all customers
+export async function getCustomerStatusDescriptions() {
+    const sql = "select * from Customer_Status";
+    const [results] = await db.query(sql);
+
+    return results
+}

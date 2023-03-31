@@ -77,7 +77,12 @@ export async function getAdminOrderView() {
         On Product_Menu.flavorID = Cake_Flavor.flavorID
     `;
     const [results] = await db.query(sql);
-  
+    
+    results.forEach((item) => {
+        item.order_date = item.order_date.toLocaleDateString('fr-CA');
+        item.desired_date = item.desired_date.toLocaleDateString('fr-CA');
+    });
+
     return results
 }
 

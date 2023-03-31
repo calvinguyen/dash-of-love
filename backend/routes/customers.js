@@ -1,7 +1,7 @@
 import express from "express"
 import {
     getCustomers, getCustomerById, createCustomer, updateCustomerById, updateCustomerStatusById,
-    getCustomerByEmail
+    getCustomerByEmail, getAdminCustomerView, getCustomerStatusDescriptions
 } from "../controllers/customers.js"
 
 const router = express.Router()
@@ -62,4 +62,19 @@ router.put("/status/:id", async (req, res) => {
 
     res.json(result);
 })
+
+// Get all rows from customers
+router.get("/admin/customer", async (req, res) => {
+    const data = await getAdminCustomerView()
+
+    res.json(data);
+})
+
+// Get all rows from orders 
+router.get("/status/descriptions", async (req, res) => {
+    const data = await getCustomerStatusDescriptions();
+
+    res.json(data);
+})
+
 export default router
