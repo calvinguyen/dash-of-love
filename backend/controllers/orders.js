@@ -23,6 +23,32 @@ export async function getOrderById(id) {
     return rows[0];
 }
 
+// Get a order by id
+export async function getFullOrderById(id) {
+    const sql = `
+    select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
+    \`Order\`.cakesID, Cake_Type.typeID, Cake_Type.type, Cake_Flavor.flavorID, Cake_Flavor.flavor,
+    \`Order\`.referralID, \`Order\`.cake_details, 
+    \`Order\`.statusID, \`Order\`.desired_date, \`Order\`.pick_up_details
+    from \`Order\`
+    Inner join Order_Status
+        On \`Order\`.statusID = Order_Status.statusID
+    Inner join Product_Menu
+        On \`Order\`.cakesID = Product_Menu.cakesID
+    Inner join Cake_Type
+        On Product_Menu.typeID = Cake_Type.typeID
+    Inner join Cake_Flavor
+        On Product_Menu.flavorID = Cake_Flavor.flavorID
+    where \`Order\`.orderID = ?;
+    `;
+    const [rows] = await db.query(sql, [id]);
+
+    rows[0].order_date = rows[0].order_date.toLocaleDateString('fr-CA');
+    rows[0].desired_date = rows[0].desired_date.toLocaleDateString('fr-CA');
+
+    return rows[0];
+}
+
 // Create a order
 export async function createOrder(customerID, cakesID, referralID, details, desiredDate) {
     const sql = `
@@ -36,14 +62,18 @@ export async function createOrder(customerID, cakesID, referralID, details, desi
 }
 
 // Update an order by id
-export async function updateOrderById(orderID, status, pickup) {
+export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup) {
     const sql = `
       update \`Order\`
-      set statusID = ?,
+      set cakesID = ?,
+      referralID = ?,
+      cake_details = ?,
+      statusID = ?,
+      desired_date = ?,
       pick_up_details = ?
       where orderID = ?
     `;
-    const [result] = await db.query(sql, [status, pickup, orderID]);
+    const [result] = await db.query(sql, [cakesId, referralId, cake_details, status, desired_date, pickup, orderID]);
     
     return getOrderById(orderID);
 }

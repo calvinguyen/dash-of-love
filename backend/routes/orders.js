@@ -3,7 +3,7 @@ import express from "express"
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
-    getCustomerOrders
+    getCustomerOrders, getFullOrderById
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -23,6 +23,14 @@ router.get("/:id", async (req, res) => {
     res.json(data);
 })
 
+// Get full order details joined by id
+router.get("/admin/full-order/:id", async (req, res) => {
+    const orderId = req.params.id;
+    const data = await getFullOrderById(orderId);
+
+    res.json(data);
+})
+
 // Create a order
 router.post("/", async (req, res) => {
     const { 
@@ -36,10 +44,16 @@ router.post("/", async (req, res) => {
 // Update an order by id
 router.put("/:id", async (req, res) => {
     const orderId = req.params.id;
+    const cakesId = req.body.cakesID;
+    const referralId = req.body.referralID;
+    const cake_details = req.body.cake_details;
     const status = req.body.statusID;
+    const desired_date = req.body.desired_date;
     const pickup = req.body.pick_up_details;
 
-    const result = await updateOrderById(orderId, status, pickup);
+    const result = await updateOrderById(
+        orderId, cakesId, referralId, cake_details, status, desired_date, pickup
+    );
 
     res.json(result);
 })
