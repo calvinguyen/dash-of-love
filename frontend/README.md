@@ -1,23 +1,21 @@
-# Data Platform Frontend
+# vue-dashoflove
 
-This project uses [VueJS 3](https://vuejs.org/) with [Vite](https://vitejs.dev/) and [TailwindCSS](https://tailwindcss.com/).
-For form validation [Vuelidate](https://vuelidate-next.netlify.app/) is used.
-## Project setup
-```
+This project uses VueJS 3 with Vite and Bootstrap. For form validation Vuelidate is used.
+
+## Project Setup
+
+```sh
 npm install
 ```
 
-### Before startup 
-Setup a .env file with following variables, e.g.:
+### Compile and Hot-Reload for Development
 
-```
-VITE_ROOT_API=http://localhost:3000
-```
-```
-PORT = < frontend port # (MUST BE DIFFERENT FROM BACKEND PORT #) >
-```
-
-### Compiles and hot-reloads for development
-```
+```sh
 npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
 ```

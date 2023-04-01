@@ -1,0 +1,56 @@
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+#body {
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+}
+a {
+    text-decoration: none;
+    color: #ffb03b;
+}
+a:hover {
+    color: #ffc56e;
+    text-decoration: none;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Satisfy", sans-serif;
+}
+
+/*--------------------------------------------------------------
+# Sections General
+--------------------------------------------------------------*/
+section {
+    padding: 60px 0;
+}
+
+.section-bg {
+    background-color: white;
+}
+
+.section-title {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.section-title h2 {
+    margin: 15px 0 0 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #5f5950;
+}
+
+.section-title h2 span {
+    color: #ffb03b;
+}
+
+.section-title p {
+    margin: 15px auto 0 auto;
+    font-weight: 300;
+}
+
+@media (min-width: 1024px) {
+  .section-title p {
+    width: 50%;
+  }
+}
