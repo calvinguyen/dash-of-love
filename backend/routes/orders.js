@@ -2,7 +2,8 @@ import express from "express"
 
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
-    updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions
+    updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
+    getCustomerOrders
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -65,6 +66,14 @@ export default router
 // Get all rows from orders 
 router.get("/status/descriptions", async (req, res) => {
     const data = await getOrderStatusDescriptions();
+
+    res.json(data);
+})
+
+// Get Order View for Admin Order Table 
+router.get("/customer/order-history/:id", async (req, res) => {
+    const customerId = req.params.id;
+    const data = await getCustomerOrders(customerId);
 
     res.json(data);
 })
