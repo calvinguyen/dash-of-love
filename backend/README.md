@@ -10,10 +10,16 @@ npm install
 Setup a .env file with the following variables, e.g.:
 
 ```
-DATABASE_URL= ''
+HOST = ''
 ```
 ```
-PORT = < backend port # (MUST BE DIFFERENT PORT FROM FRONTEND) >
+USER = ''
+```
+```
+PASSWORD = ''
+```
+```
+DATABASE = ''
 ```
 
 ### Compiles and hot-reloads for development
