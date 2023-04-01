@@ -19,9 +19,6 @@ export default {
     getStatusDescriptions() {
         return API().get('/orders/status/descriptions');
     },
-    updateOrder(orderID, data) {
-        return API().put(`/orders/${orderID}`, data);
-    },
     updateOrderById(orderID, data) {
         return API().put(`/orders/${orderID}`, data);
     },

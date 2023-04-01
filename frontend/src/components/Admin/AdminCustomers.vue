@@ -138,7 +138,6 @@ const rowClicked = (row) => {
 }
 
 .searchbox {
-  
   text-align: left;
 }
 

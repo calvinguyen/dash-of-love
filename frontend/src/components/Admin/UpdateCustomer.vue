@@ -103,7 +103,6 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.first_name" type="text" class="form-control" placeholder="First Name" />
       </div>
-
       <!-- Last Name Field -->
       <div class="col-md-6 form-group">
         <label for="lastName" class="form-label">Last Name*</label>
@@ -116,7 +115,6 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.last_name" type="text" class="form-control" id="lastName" placeholder="Last Name">
       </div>
-
       <!-- Email Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="email" class="form-label">Email*</label>
@@ -129,7 +127,6 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
       </div>
-
       <!-- Phone Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="phone" class="form-label">Phone*</label>
@@ -142,7 +139,6 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.phone" type="tel" class="form-control" id="phone" placeholder="Ex: 2220007777">
       </div>
-
       <!-- Status Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="status" class="form-label">Status</label>
@@ -155,7 +151,7 @@ const handleCustomerUpdate = async () => {
         </span>
         <select v-model="customerData.statusID" class="form-select" id="status">
           <!-- <option disabled value="">Please select one</option> -->
-          <option v-for="status of customerStatuses" :key="status.statusID" :value="status.statusID" >
+          <option v-for="status in customerStatuses" :key="status.statusID" :value="status.statusID" >
             {{ status.description }}
           </option>
         </select>

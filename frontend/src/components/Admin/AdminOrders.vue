@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import OrderAPI from '../../services/OrderAPI';
 import VueTableLite from 'vue3-table-lite';
@@ -117,7 +117,7 @@ const rowClicked = (row) => {
   <h1>Orders</h1>
   <h4>*Click on an Order to update or see details*</h4>
 
-  <div class="searchbox" style="text-align: left">
+  <div class="searchbox">
     <label>Search By:</label> <input v-model="searchTerm" />
   </div>
   <!-- Admin Order Table -->
@@ -154,91 +154,14 @@ const rowClicked = (row) => {
   font-size: 15px;
 }
 
-.set-table-layout {
-  table-layout: fixed;
-  word-wrap: break-word;
-}
-
 .searchbox {
   margin-top: 20px;
+  text-align: left;
 }
 
 .searchbox label {
   font-weight: bold;
   margin-right: 5px;
-}
-
-.overlay {
-  position: absolute;
-  width: 83%;
-  height: 75%;
-  background-color: rgba(0, 0, 0, 0.77);
-  z-index: 10;
-  display: grid;
-  place-items: start center;
-}
-
-.modal {
-  max-width: 825px;
-  max-height: 650px;
-  background-color: #e2e8f0;
-  border-radius: 10px;
-  margin-top: 5px;
-  padding: 15px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  
-}
-
-.modal h5 {
-  color: #2563eb;
-  align-self: center;
-  font-weight: bolder;
-}
-.modal select {
-  width: auto;
-  align-self: center;
-}
-
-.modal .order-modal-submit {
-  padding: 10px 20px;
-  font-size: 16px;
-  width: 50%;
-  background-color: green;
-  border: none;
-  color: white;
-  cursor: pointer;
-  margin-top: 15px;
-  align-self: center;
-  border-radius: 20px;
-}
-
-.modal table {
-  margin-top: 10px;
-}
-
-.modal .top-row {
-  display: flex;
-  /* justify-content: center; */
-}
-
-.top-row h5 {
-  margin-left: 330px;
-}
-.top-row button {
-  margin-left: auto;
-}
-
-.modal .order-modal-close {
-  background-color: red;
-  border-radius: 50%;
-  padding: 9px -9px 0px 9px;
-}
-
-.pickup-title {
-  margin-top: 15px;
 }
 
 textarea {

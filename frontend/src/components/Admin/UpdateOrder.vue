@@ -220,7 +220,6 @@ onBeforeMount(() => {
           </option>
         </select>
       </div>
-
       <!-- Referral Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="referral" class="form-label">Referral</label>
@@ -238,7 +237,6 @@ onBeforeMount(() => {
           </option>
         </select>
       </div>
-
       <!-- Status Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="status" class="form-label">Status</label>
@@ -251,12 +249,11 @@ onBeforeMount(() => {
         </span>
         <select v-model="formData.statusID" class="form-select" id="status">
           <!-- <option disabled value="">Please select one</option> -->
-          <option v-for="status of orderStatuses" :key="status.statusID" :value="status.statusID" >
+          <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
             {{ status.description }}
           </option>
         </select>
       </div>
-
       <!-- Available Date Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="desiredDate" class="form-label">Desired Date</label>
@@ -272,31 +269,30 @@ onBeforeMount(() => {
     </div>
 
     <div class="row">
-    <!-- Design Description Field -->
-    <div class="form-group col-md-6">
-      <label for="details" class="form-label">Cake Design Details:</label>
-      <span 
-        v-for="error of v$.formData.cake_details.$errors"
-        :key="error.$uid"
-        class="error-container"
-      >
-        *{{ error.$message }}
-      </span>
-      <textarea v-model="formData.cake_details" class="form-control" id="details" rows="5" ></textarea>
-    </div>
-
-    <!-- Pick Up Details Field -->
-    <div class="form-group col-md-6">
-      <label for="details" class="form-label">Pick Up Details:</label>
-      <span 
-        v-for="error of v$.formData.pick_up_details.$errors"
-        :key="error.$uid"
-        class="error-container"
-      >
-        *{{ error.$message }}
-      </span>
-      <textarea v-model="formData.pick_up_details" class="form-control" id="details" rows="5" ></textarea>
-    </div>
+      <!-- Design Description Field -->
+      <div class="form-group col-md-6">
+        <label for="cake_details" class="form-label">Cake Design Details:</label>
+        <span 
+          v-for="error of v$.formData.cake_details.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <textarea v-model="formData.cake_details" class="form-control" id="cake_details" rows="5" ></textarea>
+      </div>
+      <!-- Pick Up Details Field -->
+      <div class="form-group col-md-6">
+        <label for="pick_up_details" class="form-label">Pick Up Details:</label>
+        <span 
+          v-for="error of v$.formData.pick_up_details.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <textarea v-model="formData.pick_up_details" class="form-control" id="pick_up_details" rows="5" ></textarea>
+      </div>
     </div>
 
     <div class="text-center"><button type="submit">Save Changes</button></div>
