@@ -78,3 +78,18 @@ export async function getStatusDesc() {
 
     return results
 }
+
+//Get flavors that are NOT assigned to cake type
+export async function getFlavorsNotAssigned(typeID) {
+    const sql = `
+        select * from Cake_Flavor
+        where flavorID not in 
+        (
+            select flavorID from Product_Menu
+            where typeID = ?
+        )
+    `;
+    const [results] = await db.query(sql, [typeID]);
+
+    return results
+}

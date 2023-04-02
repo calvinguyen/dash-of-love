@@ -1,7 +1,7 @@
 import express from "express"
 import { 
     getTypes, getTypeById, createType, updateTypeById, updateTypeStatusById,
-    getTypesWithDesc, getStatusDesc
+    getTypesWithDesc, getStatusDesc, getFlavorsNotAssigned
 } from "../controllers/types.js"
 
 const router = express.Router()
@@ -62,6 +62,14 @@ router.get("/admin/types-view", async (req, res) => {
 // Get type status descriptions
 router.get("/status/descriptions", async (req, res) => {
     const data = await getStatusDesc()
+
+    res.json(data);
+})
+
+// Get type status descriptions
+router.get("/flavors/unassign/:id", async (req, res) => {
+    const typeId = req.params.id;
+    const data = await getFlavorsNotAssigned(typeId);
 
     res.json(data);
 })
