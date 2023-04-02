@@ -55,3 +55,17 @@ export async function updateFlavorStatusById(id, status) {
 
   return getFlavorById(id);
 }
+
+//Get Flavors with status descriptions
+export async function getFlavorsWithDesc() {
+    const sql = `
+        select Cake_Flavor.flavorID, Cake_Flavor.flavor,
+        Cake_Flavor.statusID, Cake_Flavor_Status.description
+        from Cake_Flavor 
+        inner join Cake_Flavor_Status
+        on Cake_Flavor.statusID = Cake_Flavor_Status.statusID;
+    `;
+    const [results] = await db.query(sql);
+
+    return results
+}

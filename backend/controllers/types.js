@@ -17,7 +17,7 @@ export async function getTypeById(id) {
     `;
     const [rows] = await db.query(sql, [id]);
     return rows[0];
-  }
+}
 
 // Create a type
 export async function createType(type, price, status) {
@@ -29,7 +29,7 @@ export async function createType(type, price, status) {
     const id = result.insertId;
   
     return getTypeById(id);
-  }
+}
 
 // Update a type by id
 export async function updateTypeById(id, type, price, status) {
@@ -43,7 +43,7 @@ export async function updateTypeById(id, type, price, status) {
     const [result] = await db.query(sql, [type, price, status, id]);
     
     return getTypeById(id);
-  }
+}
 
 // Update a type's status -> NO hard deletes
 export async function updateTypeStatusById(id, status) {
@@ -55,4 +55,18 @@ export async function updateTypeStatusById(id, status) {
     const [result] = await db.query(sql, [status, id]);
   
     return getTypeById(id);
-  }
+}
+
+//Get Types with status descriptions
+export async function getTypesWithDesc() {
+    const sql = `
+        select Cake_Type.typeID, Cake_Type.type, Cake_Type.price,
+        Cake_Type.statusID, Cake_Type_Status.description
+        from Cake_Type 
+        inner join Cake_Type_Status
+        on Cake_Type.statusID = Cake_Type_Status.statusID;
+    `;
+    const [results] = await db.query(sql);
+
+    return results
+}

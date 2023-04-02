@@ -1,6 +1,7 @@
 import express from "express"
 import { 
-    getTypes, getTypeById, createType, updateTypeById, updateTypeStatusById 
+    getTypes, getTypeById, createType, updateTypeById, updateTypeStatusById,
+    getTypesWithDesc
 } from "../controllers/types.js"
 
 const router = express.Router()
@@ -49,6 +50,13 @@ router.put("/status/:id", async (req, res) => {
     const result = await updateTypeStatusById(typeID, status);
 
     res.json(result);
+})
+
+// Get all types with status descriptions
+router.get("/admin/types-view", async (req, res) => {
+    const data = await getTypesWithDesc()
+
+    res.json(data);
 })
 
 export default router
