@@ -19,4 +19,7 @@ export default {
     updateMenuItemStatusByID(id, data) {
         return API().put(`/menu/status/${id}`, data);
     },
+    createMenuItem(data) {
+        return API().post('/menu/', data);
+    },
 }

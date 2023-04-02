@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, computed } from 'vue';
+import VueMultiselect from 'vue-multiselect'
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 import productMenuAPI from '../../services/productMenuAPI';
 
@@ -19,6 +20,19 @@ const getFlavors = async () => {
 };
 getFlavors();
 
+//Get unassigned flavors for a cake type for multi select
+const selectedFlavors = ref([]); 
+const unassignedFlavors = ref([]);
+const getUnassignedFlavors = async () => {
+  try {
+    const response = await cakeTypeAPI.getFlavorsNotAssigned(props.id);
+    unassignedFlavors.value = response.data;
+  } catch(err) {
+    console.log(err);
+  }
+};
+getUnassignedFlavors();
+
 const updateStatus = async (cakesID, statusID) => {
   try {
     let data = { statusID: statusID };
@@ -28,22 +42,48 @@ const updateStatus = async (cakesID, statusID) => {
   }
 }
 
+/* try {
+    let data = { 
+      typeID: props.id, 
+      flavorID: flavorID, 
+    };
+    const response = await productMenuAPI.createMenuItem(data);
+  } catch(err) {
+    console.log(err);
+  } */
+
+const assignFlavor = () => {
+  selectedFlavors.value.forEach((flavor) => {
+    let data = {
+      typeID: props.id, 
+      flavorID: flavor.flavorID
+    }
+    productMenuAPI.createMenuItem(data)
+      .then(() => { 
+        getFlavors();
+        getUnassignedFlavors();
+      })
+      .catch((err) => console.log(err));
+  })
+
+  selectedFlavors.value = [];
+}
+
 </script>
 
 
 <template>
 <section id="type-flavors">
 
-  <!-- <h1>type flavors</h1> -->
   <!-- table with flavor assignments -->
-  <div class="container border-helper">
+  <div class="container">
     <div class="row">
 
-      <div class="col-7 border-helper flavor-table">
-        <h3>Flavors</h3>
+      <div class="col-6 flavor-table">
+        <h3>Set Flavor Offered Status</h3>
         <table class="table table-bordered table-sm">
-          <thead>
-            <tr class="table-primary">
+          <thead class="table-info">
+            <tr>
               <th scope="col" class="col-9">Flavor</th>
               <th scope="col" class="col-auto">Status</th>
             </tr>
@@ -68,9 +108,24 @@ const updateStatus = async (cakesID, statusID) => {
         </table>
       </div>
 
-      <div class="col-5 border-helper assign-container">
+      <div class="col-5 assign-container">
         <h3>Assign a Flavor</h3>
-        multiselect goes here
+          <div class="multi-select-container">
+          
+            <VueMultiselect
+            class="multi-select-dropdown"
+            :max-height="200"
+            v-model="selectedFlavors"
+            :options="unassignedFlavors"
+            :multiple="true"
+            :close-on-select="false"
+            placeholder="Select a Flavor"
+            label="flavor"
+            track-by="flavorID">
+            </VueMultiselect>
+            <button @click="assignFlavor" type="button">+ Flavor</button>
+         
+          </div>
       </div>
 
     </div>
@@ -79,25 +134,57 @@ const updateStatus = async (cakesID, statusID) => {
 </section>
 </template>
 
-
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
 #type-flavors * {
   font-family: "Poppins", sans-serif;
 }
-.border-helper {
-  border: 1px solid black;
+
+.assign-container {
+  margin-left: auto;
 }
 
 .flavor-table, .assign-container {
   text-align: center;
-  padding: 30px 60px;
+  padding: 30px 50px;
 }
 .flavor-table h3, .assign-container h3 {
   text-decoration: underline;
+  margin-bottom: 20px;
+}
+
+.multi-select-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.multi-select-dropdown {
+  flex: 3;
+  border: 1px solid gray;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.assign-container button {
+  background: #22c55e;
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+  font-weight: 600;
+}
+.assign-container button:hover {
+  background: #16a34a;
 }
 
 table tr {
   font-size: 18px;
+}
+
+tr th {
+  font-weight: 600;
 }
 
 </style>

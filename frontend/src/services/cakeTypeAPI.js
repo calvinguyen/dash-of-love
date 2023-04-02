@@ -16,4 +16,7 @@ export default {
     getStatusDescriptions() {
         return API().get('/types/status/descriptions');
     },
+    getFlavorsNotAssigned(id) {
+        return API().get(`/types/flavors/unassign/${id}`);
+    },
 }
