@@ -69,7 +69,7 @@ const assignFlavor = () => {
     <div class="row">
 
       <div class="col-6 flavor-table">
-        <h3>Set Flavor Offered Status</h3>
+        <h3>Set Status Flavor - Cake Type</h3>
         <table class="table table-bordered table-sm">
           <thead class="table-info">
             <tr>

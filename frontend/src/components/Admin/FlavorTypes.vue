@@ -1,37 +1,24 @@
 <script setup>
 import { ref } from 'vue';
 import VueMultiselect from 'vue-multiselect'
-import cakeTypeAPI from '../../services/cakeTypeAPI';
+import FlavorAPI from '../../services/FlavorAPI';
 import productMenuAPI from '../../services/productMenuAPI';
 
 const props = defineProps({
   id: String,
 })
 
-/* //Get flavors offered for cake type
-const flavors = ref([]);
-const getFlavors = async () => {
+//Get Type offered for cake type
+const types = ref([]);
+const getTypes = async () => {
   try {
-    const response = await productMenuAPI.getFlavorsForCakeType(props.id);
-    flavors.value = response.data;
+    const response = await productMenuAPI.getCakeTypesForFlavor(props.id);
+    types.value = response.data;
   } catch(err) {
     console.log(err);
   }
 };
-getFlavors();
-
-//Get unassigned flavors for a cake type for multi select
-const selectedFlavors = ref([]); 
-const unassignedFlavors = ref([]);
-const getUnassignedFlavors = async () => {
-  try {
-    const response = await cakeTypeAPI.getFlavorsNotAssigned(props.id);
-    unassignedFlavors.value = response.data;
-  } catch(err) {
-    console.log(err);
-  }
-};
-getUnassignedFlavors();
+getTypes();
 
 const updateStatus = async (cakesID, statusID) => {
   try {
@@ -42,35 +29,103 @@ const updateStatus = async (cakesID, statusID) => {
   }
 }
 
-const assignFlavor = () => {
-  selectedFlavors.value.forEach((flavor) => {
+//Get unassigned Types for flavor for multi select
+const selectedTypes = ref([]); 
+const unassignedTypes = ref([]);
+const getUnassignedTypes = async () => {
+  try {
+    const response = await FlavorAPI.getTypesNotAssigned(props.id);
+    unassignedTypes.value = response.data;
+  } catch(err) {
+    console.log(err);
+  }
+};
+getUnassignedTypes();
+
+const assignType = () => {
+  selectedTypes.value.forEach((type) => {
     let data = {
-      typeID: props.id, 
-      flavorID: flavor.flavorID
+      typeID: type.typeID, 
+      flavorID: props.id
     }
     productMenuAPI.createMenuItem(data)
       .then(() => { 
-        getFlavors();
-        getUnassignedFlavors();
+        getTypes();
+        getUnassignedTypes();
       })
       .catch((err) => console.log(err));
   });
-  selectedFlavors.value = [];
-} */
+  selectedTypes.value = [];
+}
 
 </script>
 
 
 <template>
-<section id="type-flavors">
-  <h1> Type Assingment</h1>
-  <!-- table with flavor assignments -->
+<section id="flavor-types">
+  
+  <!-- table with type assignments -->
+  <div class="container">
+    <div class="row">
+
+      <div class="col-6 type-table">
+        <h3>Set Status of Cake Type - Flavor</h3>
+        <table class="table table-bordered table-sm">
+          <thead class="table-info">
+            <tr>
+              <th scope="col" class="col-9">Cake Type</th>
+              <th scope="col" class="col-auto">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in types" :key="item.cakesID">
+              <td>
+                {{ item.type }}
+              </td>
+              <td>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="item.statusID"
+                  true-value="1"
+                  false-value="2"
+                  @change="updateStatus(item.cakesID, item.statusID)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-5 assign-container">
+        <h3>Assign a Cake Type</h3>
+          <div class="multi-select-container">
+          
+            <VueMultiselect
+            class="multi-select-dropdown"
+            :max-height="300"
+            v-model="selectedTypes"
+            :options="unassignedTypes"
+            :multiple="true"
+            :close-on-select="false"
+            placeholder="Select a Type"
+            label="type"
+            track-by="typeID">
+            </VueMultiselect>
+            <button @click="assignType" type="button">+ Cake Type</button>
+         
+          </div>
+      </div>
+
+    </div>
+  </div>
+
 </section>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style scoped>
-#type-flavors * {
+#flavor-types * {
   font-family: "Poppins", sans-serif;
 }
 
@@ -78,11 +133,11 @@ const assignFlavor = () => {
   margin-left: auto;
 }
 
-.flavor-table, .assign-container {
+.type-table, .assign-container {
   text-align: center;
-  padding: 30px 50px;
+  padding: 30px 20px;
 }
-.flavor-table h3, .assign-container h3 {
+.type-table h3, .assign-container h3 {
   text-decoration: underline;
   margin-bottom: 20px;
 }
@@ -90,7 +145,7 @@ const assignFlavor = () => {
 .multi-select-container {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .multi-select-dropdown {

@@ -70,10 +70,24 @@ export async function getFlavorsWithDesc() {
     return results
 }
 
-//Get all types
+//Get all status desc
 export async function getStatusDesc() {
     const sql = "select * from Cake_Flavor_Status";
     const [results] = await db.query(sql);
 
     return results
 }
+
+// Get all CakeTypes not assigned to a flavor
+export async function getTypesNotAssigned(id) {
+    const sql = `
+        select * from Cake_Type
+        where typeID not in 
+        (
+            select typeID from Product_Menu
+            where flavorID = ?
+        )
+    `;
+    const [rows] = await db.query(sql, [id]);
+    return rows;
+  }

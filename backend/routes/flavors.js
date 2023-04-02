@@ -1,7 +1,8 @@
 import express from "express"
 import { 
     getFlavors, getFlavorById, createFlavor, updateFlavorById,
-    updateFlavorStatusById, getFlavorsWithDesc, getStatusDesc
+    updateFlavorStatusById, getFlavorsWithDesc, getStatusDesc,
+    getTypesNotAssigned
 } from "../controllers/flavors.js"
 
 const router = express.Router()
@@ -57,9 +58,17 @@ router.get("/admin/flavors-view", async (req, res) => {
     res.json(data);
 })
 
-// Get type status descriptions
+// Get flavor status descriptions
 router.get("/status/descriptions", async (req, res) => {
     const data = await getStatusDesc()
+
+    res.json(data);
+})
+
+// Get flavor status descriptions
+router.get("/types/unassign/:id", async (req, res) => {
+    const flavorId = req.params.id;
+    const data = await getTypesNotAssigned(flavorId)
 
     res.json(data);
 })
