@@ -3,7 +3,6 @@ import { ref, computed } from 'vue';
 import VueMultiselect from 'vue-multiselect'
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 import productMenuAPI from '../../services/productMenuAPI';
-// import { computed } from '@vue/reactivity';
 
 const props = defineProps({
   id: String,
@@ -57,7 +56,7 @@ const assignFlavor = () => {
       .catch((err) => console.log(err));
   });
   selectedFlavors.value = [];
-}
+};
 
 const searchTerm = ref("");
 
@@ -67,8 +66,7 @@ const filteredData = computed(() => {
   return data.filter((item) => 
     item.flavor.toLowerCase().includes(searchTerm.value.toLowerCase())
   )
-
-})
+});
 
 </script>
 

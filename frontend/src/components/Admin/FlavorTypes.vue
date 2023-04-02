@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import VueMultiselect from 'vue-multiselect'
 import FlavorAPI from '../../services/FlavorAPI';
 import productMenuAPI from '../../services/productMenuAPI';
@@ -56,7 +56,17 @@ const assignType = () => {
       .catch((err) => console.log(err));
   });
   selectedTypes.value = [];
-}
+};
+
+const searchTerm = ref("");
+
+const filteredData = computed(() => {
+  let data = types.value;
+
+  return data.filter((item) => 
+    item.type.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+});
 
 </script>
 
@@ -70,6 +80,11 @@ const assignType = () => {
 
       <div class="col-6 type-table">
         <h3>Set Status of Cake Type - Flavor</h3>
+
+        <div class="searchbox">
+          <label>Search By:</label> <input v-model="searchTerm" />
+        </div>
+
         <table class="table table-bordered table-sm">
           <thead class="table-info">
             <tr>
@@ -78,7 +93,7 @@ const assignType = () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in types" :key="item.cakesID">
+            <tr v-for="item in filteredData" :key="item.cakesID">
               <td>
                 {{ item.type }}
               </td>
@@ -168,12 +183,25 @@ const assignType = () => {
   background: #16a34a;
 }
 
+table {
+  margin-top: 10px;
+}
+
 table tr {
   font-size: 18px;
 }
 
 tr th {
   font-weight: 600;
+}
+
+.searchbox {
+  text-align: left;
+}
+
+.searchbox label {
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 </style>
