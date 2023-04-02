@@ -11,7 +11,7 @@ export default {
         return API().get(`/flavors/${id}`);
     },
     updateFlavorById(id, data) {
-        return API().get(`/flavors/${id}`, data);
+        return API().put(`/flavors/${id}`, data);
     },
     getStatusDescriptions() {
         return API().get('/flavors/status/descriptions');

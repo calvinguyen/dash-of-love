@@ -4,7 +4,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import VueTableLite from 'vue3-table-lite';
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 
-// Get Customer View
+// Get Cake Type View
 const cakeTypes = ref([]);
 const getCakeTypes = async () => {
   try {
@@ -122,11 +122,6 @@ const rowClicked = (row) => {
   font-family: "Poppins", sans-serif;
   font-size: 16px;
 }
-
-/* #cake-types h1 {
-  font-size: 27px;
-  font-weight: 600;
-} */
 
 #cake-types h4 {
   font-style: italic;

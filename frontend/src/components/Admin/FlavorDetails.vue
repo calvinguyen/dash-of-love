@@ -8,8 +8,8 @@ import {
   MDBTabItem,
   MDBTabPane,
 } from 'mdb-vue-ui-kit';
-import UpdateType from './UpdateType.vue';
-import TypeFlavors from './TypeFlavors.vue';
+import UpdateFlavor from './UpdateFlavor.vue';
+import FlavorTypes from './FlavorTypes.vue';
 
 const props = defineProps({
   id: String,
@@ -17,34 +17,34 @@ const props = defineProps({
 
 const router = useRouter();
 
-const activeTabId = ref('update-type');
+const activeTabId = ref('update-flavor');
 
 </script>
 
 <template>
-<section id="cake-details">
+<section id="flavor-details">
 
   <div class="section-title d-flex justify-content-between">
     <button @click="router.go(-1)" class="go-back-btn" type="button">Go Back</button>
-    <h2>Cake Type Details</h2>
+    <h2>Flavor Details</h2>
     <div></div>
   </div>
 
   <MDBTabs v-model="activeTabId">
     <!-- Tabs navs -->
     <MDBTabNav justify tabsClasses="mb-3 tab-nav">
-      <MDBTabItem tabId="update-type" href="update-type"><span class="menu-tab"> Update Cake Details </span></MDBTabItem>
-      <MDBTabItem tabId="type-flavors" href="type-flavors"><span class="menu-tab"> Edit Flavor Assignments</span></MDBTabItem>
+      <MDBTabItem tabId="update-flavor" href="update-flavor"><span class="menu-tab"> Update Flavor Details </span></MDBTabItem>
+      <MDBTabItem tabId="flavor-types" href="flavor-types"><span class="menu-tab"> Edit Cake Type Assignments</span></MDBTabItem>
     </MDBTabNav>
     <!-- Tabs content -->
     <MDBTabContent>
 
-      <MDBTabPane tabId="update-type">
-        <UpdateType :id="props.id" />
+      <MDBTabPane tabId="update-flavor">
+        <UpdateFlavor :id="props.id" />
       </MDBTabPane>
 
-      <MDBTabPane tabId="type-flavors">
-        <TypeFlavors :id="props.id" />
+      <MDBTabPane tabId="flavor-types">
+        <FlavorTypes :id="props.id" />
       </MDBTabPane>
 
     </MDBTabContent>
@@ -55,7 +55,7 @@ const activeTabId = ref('update-type');
 </template>
 
 <style scoped>
-#cake-details * {
+#flavor-details * {
   font-family: "Poppins", sans-serif;
 }
 

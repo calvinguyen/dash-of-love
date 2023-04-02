@@ -4,7 +4,7 @@ import { RouterLink, useRouter } from 'vue-router';
 import VueTableLite from 'vue3-table-lite';
 import FlavorAPI from '../../services/FlavorAPI';
 
-// Get Customer View
+// Get Flavor View
 const flavors = ref([]);
 const getFlavors = async () => {
   try {
@@ -62,7 +62,7 @@ const table = ref({
 const router = useRouter();
 
 const rowClicked = (row) => {
-  router.push({ name: 'update-flavor', params: { id: row.flavorID } });
+  router.push({ name: 'flavor-details', params: { id: row.flavorID } });
 }
 
 </script>
@@ -71,8 +71,7 @@ const rowClicked = (row) => {
 <template>
 <section id="cake-flavors">
 
-<div class="type-container">
-  <!-- <h1>Cake Types</h1> -->
+<div class="flavor-container">
   <h4>*Click on a Flavor to update*</h4>
 
   <div class="input-container">
@@ -105,8 +104,8 @@ const rowClicked = (row) => {
   justify-content: center;
 }
 
-.type-container {
-  min-width: 900px;
+.flavor-container {
+  min-width: 800px;
 }
 
 #cake-flavors * {
@@ -116,11 +115,6 @@ const rowClicked = (row) => {
   font-family: "Poppins", sans-serif;
   font-size: 16px;
 }
-
-/* #cake-flavors h1 {
-  font-size: 27px;
-  font-weight: 600;
-} */
 
 #cake-flavors h4 {
   font-style: italic;
