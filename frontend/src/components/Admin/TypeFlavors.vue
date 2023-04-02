@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref } from 'vue';
 import VueMultiselect from 'vue-multiselect'
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 import productMenuAPI from '../../services/productMenuAPI';
@@ -42,16 +42,6 @@ const updateStatus = async (cakesID, statusID) => {
   }
 }
 
-/* try {
-    let data = { 
-      typeID: props.id, 
-      flavorID: flavorID, 
-    };
-    const response = await productMenuAPI.createMenuItem(data);
-  } catch(err) {
-    console.log(err);
-  } */
-
 const assignFlavor = () => {
   selectedFlavors.value.forEach((flavor) => {
     let data = {
@@ -64,8 +54,7 @@ const assignFlavor = () => {
         getUnassignedFlavors();
       })
       .catch((err) => console.log(err));
-  })
-
+  });
   selectedFlavors.value = [];
 }
 

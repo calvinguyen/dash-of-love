@@ -1,5 +1,4 @@
 <script setup>
-// import { useRouter, useRoute } from 'vue-router';
 import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, maxLength, numeric } from '@vuelidate/validators';
@@ -20,9 +19,6 @@ const getTypeStatuses = async () => {
   }
 };
 getTypeStatuses();
-
-// const route = useRoute();
-// const router = useRouter();
 
 //Get cake type data
 const typeData = reactive({
@@ -48,7 +44,7 @@ const rules = computed(() => {
   return {
     typeData: {
       type: { required, maxLength: maxLength(40) },
-      price: { required },
+      price: { required, numeric },
       statusID: { required },
     },
   }
