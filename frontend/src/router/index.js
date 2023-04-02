@@ -35,6 +35,12 @@ const router = createRouter({
             component: () => import('../components/Admin/CustomerForm.vue'),
         },
         {
+            path: '/customer-details/:id',
+            name: 'customer-details',
+            props: true,
+            component: () => import('../components/Admin/CustomerDetails.vue'),
+        },
+        {
             path: '/update-customer/:id',
             name: 'update-customer',
             props: true,

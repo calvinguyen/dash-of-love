@@ -4,7 +4,7 @@ import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import CustomerAPI from '../../services/CustomerAPI';
-import CustomerOrders from './CustomerOrders.vue';
+// import CustomerOrders from './CustomerOrders.vue';
 
 const props = defineProps({
   id: String,
@@ -83,13 +83,14 @@ const handleCustomerUpdate = async () => {
 <section id="update-customer">
 <div class="container">
 
-  <div class="section-title d-flex justify-content-between">
+  <!-- <div class="section-title d-flex justify-content-between">
     <button @click="router.go(-1)" class="go-back-btn" type="button">Go Back</button>
     <h2>Update Customer</h2>
     <div></div>
-  </div>
+  </div> -->
 
   <form @submit.prevent="handleCustomerUpdate">
+    <h2>Update Customer</h2>
     <div class="row">
       <!-- First Name Field -->
       <div class="col-md-6 form-group">
@@ -162,7 +163,7 @@ const handleCustomerUpdate = async () => {
   </form>
 
   <!-- Customer Order History -->
-  <CustomerOrders :customer-id="route.params.id" />
+  <!-- <CustomerOrders :customer-id="route.params.id" /> -->
 
 </div>
 </section>
@@ -174,10 +175,10 @@ const handleCustomerUpdate = async () => {
   font-family: "Poppins", sans-serif;
 }
 
-.section-title h2 {
+form h2 {
   text-align: center;
   color: #262626;
-  margin-right: 5rem;
+  /* margin-right: 5rem; */
 }
 
 #update-customer form {

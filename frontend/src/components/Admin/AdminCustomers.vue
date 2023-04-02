@@ -82,7 +82,8 @@ const table = ref({
 const router = useRouter();
 
 const rowClicked = (row) => {
-  router.push({ name: 'update-customer', params: { id: row.customerID } });
+  //router.push({ name: 'update-customer', params: { id: row.customerID } });
+  router.push({ name: 'customer-details', params: { id: row.customerID } });
 }
 
 </script>

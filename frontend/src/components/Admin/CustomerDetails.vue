@@ -34,7 +34,7 @@ const activeTabId = ref('update-customer');
   <MDBTabs v-model="activeTabId">
     <!-- Tabs navs -->
     <MDBTabNav justify tabsClasses="mb-3 tab-nav">
-      <MDBTabItem tabId="update-customer" href="update-customer"><span class="menu-tab"> Update Customer Details </span></MDBTabItem>
+      <MDBTabItem tabId="update-customer" href="update-customer"><span class="menu-tab"> Edit Customer Details </span></MDBTabItem>
       <MDBTabItem tabId="order-history" href="order-history"><span class="menu-tab"> Order History </span></MDBTabItem>
     </MDBTabNav>
     <!-- Tabs content -->
@@ -45,7 +45,7 @@ const activeTabId = ref('update-customer');
       </MDBTabPane>
 
       <MDBTabPane tabId="order-history">
-        <CustomerOrders :id="props.id" />
+        <CustomerOrders :customer-id="props.id" />
       </MDBTabPane>
 
     </MDBTabContent>
