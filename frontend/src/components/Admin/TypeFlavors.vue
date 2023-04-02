@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import VueMultiselect from 'vue-multiselect'
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 import productMenuAPI from '../../services/productMenuAPI';
+// import { computed } from '@vue/reactivity';
 
 const props = defineProps({
   id: String,
@@ -58,6 +59,17 @@ const assignFlavor = () => {
   selectedFlavors.value = [];
 }
 
+const searchTerm = ref("");
+
+const filteredData = computed(() => {
+  let data = flavors.value;
+
+  return data.filter((item) => 
+    item.flavor.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+
+})
+
 </script>
 
 
@@ -70,6 +82,11 @@ const assignFlavor = () => {
 
       <div class="col-6 flavor-table">
         <h3>Set Status Flavor - Cake Type</h3>
+
+        <div class="searchbox">
+          <label>Search By:</label> <input v-model="searchTerm" />
+        </div>
+
         <table class="table table-bordered table-sm">
           <thead class="table-info">
             <tr>
@@ -78,7 +95,8 @@ const assignFlavor = () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in flavors" :key="item.cakesID">
+            <!-- <tr v-for="item in flavors" :key="item.cakesID"> -->
+            <tr v-for="item in filteredData" :key="item.cakesID">
               <td>
                 {{ item.flavor }}
               </td>
@@ -135,7 +153,8 @@ const assignFlavor = () => {
 
 .flavor-table, .assign-container {
   text-align: center;
-  padding: 30px 50px;
+  padding: 10px 50px;
+
 }
 .flavor-table h3, .assign-container h3 {
   text-decoration: underline;
@@ -168,12 +187,25 @@ const assignFlavor = () => {
   background: #16a34a;
 }
 
+table {
+  margin-top: 10px;
+}
+
 table tr {
   font-size: 18px;
 }
 
 tr th {
   font-weight: 600;
+}
+
+.searchbox {
+  text-align: left;
+}
+
+.searchbox label {
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 </style>
