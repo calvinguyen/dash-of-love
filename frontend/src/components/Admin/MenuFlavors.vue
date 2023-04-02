@@ -58,12 +58,11 @@ const table = ref({
   },
 })
 
-// Route to updateCustomer Component
+// Route to updateFlavor Component
 const router = useRouter();
 
 const rowClicked = (row) => {
-  console.log(row)
-  // router.push({ name: 'update-customer', params: { id: row.customerID } });
+  router.push({ name: 'update-flavor', params: { id: row.flavorID } });
 }
 
 </script>

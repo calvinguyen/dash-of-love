@@ -65,12 +65,11 @@ const table = ref({
   },
 })
 
-// Route to updateCustomer Component
+// Route to updateType Component
 const router = useRouter();
 
 const rowClicked = (row) => {
-  console.log(row)
-  // router.push({ name: 'update-customer', params: { id: row.customerID } });
+  router.push({ name: 'type-details', params: { id: row.typeID } });
 }
 
 </script>
@@ -80,7 +79,6 @@ const rowClicked = (row) => {
 <section id="cake-types">
 
 <div class="type-container">
-  <!-- <h1>Cake Types</h1> -->
   <h4>*Click on a Type to update*</h4>
 
   <div class="input-container">

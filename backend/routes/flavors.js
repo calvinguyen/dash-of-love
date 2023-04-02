@@ -1,7 +1,7 @@
 import express from "express"
 import { 
     getFlavors, getFlavorById, createFlavor, updateFlavorById,
-    updateFlavorStatusById, getFlavorsWithDesc
+    updateFlavorStatusById, getFlavorsWithDesc, getStatusDesc
 } from "../controllers/flavors.js"
 
 const router = express.Router()
@@ -53,6 +53,13 @@ router.put("/status/:id", async (req, res) => {
 // Get all flavors with status descriptions
 router.get("/admin/flavors-view", async (req, res) => {
     const data = await getFlavorsWithDesc()
+
+    res.json(data);
+})
+
+// Get type status descriptions
+router.get("/status/descriptions", async (req, res) => {
+    const data = await getStatusDesc()
 
     res.json(data);
 })

@@ -51,6 +51,24 @@ const router = createRouter({
             name: 'menu',
             component: () => import('../components/Admin/AdminMenu.vue'),
         },
+        {
+            path: '/type-details/:id',
+            name: 'type-details',
+            props: true,
+            component: () => import('../components/Admin/TypeDetails.vue'),
+        },
+        // {
+        //     path: '/update-type/:id',
+        //     name: 'update-type',
+        //     props: true,
+        //     component: () => import('../components/Admin/UpdateType.vue'),
+        // },
+        {
+            path: '/update-flavor/:id',
+            name: 'update-flavor',
+            props: true,
+            component: () => import('../components/Admin/UpdateFlavor.vue'),
+        },
       ],
     },
     {

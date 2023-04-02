@@ -70,3 +70,11 @@ export async function getTypesWithDesc() {
 
     return results
 }
+
+//Get all types
+export async function getStatusDesc() {
+    const sql = "select * from Cake_Type_Status";
+    const [results] = await db.query(sql);
+
+    return results
+}

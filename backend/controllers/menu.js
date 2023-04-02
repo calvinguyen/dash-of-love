@@ -22,9 +22,12 @@ export async function getMenuItemById(id) {
 // Get all flavors offered for a specific cake type by typeid
 export async function getFlavorsOfferedByCakeType(typeID) {
     const sql = `
-      select *
-      from Product_Menu
-      where typeID = ?
+        select Product_Menu.cakesID, Product_Menu.typeID, Product_Menu.flavorID,
+        Cake_Flavor.flavor, Product_Menu.statusID
+        from Product_Menu
+        inner join Cake_Flavor 
+        on Product_Menu.flavorID = Cake_Flavor.flavorID
+        where typeID = ?
     `;
     const [rows] = await db.query(sql, [typeID]);
     return rows;
@@ -33,9 +36,12 @@ export async function getFlavorsOfferedByCakeType(typeID) {
 // Get all cake types offered for a specific flavor by flavorid
 export async function getCakeTypesOfferedByFlavor(flavorID) {
     const sql = `
-      select *
-      from Product_Menu
-      where flavorID = ?
+        select Product_Menu.cakesID, Product_Menu.typeID, Cake_Type.type,
+        Product_Menu.flavorID, Product_Menu.statusID
+        from Product_Menu
+        inner join Cake_Type 
+        on Product_Menu.typeID = Cake_Type.typeID
+        where flavorID = ?;
     `;
     const [rows] = await db.query(sql, [flavorID]);
     return rows;

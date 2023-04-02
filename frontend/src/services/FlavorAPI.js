@@ -7,4 +7,13 @@ export default {
     getAdminFlavorView() {
         return API().get('/flavors/admin/flavors-view');
     },
+    getFlavorById(id) {
+        return API().get(`/flavors/${id}`);
+    },
+    updateFlavorById(id, data) {
+        return API().get(`/flavors/${id}`, data);
+    },
+    getStatusDescriptions() {
+        return API().get('/flavors/status/descriptions');
+    },
 }

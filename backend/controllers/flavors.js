@@ -69,3 +69,11 @@ export async function getFlavorsWithDesc() {
 
     return results
 }
+
+//Get all types
+export async function getStatusDesc() {
+    const sql = "select * from Cake_Flavor_Status";
+    const [results] = await db.query(sql);
+
+    return results
+}
