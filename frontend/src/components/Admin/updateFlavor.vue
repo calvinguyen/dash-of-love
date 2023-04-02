@@ -40,7 +40,7 @@ const getFlavor = async () => {
 getFlavor();
 
 // Set form validation rules
-const alphaWithSpaces = helpers.regex(/^[a-z0-9_ ]*$/i);
+const alphaWithSpaces = helpers.regex(/^[a-z_/'/& ]*$/i);
 
 const rules = computed(() => {
   return {

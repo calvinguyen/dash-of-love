@@ -19,4 +19,7 @@ export default {
     getTypesNotAssigned(id) {
         return API().get(`/flavors/types/unassign/${id}`);
     },
+    createFlavor(data) {
+        return API().post('/flavors/', data);
+    },
 }
