@@ -52,7 +52,7 @@ const table = ref({
     return cakeTypes.value.filter(
       (x) =>
         x.type.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-        x.price.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+        x.price.includes(searchTerm.value) ||
         x.description.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
   }),
@@ -125,15 +125,16 @@ const rowClicked = (row) => {
   font-size: 16px;
 }
 
-#cake-types h1 {
+/* #cake-types h1 {
   font-size: 27px;
   font-weight: 600;
-}
+} */
 
 #cake-types h4 {
   font-style: italic;
   color: #be123c;
   font-size: 18px;
+  font-weight: 600;
 }
 
 #cake-type-table {
