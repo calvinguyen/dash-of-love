@@ -85,7 +85,7 @@ const rowClicked = (row) => {
     <div class="searchbox">
       <label>Search By:</label> <input v-model="searchTerm" />
     </div>
-    <RouterLink to="/admin/menu">
+    <RouterLink to="/admin/type-form">
       <button type="button" class="btn btn-primary">+ Add Cake Type</button>
     </RouterLink>
   </div>

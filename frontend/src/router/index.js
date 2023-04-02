@@ -52,6 +52,16 @@ const router = createRouter({
             component: () => import('../components/Admin/AdminMenu.vue'),
         },
         {
+            path: 'type-form',
+            name: 'type-form',
+            component: () => import('../components/Admin/TypeForm.vue'),
+        },
+        {
+            path: 'flavor-form',
+            name: 'flavor-form',
+            component: () => import('../components/Admin/FlavorForm.vue'),
+        },
+        {
             path: '/type-details/:id',
             name: 'type-details',
             props: true,

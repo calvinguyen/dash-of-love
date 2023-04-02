@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { required, maxLength, numeric } from '@vuelidate/validators';
+import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 
 const props = defineProps({
@@ -40,10 +40,16 @@ const getType = async () => {
 getType();
 
 // Set form validation rules
+const alphaWithSpaces = helpers.regex(/^[a-z0-9_ ]*$/i);
+
 const rules = computed(() => {
   return {
     typeData: {
-      type: { required, maxLength: maxLength(40) },
+      type: { 
+        required, 
+        maxLength: maxLength(40), 
+        alphaWithSpaces: helpers.withMessage('This field must be alphanumeric', alphaWithSpaces) 
+      },
       price: { required, numeric },
       statusID: { required },
     },
@@ -77,7 +83,7 @@ const handleTypeUpdate = async () => {
       <h3>Edit Cake Type</h3>
       <div class="row">
         <!-- Type Name Field -->
-        <div class="col-md-6 form-group">
+        <div class="col-md-8 form-group">
           <label for="type" class="form-label">Cake Type*</label>
           <span
             v-for="error of v$.typeData.type.$errors"
@@ -89,7 +95,7 @@ const handleTypeUpdate = async () => {
           <input v-model="typeData.type" type="text" class="form-control" placeholder="Cake Type Name" />
         </div>
         <!-- Price Field -->
-        <div class="col-md-6 form-group">
+        <div class="col-md-4 form-group">
           <label for="price" class="form-label">Price*</label>
           <span 
             v-for="error of v$.typeData.price.$errors"
@@ -137,7 +143,7 @@ const handleTypeUpdate = async () => {
 }
 
 #update-type form {
-  max-width: 50%;
+  max-width: 60%;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
   padding: 30px;
   background: #fff;
