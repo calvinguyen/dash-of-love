@@ -117,12 +117,15 @@ const rowClicked = (row) => {
 
 
 <style scoped>
+#admin-customers {
+  padding: 10px 40px;
+}
 #admin-customers * {
   font-family: "Poppins", sans-serif;
 }
 
 #admin-customers h1 {
-  font-size: 27px;
+  font-size: 28px;
   font-weight: 600;
 }
 
@@ -130,6 +133,9 @@ const rowClicked = (row) => {
   font-style: italic;
   color: #be123c;
   font-size: 18px;
+}
+#admin-customers button {
+  font-size: 16px;
 }
 
 #admin-customer-table {
