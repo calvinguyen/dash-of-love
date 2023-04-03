@@ -28,7 +28,7 @@ export async function getFullOrderById(id) {
     const sql = `
     select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
     \`Order\`.cakesID, Cake_Type.typeID, Cake_Type.type, Cake_Flavor.flavorID, Cake_Flavor.flavor,
-    \`Order\`.referralID, \`Order\`.cake_details, 
+    \`Order\`.referralID, \`Order\`.cake_details, \`Order\`.final_price,
     \`Order\`.statusID, \`Order\`.desired_date, \`Order\`.pick_up_details
     from \`Order\`
     Inner join Order_Status
@@ -133,7 +133,7 @@ export async function getOrderStatusDescriptions() {
 export async function getCustomerOrders(customerID) {
     const sql = `
     select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
-    Cake_Type.type, Cake_Flavor.flavor,
+    Cake_Type.type, Cake_Flavor.flavor, \`Order\`.final_price,
     \`Order\`.cake_details, \`Order\`.statusID, Order_Status.description, \`Order\`.desired_date, \`Order\`.pick_up_details
     from \`Order\`
     Inner join Order_Status

@@ -76,7 +76,7 @@ const getFlavors = async () => {
   }
 }
 // Get today's date to set minimum date input
-const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
+// const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
 
 // order form data
 const formData = reactive({
@@ -271,7 +271,7 @@ onBeforeMount(() => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate" :min="currentDate">
+        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate">
       </div>
       <!-- Final Price Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">

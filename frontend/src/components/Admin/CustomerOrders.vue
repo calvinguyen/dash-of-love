@@ -57,6 +57,11 @@ const table = ref({
       sortable: true,
     },
     {
+      label: "Final Price",
+      field: "final_price",
+      width: "5%",
+    },
+    {
       label: "Desired Date",
       field: "desired_date",
       width: "5%",
