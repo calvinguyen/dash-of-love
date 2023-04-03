@@ -2,6 +2,7 @@
 import { reactive, computed, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
+import emailjs from '@emailjs/browser';
 import ReferralAPI from '../services/ReferralAPI';
 import productMenuAPI from '../services/productMenuAPI';
 import CustomerAPI from '../services/CustomerAPI';
@@ -114,7 +115,7 @@ const checkIfNewCustomer = async (email, custData) => {
 const postOrder = async (data) => {
   try {
     const response = await OrderAPI.createOrder(data);
-    console.log(response);
+    return response.data;
   } catch(err) {
     console.log(err);
   }
@@ -130,6 +131,28 @@ const submitForm = async () => {
   
   checkIfNewCustomer(customerData.email, customerData)
     .then((res) => postOrder(res))
+    .then((res) => {
+      // Send Order Request to Email
+      let { type } = cakeTypes.value.find(item => item.typeID == selectedCakeType.value.typeID);
+      let { flavor } = flavors.value.find(item => item.typeID == selectedCakeType.value.typeID);
+      let params = {
+        order_date: res.order_date,
+        orderID: res.orderID,
+        first_name: customerData.first_name,
+        last_name: customerData.last_name,
+        email: customerData.email,
+        phone: customerData.phone,
+        desired_date: res.desired_date,
+        type: type,
+        flavor: flavor,
+        cake_details: res.cake_details,
+      };
+      emailjs.send("service_dmhu8pj", "template_3wt4u27", params, "vJVgKmCSgWnkyxBUU")
+        .then(
+          (res) => {console.log('Email send', res.status, res.text)},
+          (err) => {console.log('Failed to send email', err)}
+        )
+    })
     .then(() => {
       resetFormData(customerData);
       resetFormData(orderData);
