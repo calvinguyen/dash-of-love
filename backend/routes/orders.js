@@ -50,9 +50,10 @@ router.put("/:id", async (req, res) => {
     const status = req.body.statusID;
     const desired_date = req.body.desired_date;
     const pickup = req.body.pick_up_details;
+    const price = req.body.final_price;
 
     const result = await updateOrderById(
-        orderId, cakesId, referralId, cake_details, status, desired_date, pickup
+        orderId, cakesId, referralId, cake_details, status, desired_date, pickup, price
     );
 
     res.json(result);

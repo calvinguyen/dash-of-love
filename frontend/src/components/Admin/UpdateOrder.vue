@@ -2,7 +2,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, reactive, computed, onBeforeMount } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { required, maxLength } from '@vuelidate/validators';
+import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
 import OrderAPI from '../../services/OrderAPI';
 import CustomerAPI from '../../services/CustomerAPI';
 import ReferralAPI from '../../services/ReferralAPI';
@@ -86,6 +86,7 @@ const formData = reactive({
   statusID: "",
   desired_date: "",
   pick_up_details: "",
+  final_price: "",
 });
 
 // get order
@@ -105,6 +106,8 @@ const getOrder = async () => {
 };
 
 // Set form validation rules
+const usCurrency = helpers.regex(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/);
+
 const rules = computed(() => {
   return {
     formData: {
@@ -114,6 +117,10 @@ const rules = computed(() => {
       statusID: { required },
       desired_date: { required },
       pick_up_details: { maxLength: maxLength(750) },
+      final_price: { 
+        numeric,
+        usCurrency: helpers.withMessage('Value up to 10 digits or 2 decimals', usCurrency)
+      },
     },
     selectedCakeType: {
       typeID: { required }
@@ -265,6 +272,18 @@ onBeforeMount(() => {
           *{{ error.$message }}
         </span>
         <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate" :min="currentDate">
+      </div>
+      <!-- Final Price Field -->
+      <div class="col-lg-4 col-md-6 form-group mt-3">
+        <label for="final_price" class="form-label">Final Price</label>
+        <span 
+          v-for="error of v$.formData.final_price.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <input v-model.number="formData.final_price" type="number" step="0.01" class="form-control" id="final_price">
       </div>
     </div>
 

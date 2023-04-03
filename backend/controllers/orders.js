@@ -62,7 +62,7 @@ export async function createOrder(customerID, cakesID, referralID, details, desi
 }
 
 // Update an order by id
-export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup) {
+export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup, price) {
     const sql = `
       update \`Order\`
       set cakesID = ?,
@@ -70,10 +70,11 @@ export async function updateOrderById(orderID, cakesId, referralId, cake_details
       cake_details = ?,
       statusID = ?,
       desired_date = ?,
-      pick_up_details = ?
+      pick_up_details = ?,
+      final_price = ?
       where orderID = ?
     `;
-    const [result] = await db.query(sql, [cakesId, referralId, cake_details, status, desired_date, pickup, orderID]);
+    const [result] = await db.query(sql, [cakesId, referralId, cake_details, status, desired_date, pickup, price, orderID]);
     
     return getOrderById(orderID);
 }
@@ -95,7 +96,7 @@ export async function getAdminOrderView() {
     const sql = `
         select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
         Customer.first_name, Customer.last_name, Customer.email, Customer.phone,
-        Cake_Type.type, Cake_Flavor.flavor,
+        Cake_Type.type, Cake_Flavor.flavor, \`Order\`.final_price,
         \`Order\`.cake_details, \`Order\`.statusID, Order_Status.description,
         \`Order\`.desired_date, \`Order\`.pick_up_details
         from \`Order\`

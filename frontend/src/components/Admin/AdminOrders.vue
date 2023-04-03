@@ -53,11 +53,6 @@ const table = ref({
       width: "10%",
       sortable: true,
     },
-    // {
-    //   label: "Phone",
-    //   field: "phone",
-    //   width: "2%",
-    // },
     {
       label: "Type",
       field: "type",
@@ -67,6 +62,11 @@ const table = ref({
       label: "Flavor",
       field: "flavor",
       width: "6%",
+    },
+    {
+      label: "Final Price",
+      field: "final_price",
+      width: "5%",
     },
     {
       label: "Status",
