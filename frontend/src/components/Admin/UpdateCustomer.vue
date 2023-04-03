@@ -61,11 +61,28 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { customerData }, { $autoDirty: true });
 
 // Form submission
+
+//Check if email already exists
+const checkIfNewCustomer = async (email) => {
+  try {
+    const response = await CustomerAPI.getCustomerByEmail(email.toLowerCase());
+    return response.data;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 const handleCustomerUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
     alert("Form not submitted, please check your inputs.");
+    return
+  }
+  //notify user that email already exists
+  let result = await checkIfNewCustomer(customerData.email);
+  if (result) {
+    alert("Form submission failed, a Customer with this email already exists!");
     return
   }
 
@@ -82,12 +99,6 @@ const handleCustomerUpdate = async () => {
 <template>
 <section id="update-customer">
 <div class="container">
-
-  <!-- <div class="section-title d-flex justify-content-between">
-    <button @click="router.go(-1)" class="go-back-btn" type="button">Go Back</button>
-    <h2>Update Customer</h2>
-    <div></div>
-  </div> -->
 
   <form @submit.prevent="handleCustomerUpdate">
     <h2>Update Customer</h2>
@@ -126,7 +137,7 @@ const handleCustomerUpdate = async () => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
+        <input v-model.trim="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
       </div>
       <!-- Phone Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">

@@ -43,12 +43,28 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, { customerData }, { $autoDirty: true });
 
+//Check if email already exists
+const checkIfNewCustomer = async (email) => {
+  try {
+    const response = await CustomerAPI.getCustomerByEmail(email.toLowerCase());
+    return response.data;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 // Form submission
 const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
     alert("Form not submitted, please check your inputs.");
+    return
+  }
+  //notify user that email already exists
+  let result = await checkIfNewCustomer(customerData.email);
+  if (result) {
+    alert("Form submission failed, a Customer with this email already exists!");
     return
   }
   
@@ -111,7 +127,7 @@ const submitForm = async () => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
+        <input v-model.trim="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
       </div>
 
       <!-- Phone Field -->
