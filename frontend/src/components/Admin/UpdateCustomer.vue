@@ -33,10 +33,13 @@ const customerData = reactive({
   phone: "",
   statusID: "",
 });
-
+// get initial email
+const initialEmail = ref({ email: "" })
 const getCustomer = async () => {
   try {
     const response = await CustomerAPI.getCustomerById(route.params.id);
+    initialEmail.value.email = response.data.email;
+
     for (const key in customerData) {
       customerData[key] = response.data[key];
     }
@@ -79,11 +82,13 @@ const handleCustomerUpdate = async () => {
     alert("Form not submitted, please check your inputs.");
     return
   }
-  //notify user that email already exists
-  let result = await checkIfNewCustomer(customerData.email);
-  if (result) {
-    alert("Form submission failed, a Customer with this email already exists!");
-    return
+
+  if (initialEmail.value.email != customerData.email) {
+    let result = await checkIfNewCustomer(customerData.email);
+    if (result) {
+      alert("Form submission failed, a Customer with this email already exists!");
+      return
+    }
   }
 
   CustomerAPI.updateCustomerById(route.params.id, customerData)
