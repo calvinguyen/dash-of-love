@@ -7,3 +7,11 @@ export async function getOrdersByMonth() {
 
   return results
 }
+
+// Get all referrals
+export async function getReferralsFromOrders() {
+  const sql = "select * from order_referral_view";
+  const [results] = await db.query(sql);
+
+  return results
+}
