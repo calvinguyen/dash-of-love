@@ -93,7 +93,7 @@ const table = ref({
     return table.value.rows.length;
   }),
   sortable: {
-    order: "customerID",
+    order: "last_name",
     sort: "asc",
   },
 })
