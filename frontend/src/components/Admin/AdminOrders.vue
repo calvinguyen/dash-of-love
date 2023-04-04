@@ -29,8 +29,8 @@ const getOrderStatuses = async () => {
 }
 getOrderStatuses();
 
+// Show 'status' filter
 const selectedStatus = ref(0);
-
 const filteredStatuses = computed(() => {
   if (selectedStatus.value == 0) return adminOrders.value;
   
@@ -139,15 +139,13 @@ const rowClicked = (row) => {
   <h4>*Click on an Order to update or see details*</h4>
 
   <div class="searchbox">
-    <!-- <label>Show:</label> -->
     <label>Show:
-    <select v-model="selectedStatus">
-      <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
-        {{ status.description }}
-      </option>
-    </select>
-    <!-- <label>  Orders</label> -->
-    Orders</label>
+      <select v-model="selectedStatus">
+        <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
+          {{ status.description }}
+        </option>
+      </select>Orders
+    </label>
 
     <label class="search-by-label">Search By:</label> <input v-model="searchTerm" />
 
@@ -198,6 +196,7 @@ label.search-by-label {
 select {
   max-width: max-content;
   height: 30px;
+  margin-right: 5px;
 }
 
 .searchbox label {

@@ -16,6 +16,26 @@ const getAdminCustomers = async () => {
 }
 getAdminCustomers();
 
+// Get Status Descriptions from Customer_Status
+const customerStatuses = ref([{statusID: 0, description: 'All'}]);
+const getCustomerStatuses = async () => {
+  try {
+    const response = await CustomerAPI.getStatusDescriptions();
+    //orderStatuses.value = response.data;
+    response.data.forEach((item) => customerStatuses.value.push(item));
+  } catch(err) {
+    console.log(err);
+  }
+}
+getCustomerStatuses();
+// Show 'status' filter
+const selectedStatus = ref(0);
+const filteredStatuses = computed(() => {
+  if (selectedStatus.value == 0) return adminCustomers.value;
+  
+  return adminCustomers.value.filter((customer) => customer.statusID == selectedStatus.value);
+})
+
 // TableLite Setup
 const searchTerm = ref("");
 
@@ -60,7 +80,7 @@ const table = ref({
     },
   ],
   rows: computed(() => {
-    return adminCustomers.value.filter(
+    return filteredStatuses.value.filter(
       (x) =>
         x.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
         x.last_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -96,7 +116,15 @@ const rowClicked = (row) => {
 
   <div class="input-container">
     <div class="searchbox">
-      <label>Search By:</label> <input v-model="searchTerm" />
+      <label>Show:
+        <select v-model="selectedStatus">
+          <option v-for="status in customerStatuses" :key="status.statusID" :value="status.statusID" >
+            {{ status.description }}
+          </option>
+        </select>Customers
+      </label>
+
+      <label class="search-by-label">Search By:</label> <input v-model="searchTerm" />
     </div>
     <RouterLink to="/admin/customer-form">
       <button type="button" class="btn btn-primary">+ Add Customer</button>
@@ -146,6 +174,17 @@ const rowClicked = (row) => {
 
 .searchbox {
   text-align: left;
+  padding-top: 10px;
+}
+
+label.search-by-label {
+  margin-left: 10px;
+}
+
+select {
+  max-width: max-content;
+  height: 32px;
+  margin-right: 5px;
 }
 
 .searchbox label {
