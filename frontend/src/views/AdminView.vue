@@ -41,6 +41,12 @@ import { RouterLink, RouterView } from 'vue-router';
           <span>Menu</span>
         </RouterLink>
       </li>
+      <li>
+        <RouterLink to="/admin/reports" class="navlink-container">
+          <i class='bx bxs-report bx-md'></i>
+          <span>Reports</span>
+        </RouterLink>
+      </li>
     </ul>
     <!-- Bottom Side Navlinks -->
     <ul class="bottom-navlinks">
