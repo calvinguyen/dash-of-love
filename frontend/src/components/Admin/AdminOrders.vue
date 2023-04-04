@@ -16,6 +16,27 @@ const getAdminOrders = async () => {
 }
 getAdminOrders();
 
+// Get Status Descriptions from Order_Status
+const orderStatuses = ref([{statusID: 0, description: 'All'}]);
+const getOrderStatuses = async () => {
+  try {
+    const response = await OrderAPI.getStatusDescriptions();
+    //orderStatuses.value = response.data;
+    response.data.forEach((item) => orderStatuses.value.push(item));
+  } catch(err) {
+    console.log(err);
+  }
+}
+getOrderStatuses();
+
+const selectedStatus = ref(0);
+
+const filteredStatuses = computed(() => {
+  if (selectedStatus.value == 0) return adminOrders.value;
+  
+  return adminOrders.value.filter((order) => order.statusID == selectedStatus.value);
+})
+
 // TableLite Setup
 const searchTerm = ref("");
 
@@ -82,7 +103,7 @@ const table = ref({
     },
   ],
   rows: computed(() => {
-    return adminOrders.value.filter(
+    return filteredStatuses.value.filter(
       (x) =>
         x.order_date.includes(searchTerm.value) ||
         x.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -118,7 +139,18 @@ const rowClicked = (row) => {
   <h4>*Click on an Order to update or see details*</h4>
 
   <div class="searchbox">
-    <label>Search By:</label> <input v-model="searchTerm" />
+    <!-- <label>Show:</label> -->
+    <label>Show:
+    <select v-model="selectedStatus">
+      <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
+        {{ status.description }}
+      </option>
+    </select>
+    <!-- <label>  Orders</label> -->
+    Orders</label>
+
+    <label class="search-by-label">Search By:</label> <input v-model="searchTerm" />
+
   </div>
   <!-- Admin Order Table -->
   <VueTableLite
@@ -159,13 +191,22 @@ const rowClicked = (row) => {
   text-align: left;
 }
 
+label.search-by-label {
+  margin-left: 10px;
+}
+
+select {
+  max-width: max-content;
+  height: 30px;
+}
+
 .searchbox label {
   font-weight: bold;
   margin-right: 5px;
 }
 
-textarea {
+/* textarea {
   min-height: 100px;
-}
+} */
 
 </style>
