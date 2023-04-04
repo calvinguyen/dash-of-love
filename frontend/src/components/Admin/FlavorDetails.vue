@@ -8,7 +8,7 @@ import {
   MDBTabItem,
   MDBTabPane,
 } from 'mdb-vue-ui-kit';
-import UpdateFlavor from './UpdateFlavor';
+import UpdateFlavor from './UpdateFlavor.vue';
 import FlavorTypes from './FlavorTypes.vue';
 
 const props = defineProps({
