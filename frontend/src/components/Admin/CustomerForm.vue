@@ -3,6 +3,7 @@ import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import CustomerAPI from '../../services/CustomerAPI';
 
 const router = useRouter();
@@ -58,19 +59,31 @@ const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
   //notify user that email already exists
   let result = await checkIfNewCustomer(customerData.email);
   if (result) {
-    alert("Form submission failed, a Customer with this email already exists!");
+    Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Failed </h3>',
+        text: 'A customer with this email already exists!',
+      });
     return
   }
   
   CustomerAPI.createCustomer(customerData)
     .then(() => {
-      alert("Customer has been succesfully added.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Success! </h3>',
+        text: 'A new Customer was created!',
+      });
       router.push("customers")
     })
     .catch(err => console.log(err));

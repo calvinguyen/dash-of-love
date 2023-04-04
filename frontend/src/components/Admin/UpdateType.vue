@@ -2,6 +2,7 @@
 import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 
 const props = defineProps({
@@ -62,13 +63,21 @@ const handleTypeUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Cake Type Update Failed </h3>',
+        text: 'Please check your inputs!!',
+      });
     return
   }
 
   cakeTypeAPI.updateTypeById(props.id, typeData)
     .then(() => {
-      alert("Type updated successfully.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Cake Type Update Success! </h3>',
+        text: 'Cake Type changes were saved!',
+      });
     })
     .catch(err => console.log(err));
 };

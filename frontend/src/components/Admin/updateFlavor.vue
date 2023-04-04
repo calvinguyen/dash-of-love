@@ -2,6 +2,7 @@
 import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, maxLength, helpers } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import FlavorAPI from '../../services/FlavorAPI';
 
 const props = defineProps({
@@ -61,13 +62,21 @@ const handleFlavorUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Flavor Update Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
 
   FlavorAPI.updateFlavorById(props.id, flavorData)
     .then(() => {
-      alert("Flavor updated successfully.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Flavor Update Success! </h3>',
+        text: 'Flavor changes were saved!',
+      });
     })
     .catch(err => console.log(err));
 };

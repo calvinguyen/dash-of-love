@@ -7,6 +7,7 @@ import OrderAPI from '../../services/OrderAPI';
 import CustomerAPI from '../../services/CustomerAPI';
 import ReferralAPI from '../../services/ReferralAPI';
 import productMenuAPI from '../../services/productMenuAPI';
+import Swal from 'sweetalert2';
 
 const props = defineProps({
   id: String,
@@ -134,12 +135,20 @@ const handleOrderUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Order Update Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
   OrderAPI.updateOrderById(route.params.id, formData)
     .then(() => {
-      alert("Order updated successfully.");
+      Swal.fire({
+      icon: 'success',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Order Update Success! </h3>',
+      text: 'Order changes were saved!',
+    });
     })
     .catch(err => console.log(err));
 };

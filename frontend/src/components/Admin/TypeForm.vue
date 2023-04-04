@@ -3,6 +3,7 @@ import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import cakeTypeAPI from '../../services/cakeTypeAPI';
 
 const router = useRouter();
@@ -49,13 +50,21 @@ const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Add New Cake Type Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
   
   cakeTypeAPI.createCakeType(typeData)
     .then((res) => {
-      alert("Cake Type has been succesfully added.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Cake Type Success! </h3>',
+        text: 'A new Cake Type was created!',
+      });
       router.push({ name: 'type-details', params: { id: res.data.typeID } })
     })
     .catch(err => console.log(err));

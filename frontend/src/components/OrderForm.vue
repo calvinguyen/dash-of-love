@@ -3,6 +3,7 @@ import { reactive, computed, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 import ReferralAPI from '../services/ReferralAPI';
 import productMenuAPI from '../services/productMenuAPI';
 import CustomerAPI from '../services/CustomerAPI';
@@ -125,7 +126,11 @@ const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
   
@@ -157,7 +162,11 @@ const submitForm = async () => {
       resetFormData(customerData);
       resetFormData(orderData);
       resetFormData(selectedCakeType.value);
-      alert("Your request was received, please wait 2-3 days for a response.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Received! </h3>',
+        text: 'Please allow 2-3 days for a response',
+      });
     })
     .catch(err => console.log(err));
 };
