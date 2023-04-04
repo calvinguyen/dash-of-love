@@ -162,6 +162,7 @@ onBeforeUnmount(() => {
 
 .navbar {
     padding: 0;
+    box-shadow: none;
 }
 .navbar ul {
     margin: 0;
