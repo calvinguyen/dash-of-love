@@ -165,7 +165,7 @@ const submitForm = async () => {
       Swal.fire({
         icon: 'success',
         title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Received! </h3>',
-        text: 'Please allow 2-3 days for a response',
+        text: "I'll get back to you if your order is accepted, but if you don't hear from me, I didn't accept",
       });
     })
     .catch(err => console.log(err));
@@ -185,7 +185,7 @@ function resetFormData(object) {
 
   <div class="section-title">
     <h2>Custom<span>Order</span></h2>
-    <p>Please allow 2-3 days response time.</p>
+    <p>Please allow 3-5 days response time.</p>
   </div>
 
   <form @submit.prevent="submitForm" class="request-form">
