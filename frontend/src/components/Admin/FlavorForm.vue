@@ -3,6 +3,7 @@ import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, maxLength, helpers } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import FlavorAPI from '../../services/FlavorAPI';
 
 const router = useRouter();
@@ -48,13 +49,21 @@ const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Add New Flavor Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
   
   FlavorAPI.createFlavor(flavorData)
     .then((res) => {
-      alert("Flavor has been succesfully added.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Flavor Success! </h3>',
+        text: 'A new Flavor was created!',
+      });
       router.push({ name: 'flavor-details', params: { id: res.data.flavorID } })
     })
     .catch(err => console.log(err));

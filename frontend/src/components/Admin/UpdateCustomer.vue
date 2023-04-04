@@ -4,6 +4,7 @@ import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import CustomerAPI from '../../services/CustomerAPI';
+import Swal from 'sweetalert2';
 // import CustomerOrders from './CustomerOrders.vue';
 
 const props = defineProps({
@@ -79,21 +80,33 @@ const handleCustomerUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    alert("Form not submitted, please check your inputs.");
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Failed </h3>',
+      text: 'Please check your inputs!',
+    });
     return
   }
 
   if (initialEmail.value.email != customerData.email) {
     let result = await checkIfNewCustomer(customerData.email);
     if (result) {
-      alert("Form submission failed, a Customer with this email already exists!");
+      Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Failed </h3>',
+        text: 'A customer with this email already exists!',
+      });
       return
     }
   }
 
   CustomerAPI.updateCustomerById(route.params.id, customerData)
     .then(() => {
-      alert("Customer updated successfully.");
+      Swal.fire({
+        icon: 'success',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Success! </h3>',
+        text: 'Customer changes were saved!',
+      });
     })
     .catch(err => console.log(err));
 };
