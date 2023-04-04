@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 
 //Import routes
-import testsRoute from "./routes/tests.js"
+import reportsRoute from "./routes/reports.js"
 import flavorsRoute from "./routes/flavors.js"
 import customersRoute from "./routes/customers.js"
 import menuRoute from "./routes/menu.js"
@@ -27,7 +27,7 @@ app.use(express.json())
 app.use(morgan("dev"))
 
 //Setup middleware for routes
-app.use("/tests", testsRoute)
+app.use("/reports", reportsRoute)
 app.use("/flavors", flavorsRoute)
 app.use("/customers", customersRoute)
 app.use("/menu", menuRoute)
