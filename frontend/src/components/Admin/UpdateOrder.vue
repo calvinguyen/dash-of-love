@@ -120,7 +120,7 @@ const rules = computed(() => {
       pick_up_details: { maxLength: maxLength(750) },
       final_price: { 
         numeric,
-        usCurrency: helpers.withMessage('Value up to 10 digits or 2 decimals', usCurrency)
+        usCurrency: helpers.withMessage('Value must be a US currency', usCurrency)
       },
     },
     selectedCakeType: {

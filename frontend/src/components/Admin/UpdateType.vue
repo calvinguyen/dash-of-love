@@ -42,6 +42,7 @@ getType();
 
 // Set form validation rules
 const alphaWithSpaces = helpers.regex(/^[a-z0-9_ ]*$/i);
+const usCurrency = helpers.regex(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/);
 
 const rules = computed(() => {
   return {
@@ -51,7 +52,10 @@ const rules = computed(() => {
         maxLength: maxLength(40), 
         alphaWithSpaces: helpers.withMessage('This field must be alphanumeric', alphaWithSpaces) 
       },
-      price: { required, numeric },
+      price: { 
+        required, 
+        usCurrency: helpers.withMessage('Value must be a US currency', usCurrency)
+      },
       statusID: { required },
     },
   }
@@ -92,7 +96,7 @@ const handleTypeUpdate = async () => {
       <h3>Edit Cake Type</h3>
       <div class="row">
         <!-- Type Name Field -->
-        <div class="col-md-8 form-group">
+        <div class="col-md-7 form-group">
           <label for="type" class="form-label">Cake Type*</label>
           <span
             v-for="error of v$.typeData.type.$errors"
@@ -104,7 +108,7 @@ const handleTypeUpdate = async () => {
           <input v-model="typeData.type" type="text" class="form-control" placeholder="Cake Type Name" />
         </div>
         <!-- Price Field -->
-        <div class="col-md-4 form-group">
+        <div class="col-md-5 form-group">
           <label for="price" class="form-label">Price*</label>
           <span 
             v-for="error of v$.typeData.price.$errors"
@@ -113,7 +117,7 @@ const handleTypeUpdate = async () => {
           >
             *{{ error.$message }}
           </span>
-          <input v-model="typeData.price" type="text" class="form-control" id="price" placeholder="Price">
+          <input v-model="typeData.price" type="number" step="0.01" class="form-control" id="price" placeholder="Price">
         </div>
         <!-- Status Field  -->
         <div class="col-lg-4 col-md-6 form-group mt-3">
