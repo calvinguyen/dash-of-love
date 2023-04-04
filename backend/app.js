@@ -11,7 +11,7 @@ import menuRoute from "./routes/menu.js"
 import referralsRoute from "./routes/referrals.js"
 import ordersRoute from "./routes/orders.js"
 import typesRoute from "./routes/types.js"
-import dashboardRoute from "./routes/dashboard.js"
+import reportsRoute from "./routes/reports.js"
 
 dotenv.config()
 const PORT = process.env.PORT || 3000;
@@ -35,7 +35,7 @@ app.use("/menu", menuRoute)
 app.use("/referrals", referralsRoute)
 app.use("/orders", ordersRoute)
 app.use("/types", typesRoute)
-app.use("/dashboard", dashboardRoute)
+app.use("/reports", reportsRoute)
 
 app.listen(PORT, () => {
     console.log("Server started listening on port: ", PORT);

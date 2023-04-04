@@ -16,6 +16,11 @@
             :label="labels"
             :chart-data="count"
           ></OrdersBar>
+          <ReferralsPie
+            v-if="!loading && !error"
+            :label="labels2"
+            :chart-data="count2"
+          ></ReferralsPie>
         </div>
 
         <!-- Start of loading animation -->
@@ -50,15 +55,19 @@ Chart.js -> barchart -> displays number of orders every month from Jan - Dec. --
 <script>
 import axios from "axios";
 import OrdersBar from "@/components/Admin/BarChartComponent.vue";
+import ReferralsPie from "@/components/Admin/PieChartComponent.vue";
 export default {
   components: {
-    OrdersBar
+    OrdersBar,
+    ReferralsPie
   },
   data() {
     return {
       queryData: [],
       labels: [],
       count: [],
+      labels2: [],
+      count2: [],
       loading: false,
       error: null,
     };
@@ -71,12 +80,43 @@ export default {
       try {
         this.error = null;
         this.loading = true;
-        const url = import.meta.env.VITE_ROOT_API + `/dashboard`;
+        const url = import.meta.env.VITE_ROOT_API + `/reports/monthly-order`;
         const response = await axios.get(url);
         //"re-organizing" - mapping json from the response
         this.queryData = response.data;
         this.labels = response.data.map((item) => item.Order_Month);
         this.count = response.data.map((item) => item.Order_count);
+      } catch (err) {
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+          this.error = {
+            title: "Server Response",
+            message: err.message,
+          };
+        } else if (err.request) {
+          // client never received a response, or request never left
+          this.error = {
+            title: "Unable to Reach Server",
+            message: err.message,
+          };
+        } else {
+          // There's probably an error in your code
+          this.error = {
+            title: "Application Error",
+            message: err.message,
+          };
+        }
+      }
+      this.loading = false;
+      try {
+        this.error = null;
+        this.loading = true;
+        const url = import.meta.env.VITE_ROOT_API + `/reports/referrals`;
+        const response = await axios.get(url);
+        //"re-organizing" - mapping json from the response
+        this.queryData = response.data;
+        this.labels2 = response.data.map((item) => item.referralID);
+        this.count2 = response.data.map((item) => item.referralID_count);
       } catch (err) {
         if (err.response) {
           // client received an error response (5xx, 4xx)
