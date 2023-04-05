@@ -4,6 +4,8 @@ import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import ReferralAPI from '../services/ReferralAPI';
 import productMenuAPI from '../services/productMenuAPI';
 import CustomerAPI from '../services/CustomerAPI';
@@ -43,10 +45,6 @@ const getFlavors = async () => {
     console.log(err);
   }
 }
-
-// Get today's date to set minimum date input
-const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
-
 
 /* FORM VALIDATION LOGIC */
 const customerData = reactive({
@@ -240,7 +238,7 @@ function resetFormData(object) {
       </div>
       <!-- Available Date Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="desiredDate" class="form-label">Desired Date</label>
+        <label for="desiredDate" class="form-label">Desired Date {{ orderData.desired_date }}</label>
         <span 
           v-for="error of v$.orderData.desired_date.$errors"
           :key="error.$uid"
@@ -248,7 +246,13 @@ function resetFormData(object) {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="orderData.desired_date" type="date" class="form-control" id="desiredDate" :min="currentDate">
+        <VueDatePicker 
+          v-model="orderData.desired_date"
+          model-type="yyyy-MM-dd"
+          :disabled-week-days="[1, 2, 3]" 
+          :enable-time-picker="false" 
+          :min-date="new Date()" 
+        />
       </div>
       <!-- Cake Type Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
