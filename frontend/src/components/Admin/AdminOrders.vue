@@ -87,7 +87,13 @@ const table = ref({
     {
       label: "Final Price",
       field: "final_price",
-      width: "5%",
+      width: "3%",
+      columnStyles: {"text-align": "right"},
+      display: (row) => {
+        return (
+          row.final_price ? `<span> $${row.final_price} </span>` : ''
+        )
+      }
     },
     {
       label: "Status",
