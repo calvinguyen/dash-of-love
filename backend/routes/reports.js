@@ -1,6 +1,6 @@
 import express from "express"
 import { 
-    getOrdersByMonth, getReferralsFromOrders
+    getOrdersByMonth, getMonthlyOrdersByYear, getReferralsFromOrders
 } from "../controllers/reports.js"
 
 const router = express.Router()
@@ -8,6 +8,14 @@ const router = express.Router()
 // Get all rows from orders by month view 
 router.get("/monthly-order", async (req, res) => {
     const data = await getOrdersByMonth()
+
+    res.json(data);
+})
+
+// Get monthly order count by year 
+router.get("/monthly-order/:year", async (req, res) => {
+    const year = req.params.year;
+    const data = await getMonthlyOrdersByYear(year);
 
     res.json(data);
 })

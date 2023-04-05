@@ -7,6 +7,16 @@ export async function getOrdersByMonth() {
 
   return results
 }
+// Get count of orders by year
+export async function getMonthlyOrdersByYear(year) {
+  const sql = `
+    select * from monthly_order_view
+    where Order_Year = ?
+  `;
+  const [results] = await db.query(sql, [year]);
+
+  return results
+}
 
 // Get count of referrals from orders
 export async function getReferralsFromOrders() {
