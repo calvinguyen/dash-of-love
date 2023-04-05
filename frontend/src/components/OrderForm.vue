@@ -323,16 +323,16 @@ function resetFormData(object) {
 }
 
 .custom-order .request-form button[type=submit] {
-  background: #f7e2e2;
+  background: #fa0909;
   border: 0;
   padding: 10px 24px;
-  color: #000000;
+  color: #ffffff;
   transition: 0.4s;
   border-radius: 50px;
 }
 
 .custom-order .request-form button[type=submit]:hover {
-  background: #e7eded;
+  background: #f9299f;
 }
 
 .error-container {

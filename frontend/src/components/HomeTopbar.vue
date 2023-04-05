@@ -50,7 +50,6 @@ onBeforeUnmount(() => {
 <section id="topbar" class="d-flex align-items-center fixed-top" :class="{ 'topbar-scrolled': scrolledNav }">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-center justify-content-lg-start">
       <i class="bi bi-mail d-flex align-items-center"><span>dashoflovetx@gmail.com</span></i>
-      <i class="bi bi-clock ms-4 d-none d-lg-flex align-items-center"><span>Thurs-Sat: 12:00 PM - 4:00 PM</span></i>
     </div>
 </section>
 
@@ -71,7 +70,7 @@ onBeforeUnmount(() => {
         <!-- <i class="bi bi-list mobile-nav-toggle"></i> -->
       </nav>
 
-      <a href="#custom-order" class="custom-order-btn scrollto">Custom Order</a>
+      <a href="#custom-order" class="custom-order-btn scrollto">Order Online</a>
     </div>
 </header>
 
@@ -137,7 +136,7 @@ onBeforeUnmount(() => {
 }
 
 .custom-order-btn {
-    background: #ff2323;
+    background: #fa0909;
     color: #fff;
     border-radius: 50px;
     margin: 0 0 0 20px;
@@ -195,7 +194,7 @@ onBeforeUnmount(() => {
 .navbar .active,
 .navbar .active:focus,
 .navbar li:hover>a {
-    color: #ffb03b;
+    color: #fa0909;
 }
 
 </style>

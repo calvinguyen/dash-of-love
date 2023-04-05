@@ -118,7 +118,7 @@ div[style='background-image: url("src/assets/img/slide/slide-3.jpg");'] {
 }
 
 #hero h2 span {
-  color: #ff2323;
+  color: #fa0909;
 }
 
 #hero p {

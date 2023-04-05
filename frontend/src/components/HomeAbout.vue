@@ -61,7 +61,7 @@
 
 .about .content ul i {
   font-size: 20px;
-  color: #ffb03b;
+  color: #fa0909;
   position: absolute;
   left: 0;
   top: 2px;
