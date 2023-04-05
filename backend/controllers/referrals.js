@@ -2,7 +2,7 @@ import {db} from "../database.js"
 
 // Get all referrals
 export async function getReferrals() {
-    const sql = "select * from Referral_Source";
+    const sql = "select * from Referral_Source order by referralID";
     const [results] = await db.query(sql);
   
     return results

@@ -123,7 +123,7 @@ export async function getAdminOrderView() {
 
 // Get Order Status Descriptions from status table
 export async function getOrderStatusDescriptions() {
-    const sql = "select * from Order_Status";
+    const sql = "select * from Order_Status order by statusID";
     const [results] = await db.query(sql);
   
     return results
