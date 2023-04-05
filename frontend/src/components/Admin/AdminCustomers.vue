@@ -71,6 +71,11 @@ const table = ref({
       label: "Phone",
       field: "phone",
       width: "5%",
+      display: (row) => {
+        return (
+          row.phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+        )
+      }
     },
     {
       label: "Status",

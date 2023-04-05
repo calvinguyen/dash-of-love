@@ -119,7 +119,6 @@ const rules = computed(() => {
       desired_date: { required },
       pick_up_details: { maxLength: maxLength(750) },
       final_price: { 
-        required,
         usCurrency: helpers.withMessage('Value must be a US currency', usCurrency)
       },
     },
@@ -190,7 +189,9 @@ onBeforeMount(() => {
             <td>{{ customer.first_name }}</td>
             <td>{{ customer.last_name }}</td>
             <td>{{ customer.email }}</td>
-            <td>{{ customer.phone }}</td>
+            <td>
+              {{ customer.phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') }}
+            </td>
         </tr>
       </tbody>
     </table>
@@ -282,17 +283,6 @@ onBeforeMount(() => {
         <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate">
       </div>
       <!-- Final Price Field -->
-      <!-- <div class="col-lg-4 col-md-6 form-group mt-3 final-price-container">
-        <label for="final_price" class="form-label">Final Price</label>
-        <span 
-          v-for="error of v$.formData.final_price.$errors"
-          :key="error.$uid"
-          class="error-container"
-        >
-          *{{ error.$message }}
-        </span>
-        <input v-model.number="formData.final_price" type="text" class="form-control" id="final_price">
-      </div> -->
       <div class="col-lg-4 col-md-6 form-group mt-3 final-price-container">
         <label for="final_price" class="form-label">Final Price</label>
         <span 
