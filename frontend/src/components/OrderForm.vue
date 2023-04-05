@@ -300,7 +300,7 @@ function resetFormData(object) {
   width: 100%;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
   padding: 30px;
-  background: #f1dbea;
+  background: #fffaf3;
 }
 
 .custom-order .request-form .form-group {
@@ -323,7 +323,7 @@ function resetFormData(object) {
 }
 
 .custom-order .request-form button[type=submit] {
-  background: #ffffff;
+  background: #f7e2e2;
   border: 0;
   padding: 10px 24px;
   color: #000000;

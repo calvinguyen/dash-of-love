@@ -7,10 +7,12 @@
   <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch">
     <div class="content">
       <h3><strong style="color:rgb(250, 9, 9);">Hello Everyone !</strong> Welcome to my page </h3>
-      <p class="fst-italic">A couple things to keep in mind for orders:</p>
+      <p class="fst-italic">A few things to keep in mind for orders:</p>
       <ul>
-        <li><i class="bx bx-check-double"> </i> No kid character cakes please (Ex: Sonic, Ninja-turtles...etc) Exceptions: Hello Kitty</li>
-        <li><i class="bx bx-check-double"></i> Must Match my style (check out my gallery below)</li>
+        <li><i class="bx bx-check-double"> </i> Feminine style cakes only (See gallery below for examples)</li>
+        <li><i class="bx bx-check-double"></i> Please describe your custom cake clearly and attach an example image</li>
+        <li><i class="bx bx-check-double"></i> Please allow a few business days for your order to be accepted</li>
+        <li><i class="bx bx-check-double"></i> If custom order does not match my style, I will not accept your order</li>
       </ul>
     </div>
   </div>

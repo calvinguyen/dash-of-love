@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
 }
 
 .custom-order-btn {
-    background: #ffb03b;
+    background: #ff2323;
     color: #fff;
     border-radius: 50px;
     margin: 0 0 0 20px;
@@ -149,7 +149,7 @@ onBeforeUnmount(() => {
     white-space: nowrap;
 }
 .custom-order-btn:hover {
-    background: #ffa012;
+    background: #f41488;
     color: #fff;
 }
 @media (max-width: 992px) {
