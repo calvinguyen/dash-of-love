@@ -238,7 +238,7 @@ function resetFormData(object) {
       </div>
       <!-- Available Date Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="desiredDate" class="form-label">Desired Date {{ orderData.desired_date }}</label>
+        <label for="desiredDate" class="form-label">Desired Date</label>
         <span 
           v-for="error of v$.orderData.desired_date.$errors"
           :key="error.$uid"
