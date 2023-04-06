@@ -1,3 +1,5 @@
+import API from './API';
+
 export default {
     getMonthlyOrders() {
         return API().get('/reports/monthly-order/');

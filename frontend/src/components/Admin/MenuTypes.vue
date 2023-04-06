@@ -38,13 +38,20 @@ const table = ref({
     {
       label: "Price",
       field: "price",
-      width: "10%",
+      width: "3%",
       sortable: true,
+      // columnStyles: {"text-align": "right"},
+      display: (row) => {
+        return (
+          // row.price ? `<span> $${row.price} </span>` : ''
+          `<span> $${row.price} </span>`
+        )
+      }
     },
     {
       label: "Status",
       field: "description",
-      width: "10%",
+      width: "6%",
       sortable: true,
     },
   ],
@@ -133,6 +140,7 @@ const rowClicked = (row) => {
 #cake-type-table {
   margin-top: 14px;
   font-size: 16px;
+  /* text-align: center; */
 }
 
 .searchbox {

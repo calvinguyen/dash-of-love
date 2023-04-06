@@ -38,7 +38,7 @@ const table = ref({
     {
       label: "Status",
       field: "description",
-      width: "10%",
+      width: "5%",
       sortable: true,
     },
   ],
@@ -126,6 +126,7 @@ const rowClicked = (row) => {
 #cake-flavor-table {
   margin-top: 14px;
   font-size: 16px;
+  /* text-align: center; */
 }
 
 .searchbox {

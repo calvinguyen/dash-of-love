@@ -96,7 +96,7 @@ const handleTypeUpdate = async () => {
       <h3>Edit Cake Type</h3>
       <div class="row">
         <!-- Type Name Field -->
-        <div class="col-md-7 form-group">
+        <div class="col-md-8 form-group">
           <label for="type" class="form-label">Cake Type*</label>
           <span
             v-for="error of v$.typeData.type.$errors"
@@ -108,7 +108,7 @@ const handleTypeUpdate = async () => {
           <input v-model="typeData.type" type="text" class="form-control" placeholder="Cake Type Name" />
         </div>
         <!-- Price Field -->
-        <div class="col-md-5 form-group">
+        <div class="col-md-4 form-group price-container">
           <label for="price" class="form-label">Price*</label>
           <span 
             v-for="error of v$.typeData.price.$errors"
@@ -117,7 +117,13 @@ const handleTypeUpdate = async () => {
           >
             *{{ error.$message }}
           </span>
-          <input v-model="typeData.price" type="number" step="0.01" class="form-control" id="price" placeholder="Price">
+          <!-- <input v-model="typeData.price" type="number" step="0.01" class="form-control" id="price" placeholder="Price"> -->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input v-model="typeData.price" type="number" step="0.01" class="form-control" id="price" placeholder="Price">
+          </div>
         </div>
         <!-- Status Field  -->
         <div class="col-lg-4 col-md-6 form-group mt-3">
@@ -204,4 +210,14 @@ form h3 {
 form label {
   font-weight: 600;
 }
+
+.price-container input {
+  text-align: right;
+  max-width: 150px;
+}
+
+.price-container span {
+  height: 44px;
+}
+
 </style>

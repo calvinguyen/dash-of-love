@@ -72,7 +72,8 @@ import { RouterLink, RouterView } from 'vue-router';
 #admin {
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr 6fr;
+  /* grid-template-columns: 1fr 6fr; */
+  grid-template-columns: auto 1fr;
   height: 100vh;
 }
 
@@ -139,7 +140,7 @@ ul {
 } */
 
 #admin-main {
-  /* grid-column: 2 / 3; */
+  /* background-color: #fafafa; */
   min-height: 807px;
   overflow: auto;
   padding: 25px;
