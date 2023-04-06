@@ -1,42 +1,56 @@
 <script setup>
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import OrderAPI from '../../../services/OrderAPI';
 
+// Get Order View
+const ordersNewToday = ref([]);
+const getOrdersNewToday = async () => {
+  try {
+    let today = new Date().toLocaleDateString('fr-CA');
+    const response = await OrderAPI.getOrdersNewToday(today);
+    ordersNewToday.value = response.data;
+  } catch(err) {
+    console.log(err);
+  }
+}
+getOrdersNewToday();
+
+const orderCount = computed(() => ordersNewToday.value.length);
+
+
+const router = useRouter();
+
+const viewClicked = (orderID) => {
+  router.push({ name: 'update-order', params: { id: orderID } });
+}
 
 </script>
 
 
 <template>
-<h6 class="mt-2">(2) New Orders</h6>
+<h6 class="mt-2 today-title">New Orders ({{ orderCount }})</h6>
 
 <table class="table table-sm table-striped table-hover">
-  <thead class="table-secondary">
+  <thead class="table-dark">
     <tr>
-      <th>Order #</th>
+      <th>#</th>
       <th>Customer</th>
-      <th>Phone</th>
       <th>Cake</th>
+      <th>flavor</th>
       <th>Status</th>
-      <th>View</th>
+      <th>Details</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th>1</th>
-      <td>Jane Doe</td>
-      <td>(281) 999-1234</td>
-      <td>Lunchbox 4 inches</td>
-      <td>New</td>
+    <tr v-for="order in ordersNewToday" :key="order.orderID">
+      <th>{{ order.orderID }}</th>
+      <td>{{ order.Customer }}</td>
+      <td>{{ order.type }}</td>
+      <td>{{ order.flavor }}</td>
+      <td>{{ order.description }}</td>
       <td>
-        <button type="button" class="btn btn-primary btn-sm">View</button>
-      </td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Jacob Smith</td>
-      <td>(281) 222-1234</td>
-      <td>8 inches Round</td>
-      <td>New</td>
-      <td>
-        <button type="button" class="btn btn-primary btn-sm">View</button>
+        <button @click="viewClicked(order.orderID)" type="button" class="btn btn-primary btn-sm">View</button>
       </td>
     </tr>
   </tbody>
@@ -46,5 +60,7 @@
 
 
 <style scoped>
-
+#new-table {
+  font-size: 12px;
+}
 </style>
