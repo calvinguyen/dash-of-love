@@ -9,7 +9,7 @@
       <h3><strong style="color:rgb(250, 9, 9);">Hello Everyone !</strong> Welcome to my page </h3>
       <p class="fst-italic">A couple things to keep in mind for orders:</p>
       <ul>
-        <li><i class="bx bx-check-double"></i> No kid's character cake designs, please. Exception: Sanrio characters (like Hello Kitty) will be considered</li>
+        <li><i class="bx bx-check-double"> </i> No kid character cakes please (Ex: Sonic, Ninja-turtles...etc) Exceptions: Hello Kitty</li>
         <li><i class="bx bx-check-double"></i> Must Match my style (check out my gallery below)</li>
       </ul>
     </div>

@@ -16,26 +16,6 @@ const getAdminCustomers = async () => {
 }
 getAdminCustomers();
 
-// Get Status Descriptions from Customer_Status
-const customerStatuses = ref([{statusID: 0, description: 'All'}]);
-const getCustomerStatuses = async () => {
-  try {
-    const response = await CustomerAPI.getStatusDescriptions();
-    //orderStatuses.value = response.data;
-    response.data.forEach((item) => customerStatuses.value.push(item));
-  } catch(err) {
-    console.log(err);
-  }
-}
-getCustomerStatuses();
-// Show 'status' filter
-const selectedStatus = ref(0);
-const filteredStatuses = computed(() => {
-  if (selectedStatus.value == 0) return adminCustomers.value;
-  
-  return adminCustomers.value.filter((customer) => customer.statusID == selectedStatus.value);
-})
-
 // TableLite Setup
 const searchTerm = ref("");
 
@@ -71,11 +51,6 @@ const table = ref({
       label: "Phone",
       field: "phone",
       width: "5%",
-      display: (row) => {
-        return (
-          row.phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
-        )
-      }
     },
     {
       label: "Status",
@@ -85,7 +60,7 @@ const table = ref({
     },
   ],
   rows: computed(() => {
-    return filteredStatuses.value.filter(
+    return adminCustomers.value.filter(
       (x) =>
         x.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
         x.last_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -98,7 +73,7 @@ const table = ref({
     return table.value.rows.length;
   }),
   sortable: {
-    order: "last_name",
+    order: "customerID",
     sort: "asc",
   },
 })
@@ -107,8 +82,7 @@ const table = ref({
 const router = useRouter();
 
 const rowClicked = (row) => {
-  //router.push({ name: 'update-customer', params: { id: row.customerID } });
-  router.push({ name: 'customer-details', params: { id: row.customerID } });
+  router.push({ name: 'update-customer', params: { id: row.customerID } });
 }
 
 </script>
@@ -121,15 +95,7 @@ const rowClicked = (row) => {
 
   <div class="input-container">
     <div class="searchbox">
-      <label>Show:
-        <select v-model="selectedStatus">
-          <option v-for="status in customerStatuses" :key="status.statusID" :value="status.statusID" >
-            {{ status.description }}
-          </option>
-        </select>Customers
-      </label>
-
-      <label class="search-by-label">Search By:</label> <input v-model="searchTerm" />
+      <label>Search By:</label> <input v-model="searchTerm" />
     </div>
     <RouterLink to="/admin/customer-form">
       <button type="button" class="btn btn-primary">+ Add Customer</button>
@@ -151,15 +117,12 @@ const rowClicked = (row) => {
 
 
 <style scoped>
-#admin-customers {
-  padding: 10px 40px;
-}
 #admin-customers * {
   font-family: "Poppins", sans-serif;
 }
 
 #admin-customers h1 {
-  font-size: 28px;
+  font-size: 27px;
   font-weight: 600;
 }
 
@@ -168,9 +131,6 @@ const rowClicked = (row) => {
   color: #be123c;
   font-size: 18px;
 }
-#admin-customers button {
-  font-size: 16px;
-}
 
 #admin-customer-table {
   margin-top: 14px;
@@ -178,18 +138,8 @@ const rowClicked = (row) => {
 }
 
 .searchbox {
+  
   text-align: left;
-  padding-top: 10px;
-}
-
-label.search-by-label {
-  margin-left: 10px;
-}
-
-select {
-  max-width: max-content;
-  height: 32px;
-  margin-right: 5px;
 }
 
 .searchbox label {

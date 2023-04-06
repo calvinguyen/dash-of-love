@@ -3,7 +3,6 @@ import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
-import Swal from 'sweetalert2';
 import CustomerAPI from '../../services/CustomerAPI';
 
 const router = useRouter();
@@ -44,46 +43,18 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, { customerData }, { $autoDirty: true });
 
-//Check if email already exists
-const checkIfNewCustomer = async (email) => {
-  try {
-    const response = await CustomerAPI.getCustomerByEmail(email.toLowerCase());
-    return response.data;
-  } catch(err) {
-    console.log(err);
-  }
-}
-
 // Form submission
 const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    Swal.fire({
-      icon: 'error',
-      title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Failed </h3>',
-      text: 'Please check your inputs!',
-    });
-    return
-  }
-  //notify user that email already exists
-  let result = await checkIfNewCustomer(customerData.email);
-  if (result) {
-    Swal.fire({
-        icon: 'error',
-        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Failed </h3>',
-        text: 'A customer with this email already exists!',
-      });
+    alert("Form not submitted, please check your inputs.");
     return
   }
   
   CustomerAPI.createCustomer(customerData)
     .then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Customer Success! </h3>',
-        text: 'A new Customer was created!',
-      });
+      alert("Customer has been succesfully added.");
       router.push("customers")
     })
     .catch(err => console.log(err));
@@ -140,7 +111,7 @@ const submitForm = async () => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model.trim="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
+        <input v-model="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
       </div>
 
       <!-- Phone Field -->

@@ -2,10 +2,6 @@
 import { reactive, computed, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
-import emailjs from '@emailjs/browser';
-import Swal from 'sweetalert2';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
 import ReferralAPI from '../services/ReferralAPI';
 import productMenuAPI from '../services/productMenuAPI';
 import CustomerAPI from '../services/CustomerAPI';
@@ -45,6 +41,10 @@ const getFlavors = async () => {
     console.log(err);
   }
 }
+
+// Get today's date to set minimum date input
+const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
+
 
 /* FORM VALIDATION LOGIC */
 const customerData = reactive({
@@ -114,7 +114,7 @@ const checkIfNewCustomer = async (email, custData) => {
 const postOrder = async (data) => {
   try {
     const response = await OrderAPI.createOrder(data);
-    return response.data;
+    console.log(response);
   } catch(err) {
     console.log(err);
   }
@@ -124,47 +124,17 @@ const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    Swal.fire({
-      icon: 'error',
-      title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Failed </h3>',
-      text: 'Please check your inputs!',
-    });
+    alert("Form not submitted, please check your inputs.");
     return
   }
   
   checkIfNewCustomer(customerData.email, customerData)
     .then((res) => postOrder(res))
-    .then((res) => {
-      // Send Order Request to Email
-      let { type } = cakeTypes.value.find(item => item.typeID == selectedCakeType.value.typeID);
-      let { flavor } = flavors.value.find(item => item.typeID == selectedCakeType.value.typeID);
-      let params = {
-        order_date: res.order_date,
-        orderID: res.orderID,
-        first_name: customerData.first_name,
-        last_name: customerData.last_name,
-        email: customerData.email,
-        phone: customerData.phone,
-        desired_date: res.desired_date,
-        type: type,
-        flavor: flavor,
-        cake_details: res.cake_details,
-      };
-      emailjs.send("service_dmhu8pj", "template_3wt4u27", params, "vJVgKmCSgWnkyxBUU")
-        .then(
-          (res) => {console.log('Email send', res.status, res.text)},
-          (err) => {console.log('Failed to send email', err)}
-        )
-    })
     .then(() => {
       resetFormData(customerData);
       resetFormData(orderData);
       resetFormData(selectedCakeType.value);
-      Swal.fire({
-        icon: 'success',
-        title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Received! </h3>',
-        text: "I'll get back to you if your order is accepted, but if you don't hear from me, I didn't accept",
-      });
+      alert("Your request was received, please wait 2-3 days for a response.");
     })
     .catch(err => console.log(err));
 };
@@ -183,7 +153,7 @@ function resetFormData(object) {
 
   <div class="section-title">
     <h2>Custom<span>Order</span></h2>
-    <p>Please allow 3-5 days response time.</p>
+    <p>Please allow 2-3 days response time.</p>
   </div>
 
   <form @submit.prevent="submitForm" class="request-form">
@@ -246,13 +216,7 @@ function resetFormData(object) {
         >
           *{{ error.$message }}
         </span>
-        <VueDatePicker 
-          v-model="orderData.desired_date"
-          model-type="yyyy-MM-dd"
-          :disabled-week-days="[1, 2, 3]" 
-          :enable-time-picker="false" 
-          :min-date="new Date()" 
-        />
+        <input v-model="orderData.desired_date" type="date" class="form-control" id="desiredDate" :min="currentDate">
       </div>
       <!-- Cake Type Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">

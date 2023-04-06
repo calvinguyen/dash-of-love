@@ -4,8 +4,7 @@ import { ref, reactive, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import CustomerAPI from '../../services/CustomerAPI';
-import Swal from 'sweetalert2';
-// import CustomerOrders from './CustomerOrders.vue';
+import CustomerOrders from './CustomerOrders.vue';
 
 const props = defineProps({
   id: String,
@@ -34,13 +33,10 @@ const customerData = reactive({
   phone: "",
   statusID: "",
 });
-// get initial email
-const initialEmail = ref({ email: "" })
+
 const getCustomer = async () => {
   try {
     const response = await CustomerAPI.getCustomerById(route.params.id);
-    initialEmail.value.email = response.data.email;
-
     for (const key in customerData) {
       customerData[key] = response.data[key];
     }
@@ -65,48 +61,17 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { customerData }, { $autoDirty: true });
 
 // Form submission
-
-//Check if email already exists
-const checkIfNewCustomer = async (email) => {
-  try {
-    const response = await CustomerAPI.getCustomerByEmail(email.toLowerCase());
-    return response.data;
-  } catch(err) {
-    console.log(err);
-  }
-}
-
 const handleCustomerUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    Swal.fire({
-      icon: 'error',
-      title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Failed </h3>',
-      text: 'Please check your inputs!',
-    });
+    alert("Form not submitted, please check your inputs.");
     return
-  }
-
-  if (initialEmail.value.email != customerData.email) {
-    let result = await checkIfNewCustomer(customerData.email);
-    if (result) {
-      Swal.fire({
-        icon: 'error',
-        title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Failed </h3>',
-        text: 'A customer with this email already exists!',
-      });
-      return
-    }
   }
 
   CustomerAPI.updateCustomerById(route.params.id, customerData)
     .then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: '<h3 style="font-family: Poppins, sans-serif"> Customer Update Success! </h3>',
-        text: 'Customer changes were saved!',
-      });
+      alert("Customer updated successfully.");
     })
     .catch(err => console.log(err));
 };
@@ -118,8 +83,13 @@ const handleCustomerUpdate = async () => {
 <section id="update-customer">
 <div class="container">
 
-  <form @submit.prevent="handleCustomerUpdate">
+  <div class="section-title d-flex justify-content-between">
+    <button @click="router.go(-1)" class="go-back-btn" type="button">Go Back</button>
     <h2>Update Customer</h2>
+    <div></div>
+  </div>
+
+  <form @submit.prevent="handleCustomerUpdate">
     <div class="row">
       <!-- First Name Field -->
       <div class="col-md-6 form-group">
@@ -133,6 +103,7 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.first_name" type="text" class="form-control" placeholder="First Name" />
       </div>
+
       <!-- Last Name Field -->
       <div class="col-md-6 form-group">
         <label for="lastName" class="form-label">Last Name*</label>
@@ -145,6 +116,7 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.last_name" type="text" class="form-control" id="lastName" placeholder="Last Name">
       </div>
+
       <!-- Email Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="email" class="form-label">Email*</label>
@@ -155,8 +127,9 @@ const handleCustomerUpdate = async () => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model.trim="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
+        <input v-model="customerData.email" type="email" class="form-control" id="email" placeholder="Email" />
       </div>
+
       <!-- Phone Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="phone" class="form-label">Phone*</label>
@@ -169,6 +142,7 @@ const handleCustomerUpdate = async () => {
         </span>
         <input v-model="customerData.phone" type="tel" class="form-control" id="phone" placeholder="Ex: 2220007777">
       </div>
+
       <!-- Status Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="status" class="form-label">Status</label>
@@ -181,7 +155,7 @@ const handleCustomerUpdate = async () => {
         </span>
         <select v-model="customerData.statusID" class="form-select" id="status">
           <!-- <option disabled value="">Please select one</option> -->
-          <option v-for="status in customerStatuses" :key="status.statusID" :value="status.statusID" >
+          <option v-for="status of customerStatuses" :key="status.statusID" :value="status.statusID" >
             {{ status.description }}
           </option>
         </select>
@@ -192,7 +166,7 @@ const handleCustomerUpdate = async () => {
   </form>
 
   <!-- Customer Order History -->
-  <!-- <CustomerOrders :customer-id="route.params.id" /> -->
+  <CustomerOrders :customer-id="route.params.id" />
 
 </div>
 </section>
@@ -204,10 +178,10 @@ const handleCustomerUpdate = async () => {
   font-family: "Poppins", sans-serif;
 }
 
-form h2 {
+.section-title h2 {
   text-align: center;
   color: #262626;
-  /* margin-right: 5rem; */
+  margin-right: 5rem;
 }
 
 #update-customer form {

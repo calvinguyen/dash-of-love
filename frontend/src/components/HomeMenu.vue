@@ -32,7 +32,7 @@ const getFlavorsOfferedByType = (typeID) => {
       :key="cake.typeID"
     >
       <div class="menu-content">
-        <a>{{ cake.type }}</a><span>Starting Price: ${{ cake.price }}+</span>
+        <a>{{ cake.type }}</a><span>Starting Price: ${{ cake.price }}</span>
       </div>
       <div class="menu-ingredients">
         Flavors: {{ getFlavorsOfferedByType(cake.typeID) }}

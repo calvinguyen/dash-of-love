@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import OrderAPI from '../../services/OrderAPI';
 import VueTableLite from 'vue3-table-lite';
@@ -15,27 +15,6 @@ const getAdminOrders = async () => {
   }
 }
 getAdminOrders();
-
-// Get Status Descriptions from Order_Status
-const orderStatuses = ref([{statusID: 0, description: 'All'}]);
-const getOrderStatuses = async () => {
-  try {
-    const response = await OrderAPI.getStatusDescriptions();
-    //orderStatuses.value = response.data;
-    response.data.forEach((item) => orderStatuses.value.push(item));
-  } catch(err) {
-    console.log(err);
-  }
-}
-getOrderStatuses();
-
-// Show 'status' filter
-const selectedStatus = ref(0);
-const filteredStatuses = computed(() => {
-  if (selectedStatus.value == 0) return adminOrders.value;
-  
-  return adminOrders.value.filter((order) => order.statusID == selectedStatus.value);
-})
 
 // TableLite Setup
 const searchTerm = ref("");
@@ -74,6 +53,11 @@ const table = ref({
       width: "10%",
       sortable: true,
     },
+    // {
+    //   label: "Phone",
+    //   field: "phone",
+    //   width: "2%",
+    // },
     {
       label: "Type",
       field: "type",
@@ -83,17 +67,6 @@ const table = ref({
       label: "Flavor",
       field: "flavor",
       width: "6%",
-    },
-    {
-      label: "Final Price",
-      field: "final_price",
-      width: "3%",
-      columnStyles: {"text-align": "right"},
-      display: (row) => {
-        return (
-          row.final_price ? `<span> $${row.final_price} </span>` : ''
-        )
-      }
     },
     {
       label: "Status",
@@ -109,7 +82,7 @@ const table = ref({
     },
   ],
   rows: computed(() => {
-    return filteredStatuses.value.filter(
+    return adminOrders.value.filter(
       (x) =>
         x.order_date.includes(searchTerm.value) ||
         x.first_name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
@@ -144,17 +117,8 @@ const rowClicked = (row) => {
   <h1>Orders</h1>
   <h4>*Click on an Order to update or see details*</h4>
 
-  <div class="searchbox">
-    <label>Show:
-      <select v-model="selectedStatus">
-        <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
-          {{ status.description }}
-        </option>
-      </select>Orders
-    </label>
-
-    <label class="search-by-label">Search By:</label> <input v-model="searchTerm" />
-
+  <div class="searchbox" style="text-align: left">
+    <label>Search By:</label> <input v-model="searchTerm" />
   </div>
   <!-- Admin Order Table -->
   <VueTableLite
@@ -190,24 +154,95 @@ const rowClicked = (row) => {
   font-size: 15px;
 }
 
+.set-table-layout {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+
 .searchbox {
   margin-top: 20px;
-  text-align: left;
-}
-
-label.search-by-label {
-  margin-left: 10px;
-}
-
-select {
-  max-width: max-content;
-  height: 30px;
-  margin-right: 5px;
 }
 
 .searchbox label {
   font-weight: bold;
   margin-right: 5px;
+}
+
+.overlay {
+  position: absolute;
+  width: 83%;
+  height: 75%;
+  background-color: rgba(0, 0, 0, 0.77);
+  z-index: 10;
+  display: grid;
+  place-items: start center;
+}
+
+.modal {
+  max-width: 825px;
+  max-height: 650px;
+  background-color: #e2e8f0;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  
+}
+
+.modal h5 {
+  color: #2563eb;
+  align-self: center;
+  font-weight: bolder;
+}
+.modal select {
+  width: auto;
+  align-self: center;
+}
+
+.modal .order-modal-submit {
+  padding: 10px 20px;
+  font-size: 16px;
+  width: 50%;
+  background-color: green;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
+  align-self: center;
+  border-radius: 20px;
+}
+
+.modal table {
+  margin-top: 10px;
+}
+
+.modal .top-row {
+  display: flex;
+  /* justify-content: center; */
+}
+
+.top-row h5 {
+  margin-left: 330px;
+}
+.top-row button {
+  margin-left: auto;
+}
+
+.modal .order-modal-close {
+  background-color: red;
+  border-radius: 50%;
+  padding: 9px -9px 0px 9px;
+}
+
+.pickup-title {
+  margin-top: 15px;
+}
+
+textarea {
+  min-height: 100px;
 }
 
 </style>

@@ -2,12 +2,11 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, reactive, computed, onBeforeMount } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
+import { required, maxLength } from '@vuelidate/validators';
 import OrderAPI from '../../services/OrderAPI';
 import CustomerAPI from '../../services/CustomerAPI';
 import ReferralAPI from '../../services/ReferralAPI';
 import productMenuAPI from '../../services/productMenuAPI';
-import Swal from 'sweetalert2';
 
 const props = defineProps({
   id: String,
@@ -77,7 +76,7 @@ const getFlavors = async () => {
   }
 }
 // Get today's date to set minimum date input
-// const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
+const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
 
 // order form data
 const formData = reactive({
@@ -87,7 +86,6 @@ const formData = reactive({
   statusID: "",
   desired_date: "",
   pick_up_details: "",
-  final_price: "",
 });
 
 // get order
@@ -107,8 +105,6 @@ const getOrder = async () => {
 };
 
 // Set form validation rules
-const usCurrency = helpers.regex(/^[0-9]\d{0,9}(\.\d{1,2})?%?$/);
-
 const rules = computed(() => {
   return {
     formData: {
@@ -118,9 +114,6 @@ const rules = computed(() => {
       statusID: { required },
       desired_date: { required },
       pick_up_details: { maxLength: maxLength(750) },
-      final_price: { 
-        usCurrency: helpers.withMessage('Value must be a US currency', usCurrency)
-      },
     },
     selectedCakeType: {
       typeID: { required }
@@ -134,20 +127,12 @@ const handleOrderUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
   if (!isValid) {
-    Swal.fire({
-      icon: 'error',
-      title: '<h3 style="font-family: Poppins, sans-serif"> Order Update Failed </h3>',
-      text: 'Please check your inputs!',
-    });
+    alert("Form not submitted, please check your inputs.");
     return
   }
   OrderAPI.updateOrderById(route.params.id, formData)
     .then(() => {
-      Swal.fire({
-      icon: 'success',
-      title: '<h3 style="font-family: Poppins, sans-serif"> Order Update Success! </h3>',
-      text: 'Order changes were saved!',
-    });
+      alert("Order updated successfully.");
     })
     .catch(err => console.log(err));
 };
@@ -160,6 +145,7 @@ onBeforeMount(() => {
     })
     .then(() => getFlavors())
 });
+
 </script>
 
 
@@ -189,9 +175,7 @@ onBeforeMount(() => {
             <td>{{ customer.first_name }}</td>
             <td>{{ customer.last_name }}</td>
             <td>{{ customer.email }}</td>
-            <td>
-              {{ customer.phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') }}
-            </td>
+            <td>{{ customer.phone }}</td>
         </tr>
       </tbody>
     </table>
@@ -236,6 +220,7 @@ onBeforeMount(() => {
           </option>
         </select>
       </div>
+
       <!-- Referral Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="referral" class="form-label">Referral</label>
@@ -253,6 +238,7 @@ onBeforeMount(() => {
           </option>
         </select>
       </div>
+
       <!-- Status Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="status" class="form-label">Status</label>
@@ -265,11 +251,12 @@ onBeforeMount(() => {
         </span>
         <select v-model="formData.statusID" class="form-select" id="status">
           <!-- <option disabled value="">Please select one</option> -->
-          <option v-for="status in orderStatuses" :key="status.statusID" :value="status.statusID" >
+          <option v-for="status of orderStatuses" :key="status.statusID" :value="status.statusID" >
             {{ status.description }}
           </option>
         </select>
       </div>
+
       <!-- Available Date Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
         <label for="desiredDate" class="form-label">Desired Date</label>
@@ -280,53 +267,36 @@ onBeforeMount(() => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate">
+        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate" :min="currentDate">
       </div>
-      <!-- Final Price Field -->
-      <div class="col-lg-4 col-md-6 form-group mt-3 final-price-container">
-        <label for="final_price" class="form-label">Final Price</label>
-        <span 
-          v-for="error of v$.formData.final_price.$errors"
-          :key="error.$uid"
-          class="error-container"
-        >
-          *{{ error.$message }}
-        </span>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">$</span>
-          </div>
-          <input v-model.number="formData.final_price" type="number" step="0.01" class="form-control" id="final_price">
-        </div>
-      </div>
-
     </div>
 
     <div class="row">
-      <!-- Design Description Field -->
-      <div class="form-group col-md-6">
-        <label for="cake_details" class="form-label">Cake Design Details:</label>
-        <span 
-          v-for="error of v$.formData.cake_details.$errors"
-          :key="error.$uid"
-          class="error-container"
-        >
-          *{{ error.$message }}
-        </span>
-        <textarea v-model="formData.cake_details" class="form-control" id="cake_details" rows="5" ></textarea>
-      </div>
-      <!-- Pick Up Details Field -->
-      <div class="form-group col-md-6">
-        <label for="pick_up_details" class="form-label">Pick Up Details:</label>
-        <span 
-          v-for="error of v$.formData.pick_up_details.$errors"
-          :key="error.$uid"
-          class="error-container"
-        >
-          *{{ error.$message }}
-        </span>
-        <textarea v-model="formData.pick_up_details" class="form-control" id="pick_up_details" rows="5" ></textarea>
-      </div>
+    <!-- Design Description Field -->
+    <div class="form-group col-md-6">
+      <label for="details" class="form-label">Cake Design Details:</label>
+      <span 
+        v-for="error of v$.formData.cake_details.$errors"
+        :key="error.$uid"
+        class="error-container"
+      >
+        *{{ error.$message }}
+      </span>
+      <textarea v-model="formData.cake_details" class="form-control" id="details" rows="5" ></textarea>
+    </div>
+
+    <!-- Pick Up Details Field -->
+    <div class="form-group col-md-6">
+      <label for="details" class="form-label">Pick Up Details:</label>
+      <span 
+        v-for="error of v$.formData.pick_up_details.$errors"
+        :key="error.$uid"
+        class="error-container"
+      >
+        *{{ error.$message }}
+      </span>
+      <textarea v-model="formData.pick_up_details" class="form-control" id="details" rows="5" ></textarea>
+    </div>
     </div>
 
     <div class="text-center"><button type="submit">Save Changes</button></div>
@@ -414,12 +384,5 @@ form label {
   font-weight: 600;
 }
 
-.final-price-container input {
-  text-align: right;
-  max-width: 150px;
-}
-.final-price-container span {
-  height: 44px;
-}
 
 </style>

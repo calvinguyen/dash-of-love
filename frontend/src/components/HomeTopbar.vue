@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
 <section id="topbar" class="d-flex align-items-center fixed-top" :class="{ 'topbar-scrolled': scrolledNav }">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-center justify-content-lg-start">
       <i class="bi bi-mail d-flex align-items-center"><span>dashoflovetx@gmail.com</span></i>
-      <i class="bi bi-clock ms-4 d-none d-lg-flex align-items-center"><span>Thurs-Sun</span></i>
+      <i class="bi bi-clock ms-4 d-none d-lg-flex align-items-center"><span>Thurs-Sat: 12:00 PM - 4:00 PM</span></i>
     </div>
 </section>
 
@@ -162,7 +162,6 @@ onBeforeUnmount(() => {
 
 .navbar {
     padding: 0;
-    box-shadow: none;
 }
 .navbar ul {
     margin: 0;
