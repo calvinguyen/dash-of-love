@@ -19,12 +19,10 @@ import WeekOrders from './dashboard/WeekOrders.vue';
         <h5>Today's Orders</h5>
         <div class="row row-cols-1">
           <div class="col">
-            <!-- !TODO: Make Dynamic -->
             <OrdersReady />
             <hr />
           </div>
           <div class="col">
-            <!-- !TODO: Make Dynamic -->
             <OrdersNew />
             <hr />
           </div>
@@ -45,7 +43,6 @@ import WeekOrders from './dashboard/WeekOrders.vue';
 
     <div class="col border-helper-right">
       <h5 class="mb-2">This Week's Orders</h5>
-      <!-- !TODO: Make Dynamic -->
       <WeekOrders />
     </div>
 
