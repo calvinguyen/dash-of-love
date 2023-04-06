@@ -158,10 +158,33 @@ export async function getCustomerOrders(customerID) {
 
 export async function getOrdersReadyToday(currentDate) {
     const sql = `
-        select * from order_view
+        SELECT orderID, order_date, customerID,
+        concat(first_name, ' ', last_name) as 'Customer', email, phone,
+        \`type\`, flavor, final_price, cake_details, statusID, \`description\`,
+        desired_date FROM Teqcentric.order_view
         where statusID = 8
         and desired_date = ?
     `;
+    const [results] = await db.query(sql, [currentDate]);
+
+    results.forEach((item) => {
+        item.order_date = item.order_date.toLocaleDateString('fr-CA');
+        item.desired_date = item.desired_date.toLocaleDateString('fr-CA');
+    });
+  
+    return results
+}
+
+export async function getOrdersNewToday(currentDate) {
+    const sql = `
+        SELECT orderID, order_date, customerID,
+        concat(first_name, ' ', last_name) as 'Customer', email, phone,
+        \`type\`, flavor, final_price, cake_details, statusID, \`description\`,
+        desired_date FROM Teqcentric.order_view
+        where statusID = 3
+        and date_format(order_date, "%Y-%m-%d") = ?
+    `;
+
     const [results] = await db.query(sql, [currentDate]);
 
     results.forEach((item) => {

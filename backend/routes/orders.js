@@ -3,7 +3,7 @@ import express from "express"
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
-    getCustomerOrders, getFullOrderById, getOrdersReadyToday
+    getCustomerOrders, getFullOrderById, getOrdersReadyToday, getOrdersNewToday
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -76,14 +76,14 @@ router.get("/admin/order", async (req, res) => {
     res.json(data);
 })
 
-// Get all rows from orders 
+// Get all rows from order_status
 router.get("/status/descriptions", async (req, res) => {
     const data = await getOrderStatusDescriptions();
 
     res.json(data);
 })
 
-// Get Order View for Admin Order Table 
+// Get customer order history
 router.get("/customer/order-history/:id", async (req, res) => {
     const customerId = req.params.id;
     const data = await getCustomerOrders(customerId);
@@ -91,10 +91,18 @@ router.get("/customer/order-history/:id", async (req, res) => {
     res.json(data);
 })
 
-// Get Order View for Admin Order Table 
+// Get ready orders today
 router.get("/admin/order/ready/:date", async (req, res) => {
     const today = req.params.date;
     const data = await getOrdersReadyToday(today);
+
+    res.json(data);
+})
+
+// Get new orders today
+router.get("/admin/order/new/:date", async (req, res) => {
+    const today = req.params.date;
+    const data = await getOrdersNewToday(today);
 
     res.json(data);
 })

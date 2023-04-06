@@ -25,4 +25,10 @@ export default {
     getCustomerOrders(id) {
         return API().get(`/orders/customer/order-history/${id}`);
     },
+    getOrdersReadyToday(date) {
+        return API().get(`/orders/admin/order/ready/${date}`);
+    },
+    getOrdersNewToday(date) {
+        return API().get(`/orders/admin/order/new/${date}`);
+    },
 }
