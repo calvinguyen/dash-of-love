@@ -90,4 +90,4 @@ export async function getTypesNotAssigned(id) {
     `;
     const [rows] = await db.query(sql, [id]);
     return rows;
-  }
+}

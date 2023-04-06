@@ -28,9 +28,12 @@ const typeData = reactive({
   statusID: "",
 });
 
+const initialType = ref({ type: "" });
 const getType = async () => {
   try {
     const response = await cakeTypeAPI.getTypeById(props.id);
+    initialType.value.type = response.data.type;
+
     for (const key in typeData) {
       typeData[key] = response.data[key];
     }
@@ -63,6 +66,18 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { typeData }, { $autoDirty: true });
 
 // Form submission
+
+//check if type already exists
+const checkIfNewType = async (type) => {
+  try {
+    const response = await cakeTypeAPI.getCakeTypes();
+    let result = response.data.find(item => item.type.toLowerCase().trim() == type.toLowerCase().trim());
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 const handleTypeUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
@@ -75,6 +90,18 @@ const handleTypeUpdate = async () => {
     return
   }
 
+  if (initialType.value.type.toLowerCase().trim() != typeData.type.toLowerCase().trim()) {
+    let result = await checkIfNewType(typeData.type);
+    if (result) {
+      Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Cake Type Update Failed </h3>',
+        text: 'A Cake Type with this name already exists!',
+      });
+      return
+    }
+  }
+  
   cakeTypeAPI.updateTypeById(props.id, typeData)
     .then(() => {
       Swal.fire({

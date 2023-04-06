@@ -35,7 +35,7 @@ const customerData = reactive({
   statusID: "",
 });
 // get initial email
-const initialEmail = ref({ email: "" })
+const initialEmail = ref({ email: "" });
 const getCustomer = async () => {
   try {
     const response = await CustomerAPI.getCustomerById(route.params.id);

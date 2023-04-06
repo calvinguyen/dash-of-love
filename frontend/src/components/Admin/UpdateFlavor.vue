@@ -28,9 +28,12 @@ const flavorData = reactive({
   statusID: "",
 });
 
+const initialFlavor = ref({ flavor: "" });
 const getFlavor = async () => {
   try {
     const response = await FlavorAPI.getFlavorById(props.id);
+    initialFlavor.value.flavor = response.data.flavor;
+
     for (const key in flavorData) {
       flavorData[key] = response.data[key];
     }
@@ -58,6 +61,18 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { flavorData }, { $autoDirty: true });
 
 // Form submission
+
+//check if flavor already exists
+const checkIfNewFlavor = async (flavor) => {
+  try {
+    const response = await FlavorAPI.getFlavors();
+    let result = response.data.find(item => item.flavor.toLowerCase().trim() == flavor.toLowerCase().trim());
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 const handleFlavorUpdate = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
@@ -68,6 +83,18 @@ const handleFlavorUpdate = async () => {
       text: 'Please check your inputs!',
     });
     return
+  }
+
+  if (initialFlavor.value.flavor.toLowerCase().trim() != flavorData.flavor.toLowerCase().trim()) {
+    let result = await checkIfNewFlavor(flavorData.flavor);
+    if (result) {
+      Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Flavor Update Failed </h3>',
+        text: 'A flavor with this name already exists!',
+      });
+      return
+    }
   }
 
   FlavorAPI.updateFlavorById(props.id, flavorData)

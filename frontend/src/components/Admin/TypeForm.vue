@@ -50,6 +50,18 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, { typeData }, { $autoDirty: true });
 
 // Form submission
+
+//check if type already exists
+const checkIfNewType = async (type) => {
+  try {
+    const response = await cakeTypeAPI.getCakeTypes();
+    let result = response.data.find(item => item.type.toLowerCase().trim() == type.toLowerCase().trim());
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
@@ -58,6 +70,17 @@ const submitForm = async () => {
       icon: 'error',
       title: '<h3 style="font-family: Poppins, sans-serif"> Add New Cake Type Failed </h3>',
       text: 'Please check your inputs!',
+    });
+    return
+  }
+
+  //notify user that type already exists
+  let result = await checkIfNewType(typeData.type);
+  if (result) {
+    Swal.fire({
+      icon: 'error',
+      title: '<h3 style="font-family: Poppins, sans-serif"> Add New Cake Type Failed </h3>',
+      text: 'A Cake Type with this name already exists!',
     });
     return
   }

@@ -44,6 +44,17 @@ const rules = computed(() => {
 });
 const v$ = useVuelidate(rules, { flavorData }, { $autoDirty: true });
 
+//check if flavor already exists
+const checkIfNewFlavor = async (flavor) => {
+  try {
+    const response = await FlavorAPI.getFlavors();
+    let result = response.data.find(item => item.flavor.toLowerCase().trim() == flavor.toLowerCase().trim());
+    return result;
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 // Form submission
 const submitForm = async () => {
   const isValid = await v$.value.$validate();
@@ -56,7 +67,18 @@ const submitForm = async () => {
     });
     return
   }
-  
+
+  //notify user that flavor already exists
+  let result = await checkIfNewFlavor(flavorData.flavor);
+  if (result) {
+    Swal.fire({
+        icon: 'error',
+        title: '<h3 style="font-family: Poppins, sans-serif"> Add New Flavor Failed </h3>',
+        text: 'A flavor with this name already exists!',
+    });
+    return
+  }
+
   FlavorAPI.createFlavor(flavorData)
     .then((res) => {
       Swal.fire({
