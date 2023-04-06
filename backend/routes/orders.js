@@ -3,7 +3,7 @@ import express from "express"
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
-    getCustomerOrders, getFullOrderById
+    getCustomerOrders, getFullOrderById, getOrdersReadyToday
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -76,8 +76,6 @@ router.get("/admin/order", async (req, res) => {
     res.json(data);
 })
 
-export default router
-
 // Get all rows from orders 
 router.get("/status/descriptions", async (req, res) => {
     const data = await getOrderStatusDescriptions();
@@ -92,3 +90,13 @@ router.get("/customer/order-history/:id", async (req, res) => {
 
     res.json(data);
 })
+
+// Get Order View for Admin Order Table 
+router.get("/admin/order/ready/:date", async (req, res) => {
+    const today = req.params.date;
+    const data = await getOrdersReadyToday(today);
+
+    res.json(data);
+})
+
+export default router

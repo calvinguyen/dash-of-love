@@ -155,3 +155,19 @@ export async function getCustomerOrders(customerID) {
   
     return results
 }
+
+export async function getOrdersReadyToday(currentDate) {
+    const sql = `
+        select * from order_view
+        where statusID = 8
+        and desired_date = ?
+    `;
+    const [results] = await db.query(sql, [currentDate]);
+
+    results.forEach((item) => {
+        item.order_date = item.order_date.toLocaleDateString('fr-CA');
+        item.desired_date = item.desired_date.toLocaleDateString('fr-CA');
+    });
+  
+    return results
+}
