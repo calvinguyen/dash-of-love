@@ -3,7 +3,8 @@ import express from "express"
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
-    getCustomerOrders, getFullOrderById, getOrdersReadyToday, getOrdersNewToday
+    getCustomerOrders, getFullOrderById, getOrdersReadyToday, getOrdersNewToday,
+    getOrdersThisWeek
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -103,6 +104,13 @@ router.get("/admin/order/ready/:date", async (req, res) => {
 router.get("/admin/order/new/:date", async (req, res) => {
     const today = req.params.date;
     const data = await getOrdersNewToday(today);
+
+    res.json(data);
+})
+
+// Get orders this week
+router.get("/admin/order/week/", async (req, res) => {
+    const data = await getOrdersThisWeek();
 
     res.json(data);
 })

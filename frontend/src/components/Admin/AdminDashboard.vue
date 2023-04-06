@@ -44,7 +44,7 @@ import WeekOrders from './dashboard/WeekOrders.vue';
   <div class="row">
 
     <div class="col border-helper-right">
-      <h5 class="mb-4">This Week's Orders</h5>
+      <h5 class="mb-2">This Week's Orders</h5>
       <!-- !TODO: Make Dynamic -->
       <WeekOrders />
     </div>

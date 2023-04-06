@@ -194,3 +194,18 @@ export async function getOrdersNewToday(currentDate) {
   
     return results
 }
+
+export async function getOrdersThisWeek() {
+    const sql = `
+        select *, concat(first_name, ' ', last_name) as 'Customer' from order_view
+        where YEARWEEK(order_date, 1)=YEARWEEK(NOW(), 1);
+    `;
+    const [results] = await db.query(sql);
+
+    results.forEach((item) => {
+        item.order_date = item.order_date.toLocaleDateString('fr-CA');
+        item.desired_date = item.desired_date.toLocaleDateString('fr-CA');
+    });
+  
+    return results
+}

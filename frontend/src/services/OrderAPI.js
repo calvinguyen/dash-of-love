@@ -31,4 +31,7 @@ export default {
     getOrdersNewToday(date) {
         return API().get(`/orders/admin/order/new/${date}`);
     },
+    getOrdersThisWeek() {
+        return API().get(`/orders/admin/order/week`);
+    },
 }

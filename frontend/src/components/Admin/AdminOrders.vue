@@ -210,8 +210,4 @@ select {
   margin-right: 5px;
 }
 
-/* textarea {
-  min-height: 100px;
-} */
-
 </style>
