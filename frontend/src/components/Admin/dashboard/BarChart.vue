@@ -29,12 +29,11 @@ const chartOptions = {
   scales: {
     y: { 
       suggestedMin: 0,
-      suggestedMax: 20
-    }
-  },
-  plugins: {
-    legend: {
-      // align: 'start'
+      suggestedMax: 20,
+      title: {
+        display: true,
+        text: 'Total Orders'
+      }
     }
   }
 }
