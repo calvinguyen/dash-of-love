@@ -10,4 +10,13 @@ export default {
     getReferralOrders() {
         return API().get('/reports/referral/');
     },
+    getOrderStatuses() {
+        return API().get('/reports/monthly-order-status/');
+    },
+    getCompletedOrders() {
+        return API().get('/reports/completed-orders/');
+    },
+    getOrderPickUps() {
+        return API().get('/reports/pickup-orders/');
+    },
 }

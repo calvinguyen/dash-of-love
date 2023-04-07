@@ -25,3 +25,27 @@ export async function getReferralsFromOrders() {
 
   return results
 }
+
+// Get count of orders by month
+export async function getMonthlyOrderStatuses() {
+    const sql = "select * from month_order_status_view";
+    const [results] = await db.query(sql);
+  
+    return results
+}
+
+// Get completed orders
+export async function getCompletedOrders() {
+    const sql = "select * from completed_order_view";
+    const [results] = await db.query(sql);
+  
+    return results
+}
+
+
+export async function getOrderPickUps() {
+    const sql = "select * from order_pickup_view";
+    const [results] = await db.query(sql);
+  
+    return results
+}

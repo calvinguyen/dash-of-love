@@ -7,11 +7,7 @@ import {
   MDBTabPane,
 } from 'mdb-vue-ui-kit';
 import { ref } from 'vue';
-import { RouterLink, useRouter, RouterView } from 'vue-router';
-import VueTableLite from 'vue3-table-lite';
 import productMenuAPI from '../../services/productMenuAPI';
-import FlavorAPI from '../../services/FlavorAPI';
-
 import HomeMenu from '../HomeMenu.vue';
 import MenuTypes from './MenuTypes.vue';
 import MenuFlavors from './MenuFlavors.vue';
@@ -73,8 +69,6 @@ const activeTabId = ref('menu');
     </MDBTabContent>
 
   </MDBTabs>
-
-  <!-- RouterView (Type or Flavor Component) -->
 
 </section>
 </template>
