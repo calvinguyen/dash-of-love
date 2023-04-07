@@ -280,7 +280,7 @@ onBeforeMount(() => {
         >
           *{{ error.$message }}
         </span>
-        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate">
+        <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate" :min="order.order_date">
       </div>
       <!-- Final Price Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3 final-price-container">
