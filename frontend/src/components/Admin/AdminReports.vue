@@ -22,7 +22,7 @@ const activeTabId = ref('monthly-orders');
 
 <template>
 <section id="admin-reports">
-  <h1>Reports</h1>
+  <!-- <h1>Reports</h1> -->
 
   <MDBTabs v-model="activeTabId">
     <!-- Tabs navs -->
