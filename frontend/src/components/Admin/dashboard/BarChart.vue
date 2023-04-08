@@ -60,12 +60,11 @@ const getChartData = async (year) => {
 
       if (thisYearRow) {
         chartData.value.datasets[0].data.push(thisYearRow.Order_Count);
-      } else if (lastYearRow) {
+      } else chartData.value.datasets[0].data.push(0);
+      
+      if (lastYearRow) {
         chartData.value.datasets[1].data.push(lastYearRow.Order_Count);
-      } else {
-        chartData.value.datasets[0].data.push(0);
-        chartData.value.datasets[1].data.push(0);
-      }
+      } else chartData.value.datasets[1].data.push(0);
     });
 
     loaded.value = true;
