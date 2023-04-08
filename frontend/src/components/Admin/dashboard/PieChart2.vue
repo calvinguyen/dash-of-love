@@ -64,7 +64,7 @@ getChartData();
 
 
 <template>
-<div class="pie-container" id="mychart">
+<div class="pie-container2" id="mychart">
   <Pie id="piechart" v-if="loaded" :data="chartData" :options="chartOptions"  />
 </div>
 
@@ -72,8 +72,8 @@ getChartData();
 
 
 <style scoped>
-.pie-container {
-  width: 80%;
-  margin: 0 auto;
+.pie-container2 {
+  width: 500px;
+  
 }
 </style>

@@ -1,9 +1,23 @@
 <script setup>
+import PieChart from '../dashboard/PieChart2.vue';
 import { ref } from 'vue';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import ReportAPI from '../../../services/ReportAPI';
 
+
+// Download chart report Function converts canvas data into image URL -------------------------------
+function downloadchart(){
+const imageLink = document.createElement('a');
+imageLink.download = 'canvas.png';
+imageLink.href = piechart.toDataURL('image/png', 1);
+// window.open(imagelink)
+// document.write('<img src=" '+imageLink+' "/>')
+console.log(imageLink.href);
+imageLink.click();
+}
+
+// Download table reprot ---------------------------------------------------------------------
 const report = ref([]);
 const getReport = async () => {
   try {
@@ -17,19 +31,66 @@ getReport();
 
 function generateReport() {
   const doc = new jsPDF();
-  autoTable(doc, { html: '#report-table' });
+  autoTable(doc, { 
+    
+      startY: 50,
+      html: '#report-table2',
+
+
+      didDrawPage: function (data) {
+
+        // Header
+
+        doc.setFontSize(20);
+        doc.setTextColor(40);
+        doc.text("Referral Source Report", data.settings.margin.left, 22);
+
+
+        // data before table
+        doc.setFontSize(10)
+        doc.text("This report shows clients and their 'referral source' whether it be instagram or an outside source.", data.settings.margin.left, 30);
+        doc.text("This makes it possible to quantify how many clients are being reached outside of instagram.", data.settings.margin.left, 36);
+        doc.text("Assigned Objective: Potential audience reached is increased by 50% ", data.settings.margin.left, 40);
+        doc.text("& Client use of social media for information is reduced by 90%", data.settings.margin.left, 46);
+
+        // data after table
+
+
+
+        // Footer
+        var str = "Page " + doc.internal.getNumberOfPages();
+
+        doc.setFontSize(10);
+
+        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+        var pageSize = doc.internal.pageSize;
+        var pageHeight = pageSize.height
+          ? pageSize.height
+          : pageSize.getHeight();
+        doc.text(str, data.settings.margin.left, pageHeight - 10);
+      },
+
+    }
+
+  );
 
   doc.save('report.pdf');
 }
+
 
 </script>
 
 
 <template>
+  <h1> Referral Source Report </h1>
+  <p>This report shows clients and their "referral source" whether it be instagram or an outside source.
+    This makes it possible to quantify how many clients are being reached outside of instagram.</p>
+  <p>Assigned Objective: Potential audience reached is increased by 50% & Client use of social media for information is
+    reduced by 90% </p>
+  
+    <!-- TABLE  ----------------------------------------------->
 
-
-  <button @click="generateReport" type="button" class="btn btn-primary btn-lg mb-4">Save Report</button>
-  <table id="report-table" class="table table-sm table-striped table-hover">
+   <table id="report-table2" class="table table-sm table-striped table-hover">
     <thead class="table-primary">
       <tr>
         <th>Referral Source</th>
@@ -44,16 +105,31 @@ function generateReport() {
     </tbody>
   </table>
 
-</template>
+  <!-- Table Button----------------->
+  <button @click="generateReport" type="button" class="btn btn-primary btn-lg mb-4">Download Report</button>
 
+
+
+  <!-- CHART --------------------------->  
+    
+      <PieChart id="myChart" style="display:inline-block"/> 
+    
+    
+    <canvas ref="piechart" width="5" height="5"></canvas>
+    
+ <!---CHART Button----------------------->
+    <button @click="downloadchart()" type="button"  class="btn btn-primary btn-lg mb-4">Download Chart </button>
+    
+  
+</template>
 
 <style scoped>
 * {
   font-family: 'Poppins', sans-serif;
 }
 
-#report-table {
-  max-width: 600px;
+#report-table2 {
+  max-width: 700px;
+  text-align: center; 
 }
-
 </style>

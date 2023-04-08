@@ -102,7 +102,7 @@ watch(initialYear, async (newYear, oldYear) => {
     />
   </div>
   
-  <Bar v-if="loaded" :data="chartData" :options="chartOptions" />
+  <Bar id="barchart" v-if="loaded" :data="chartData" :options="chartOptions" />
 
 </template>
 
