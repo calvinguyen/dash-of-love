@@ -10,6 +10,8 @@ import { ref } from 'vue';
 import MonthlyOrdersReport from './reports/MonthlyOrdersReport.vue';
 import ReferenceReport from './reports/ReferenceReport.vue';
 import OrderStatusReport from './reports/OrderStatusReport.vue';
+import CompletedOrdersReport from './reports/CompletedOrdersReport.vue';
+import OrderPickupsReport from './reports/OrderPickupsReport.vue';
 
 
 
@@ -27,7 +29,9 @@ const activeTabId = ref('monthly-orders');
     <MDBTabNav justify tabsClasses="mb-3 tab-nav">
       <MDBTabItem tabId="monthly-orders" href="monthly-orders"><span class="menu-tab"> Monthly Orders </span></MDBTabItem>
       <MDBTabItem tabId="referral-count" href="referral-count"><span class="menu-tab"> References </span></MDBTabItem>
+      <MDBTabItem tabId="completed-orders" href="completed-orders"><span class="menu-tab"> Completed Orders </span></MDBTabItem>
       <MDBTabItem tabId="order-status" href="order-status"><span class="menu-tab"> Order Statuses </span></MDBTabItem>
+      <MDBTabItem tabId="order-pickups" href="order-pickups"><span class="menu-tab"> Order Pickups </span></MDBTabItem>
     </MDBTabNav>
     <!-- Tabs content -->
     <MDBTabContent>
@@ -40,8 +44,16 @@ const activeTabId = ref('monthly-orders');
         <ReferenceReport />
       </MDBTabPane>
 
+      <MDBTabPane class="tab-container" tabId="completed-orders">
+        <CompletedOrdersReport />
+      </MDBTabPane>
+
       <MDBTabPane class="tab-container" tabId="order-status">
         <OrderStatusReport />
+      </MDBTabPane>
+
+      <MDBTabPane class="tab-container" tabId="order-pickups">
+        <OrderPickupsReport />
       </MDBTabPane>
 
     </MDBTabContent>
