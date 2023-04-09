@@ -31,12 +31,12 @@ export async function getCustomerByEmail(email) {
 }
 
 // Create a customer
-export async function createCustomer(first_name, last_name, email, phone, status) {
+export async function createCustomer(first_name, last_name, email, phone, status, address, country, state, city, zip) {
     const sql = `
-      insert into Customer (first_name, last_name, email, phone, statusID)
-      values (?, ?, ?, ?, ?)
+      insert into Customer (first_name, last_name, email, phone, statusID, address, country, state, city, zip)
+      values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const [result] = await db.query(sql, [first_name, last_name, email, phone, status]);
+    const [result] = await db.query(sql, [first_name, last_name, email, phone, status, address, country, state, city, zip]);
     const id = result.insertId;
   
     return getCustomerById(id);

@@ -36,8 +36,15 @@ router.post("/", async (req, res) => {
     const email = req.body.email.toLowerCase();
     const phone = req.body.phone;
     const statusID = req.body.statusID ? req.body.statusID : 3;
+    const address = req.body.address;
+    const country = req.body.country;
+    const state = req.body.state;
+    const city = req.body.city;
+    const zip = req.body.zip;
     
-    const data = await createCustomer(first_name, last_name, email, phone, statusID);
+    const data = await createCustomer(
+        first_name, last_name, email, phone, statusID, address, country, state, city, zip
+    );
     res.json(data);
 })
 
