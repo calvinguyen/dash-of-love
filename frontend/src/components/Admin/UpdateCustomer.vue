@@ -6,7 +6,6 @@ import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidat
 import CustomerAPI from '../../services/CustomerAPI';
 import Swal from 'sweetalert2';
 import PublicAPI from '../../services/PublicAPI';
-// import CustomerOrders from './CustomerOrders.vue';
 
 const props = defineProps({
   id: String,
@@ -275,9 +274,6 @@ const handleCustomerUpdate = async () => {
 
     <div class="text-center"><button type="submit">Save Changes</button></div>
   </form>
-
-  <!-- Customer Order History -->
-  <!-- <CustomerOrders :customer-id="route.params.id" /> -->
 
 </div>
 </section>
