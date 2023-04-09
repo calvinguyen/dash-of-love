@@ -106,7 +106,7 @@ const formData = reactive({
 });
 
 // get order
-const order = ref({ order_date: "" });
+const order = ref({ order_date: "", image: "" });
 const getOrder = async () => {
   try {
     const response = await OrderAPI.getFullOrderDetailsById(route.params.id);
@@ -369,6 +369,12 @@ onBeforeMount(() => {
     <div class="text-center"><button type="submit">Save Changes</button></div>
   </form>
 
+  <!-- Image COntainer -->
+  <div class="image-container mt-4">
+    <h5>Inspiration Photo</h5>
+    <img :src="`/upload/${order.image}`" alt="No Inspo Pic">
+  </div>
+
 </div>
 </section>
 </template>
@@ -457,6 +463,17 @@ form label {
 }
 .final-price-container span {
   height: 44px;
+}
+
+.image-container {
+  max-width: fit-content;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+.image-container img {
+  max-height: 350px;
 }
 
 </style>

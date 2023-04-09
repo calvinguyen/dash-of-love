@@ -76,6 +76,7 @@ const orderData = reactive({
   referralID: "",
   cake_details: "",
   desired_date: "",
+  image: "",
 });
 
 // Set form validation rules
@@ -141,6 +142,19 @@ const postOrder = async (data) => {
   }
 }
 
+const formFile = ref(null);
+const upload = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("file", formFile.value);
+    const res = await OrderAPI.uploadImage(formData);
+
+    return res.data;
+  } catch(err) {
+    console.error(err);
+  }
+}
+
 const submitForm = async () => {
   const isValid = await v$.value.$validate();
   //notify user form is invalid
@@ -152,6 +166,8 @@ const submitForm = async () => {
     });
     return
   }
+
+  if (formFile.value) orderData.image = await upload();
   
   checkIfNewCustomer(customerData.email, customerData)
     .then((res) => postOrder(res))
@@ -390,7 +406,20 @@ function resetFormData(object) {
         </span>
         <input v-model="customerData.city" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
       </div>
+    </div>
 
+    <!-- Image Upload field -->
+    <div class="form-group mt-3">
+      <label for="file" class="form-label">Upload a Inspiration Photo</label>
+      <input 
+        @change="$event => formFile = $event.target.files[0]" 
+        class="form-control" 
+        type="file" 
+        name="file" 
+        id="file"
+        accept="image/*,.pdf"
+      >
+      <!-- <button @click="upload" type="button">Test image upload</button> -->
     </div>
 
     <!-- Design Description Field -->
@@ -415,7 +444,6 @@ function resetFormData(object) {
 
 
 <style scoped>
-/* @import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"; */
 @import "../assets/css/home.css";
 
 .custom-order .request-form {
@@ -427,6 +455,10 @@ function resetFormData(object) {
 
 .custom-order .request-form .form-group {
   padding-bottom: 8px;
+}
+
+form input[type='file'] {
+  max-width: max-content;
 }
 
 .custom-order .request-form input,

@@ -37,4 +37,7 @@ export default {
     getPaymentTypes() {
         return API().get('/orders/payment/types');
     },
+    uploadImage(data) {
+        return API().post('/upload/', data);
+    },
 }
