@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import ReportAPI from '../../../services/ReportAPI';
+import BarChart from '../dashboard/BarChart.vue';
 
 const report = ref([]);
 const getReport = async () => {
@@ -38,6 +39,8 @@ function generateReport() {
       doc.text("& Potential audience reached is increased by 50%", data.settings.margin.left, 40);
       doc.text("Previous Monthly Order Average: 120", data.settings.margin.left, 46);
       // data after table
+      var img = barchart.toDataURL('image/png', 1);
+      doc.addImage(img, 'png', data.settings.margin.left, 100, 170,100);
       // Footer
       var str = "Page " + doc.internal.getNumberOfPages();
       doc.setFontSize(10);
@@ -71,7 +74,7 @@ function generateReport() {
   </p>
   <p>Previous Monthly Order Average: 120</p>
 
-  <table id="report-table" class="table table-sm table-striped table-hover">
+  <table id="report-table" class="table table-sm table-striped table-hover mb-5">
     <thead class="table-primary">
       <tr>
         <th style="width:300px">Month</th>
@@ -89,6 +92,9 @@ function generateReport() {
       </tr>
     </tbody>
   </table>
+
+  <BarChart :display="true" />
+  <canvas ref="barchart"></canvas>
 
 </section>
 </template>

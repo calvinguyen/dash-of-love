@@ -7,6 +7,10 @@ import {
 import VueDatePicker from '@vuepic/vue-datepicker';
 import ReportAPI from '../../../services/ReportAPI';
 
+const props = defineProps({
+  display: Boolean,
+});
+
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const chartData = ref({
@@ -89,7 +93,7 @@ watch(initialYear, async (newYear, oldYear) => {
 
 
 <template>
-  <div class="select-container">
+  <div :class="{'show': props.display}" class="select-container">
     <label>Select Year:</label>
     <VueDatePicker 
       class="year-input" 
@@ -101,7 +105,7 @@ watch(initialYear, async (newYear, oldYear) => {
     />
   </div>
   
-  <Bar v-if="loaded" :data="chartData" :options="chartOptions" />
+  <Bar id="barchart" v-if="loaded" :data="chartData" :options="chartOptions" />
 
 </template>
 
@@ -112,6 +116,11 @@ watch(initialYear, async (newYear, oldYear) => {
   justify-content: flex-start;
   align-items: center;
 }
+
+.show {
+  display: none;
+}
+
 .select-container label {
   margin-right: 10px;
   font-size: 16px;

@@ -5,7 +5,6 @@ import {
   Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale 
 } from 'chart.js';
 import ReportAPI from '../../../services/ReportAPI';
-// import ReferralAPI from '../../../services/ReferralAPI';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 
@@ -33,17 +32,6 @@ const chartOptions = {
 
 const loaded = ref(false);
 
-/* const getChartLabels = async () => {
-  try {
-    const response = await ReferralAPI.getReferrals();
-    chartData.value.labels = response.data.map(item => item.type);
-    // loaded.value = true;
-  } catch(err) {
-    console.error(err);
-  }
-}
-getChartLabels(); */
-
 const getChartData = async () => {
   try {
     loaded.value = false;
@@ -65,7 +53,7 @@ getChartData();
 
 <template>
 <div class="pie-container">
-  <Pie v-if="loaded" :data="chartData" :options="chartOptions" />
+  <Pie id="piechart" v-if="loaded" :data="chartData" :options="chartOptions" />
 </div>
 </template>
 

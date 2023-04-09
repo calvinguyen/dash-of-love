@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import ReportAPI from '../../../services/ReportAPI';
+import PieChart from '../dashboard/PieChart.vue';
 
 const report = ref([]);
 const getReport = async () => {
@@ -32,6 +33,8 @@ function generateReport() {
       doc.text("Assigned Objective: Potential audience reached is increased by 50% ", data.settings.margin.left, 40);
       doc.text("& Client use of social media for information is reduced by 90%", data.settings.margin.left, 46);
       // data after table
+      var img = piechart.toDataURL('image/png', 1);
+      doc.addImage(img, 'png', data.settings.margin.left, 120, 100,100);
       // Footer
       var str = "Page " + doc.internal.getNumberOfPages();
       doc.setFontSize(10);
@@ -67,21 +70,34 @@ function generateReport() {
     for information is reduced by 90%.
   </p>
 
-  <table id="report-table2" class="table table-sm table-striped table-hover">
-    <thead class="table-primary">
-      <tr>
-        <th>Referral Source</th>
-        <th>Total Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="referral in report" :key="referral.referralID">
-        <th>{{ referral.referralID }}</th>
-        <td>{{ referral.referralID_count }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container mt-4">
+    <div class="row">
 
+      <div class="col-6">
+        <table id="report-table2" class="table table-sm table-striped table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th>Referral Source</th>
+              <th>Total Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="referral in report" :key="referral.referralID">
+              <th>{{ referral.referralID }}</th>
+              <td>{{ referral.referralID_count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col">
+        <PieChart class="pie-container" />
+      </div>
+
+    </div>
+  </div>
+
+  <canvas ref="piechart"></canvas>
 </section>
 </template>
 
@@ -104,6 +120,10 @@ function generateReport() {
 #report-table2 {
   max-width: 700px;
   text-align: center; 
+}
+
+.pie-container {
+  max-width: 500px;
 }
 
 </style>
