@@ -1,5 +1,4 @@
 import express from "express"
-
 import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
@@ -35,10 +34,10 @@ router.get("/admin/full-order/:id", async (req, res) => {
 // Create a order
 router.post("/", async (req, res) => {
     const { 
-        customerID, cakesID, referralID, cake_details, desired_date 
+        customerID, cakesID, referralID, cake_details, desired_date, image
     } = req.body;
     
-    const data = await createOrder(customerID, cakesID, referralID, cake_details, desired_date);
+    const data = await createOrder(customerID, cakesID, referralID, cake_details, desired_date, image);
     res.json(data);
 })
 

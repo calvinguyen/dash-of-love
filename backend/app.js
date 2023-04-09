@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import morgan from "morgan"
+import multer from "multer"
 
 //Import routes
 import reportsRoute from "./routes/reports.js"
@@ -25,6 +26,23 @@ app.use(cors(
 
 app.use(express.json())
 app.use(morgan("dev"))
+
+// Image upload logic
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../frontend/public/upload')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
+
+app.post("/upload", upload.single("file"), (req, res) => {
+    const file = req.file;
+    res.status(200).json(file.filename);
+})
 
 //Setup middleware for routes
 app.use("/reports", reportsRoute)

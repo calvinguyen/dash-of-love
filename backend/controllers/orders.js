@@ -51,12 +51,12 @@ export async function getFullOrderById(id) {
 }
 
 // Create a order
-export async function createOrder(customerID, cakesID, referralID, details, desiredDate) {
+export async function createOrder(customerID, cakesID, referralID, details, desiredDate, image) {
     const sql = `
-      insert into \`Order\` (customerID, cakesID, referralID, cake_details, desired_date)
-      values (?, ?, ?, ?, ?)
+      insert into \`Order\` (customerID, cakesID, referralID, cake_details, desired_date, image)
+      values (?, ?, ?, ?, ?, ?)
     `;
-    const [result] = await db.query(sql, [customerID, cakesID, referralID, details, desiredDate]);
+    const [result] = await db.query(sql, [customerID, cakesID, referralID, details, desiredDate, image]);
     const id = result.insertId;
   
     return getOrderById(id);
