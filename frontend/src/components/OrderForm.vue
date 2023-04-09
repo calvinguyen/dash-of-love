@@ -12,23 +12,6 @@ import CustomerAPI from '../services/CustomerAPI';
 import OrderAPI from '../services/OrderAPI';
 import PublicAPI from '../services/PublicAPI';
 
-/* Get Country, State, City of zip code input */
-/* const address = ref({
-  zip: '',
-  country: '',
-  state: '',
-  city: '',
-}); */
-const getAddress = async (zip) => {
-  try {
-    const response = await PublicAPI.getAddressByZip(zip);
-    Object.assign(customerData, response.data);
-    console.log(customerData);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 /* GET DATA FOR FORM DROP DOWN LISTS --> CAKE TYPES, FLAVORS, REFERRALS */
 // Get referrals
 const referrals = ref([]);
@@ -61,6 +44,16 @@ const getFlavors = async () => {
     flavors.value = response.data.filter(item => item.typeID == selectedCakeType.value.typeID)
   } catch(err) {
     console.log(err);
+  }
+}
+
+// Get Country, state, city
+const getAddress = async (zip) => {
+  try {
+    const response = await PublicAPI.getAddressByZip(zip);
+    Object.assign(customerData, response.data);
+  } catch (error) {
+    console.error(error);
   }
 }
 

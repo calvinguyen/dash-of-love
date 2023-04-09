@@ -22,6 +22,11 @@ const customer = ref({
   last_name: "",
   email: "",
   phone: "",
+  address: "",
+  zip: "",
+  country: "",
+  state: "",
+  city: "",
 });
 const getCustomer = async (custID) => {
   try {
@@ -76,8 +81,6 @@ const getFlavors = async () => {
     console.log(err);
   }
 }
-// Get today's date to set minimum date input
-// const currentDate = computed(() => new Date().toLocaleDateString('fr-CA'));
 
 // order form data
 const formData = reactive({
@@ -182,6 +185,11 @@ onBeforeMount(() => {
             <th scope="col">Last</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Country</th>
+            <th scope="col">State</th>
+            <th scope="col">City</th>
+            <th scope="col">Zip</th>
           </tr>
       </thead>
       <tbody>
@@ -192,6 +200,11 @@ onBeforeMount(() => {
             <td>
               {{ customer.phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') }}
             </td>
+            <td>{{ customer.address }}</td>
+            <td>{{ customer.country }}</td>
+            <td>{{ customer.state }}</td>
+            <td>{{ customer.city }}</td>
+            <td>{{ customer.zip }}</td>
         </tr>
       </tbody>
     </table>
@@ -352,7 +365,7 @@ onBeforeMount(() => {
 }
 
 .customer-details {
-  width: 60%;
+  /* max-width: 80%; */
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
   padding: 20px;
   margin-bottom: 20px;

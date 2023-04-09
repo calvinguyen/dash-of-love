@@ -66,7 +66,7 @@ import WeekOrders from './dashboard/WeekOrders.vue';
   font-family: 'Poppins', sans-serif;
 }
 
-h5 {
+#admin-dashboard h5 {
   text-align: center;
   background-color: #292524;
   color: white;
