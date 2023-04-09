@@ -55,9 +55,16 @@ router.put("/:id", async (req, res) => {
     const email = req.body.email.toLowerCase();
     const phone = req.body.phone;
     const status = req.body.statusID;
+    const address = req.body.address;
+    const country = req.body.country;
+    const state = req.body.state;
+    const city = req.body.city;
+    const zip = req.body.zip;
     const customerId = req.params.id;
 
-    const result = await updateCustomerById(customerId, first_name, last_name, email, phone, status);
+    const result = await updateCustomerById(
+        customerId, first_name, last_name, email, phone, status, address, country, state, city, zip
+        );
     res.json(result);
 })
 

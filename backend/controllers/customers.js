@@ -43,14 +43,16 @@ export async function createCustomer(first_name, last_name, email, phone, status
 }
 
 // Update a customer by id
-export async function updateCustomerById(id, first_name, last_name, email, phone, status) {
+export async function updateCustomerById(id, first_name, last_name, email, phone, status, address, country, state, city, zip) {
     const sql = `
       update Customer
       set first_name = ?, last_name = ?, email = ?,
-      phone = ?, statusID = ?
+      phone = ?, statusID = ?,
+      address = ?, country = ?, state = ?,
+      city = ?, zip = ?
       where customerID = ?
     `;
-    const [result] = await db.query(sql, [first_name, last_name, email, phone, status, id]);
+    const [result] = await db.query(sql, [first_name, last_name, email, phone, status, address, country, state, city, zip, id]);
     
     return getCustomerById(id);
 }

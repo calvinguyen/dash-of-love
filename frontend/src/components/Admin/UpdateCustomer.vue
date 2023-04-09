@@ -5,11 +5,14 @@ import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import CustomerAPI from '../../services/CustomerAPI';
 import Swal from 'sweetalert2';
+import PublicAPI from '../../services/PublicAPI';
 // import CustomerOrders from './CustomerOrders.vue';
 
 const props = defineProps({
   id: String,
 })
+
+const route = useRoute();
 
 //Get customer Status descriptions for drop down list
 const customerStatuses = ref([]);
@@ -23,8 +26,15 @@ const getCustomerStatuses = async () => {
 };
 getCustomerStatuses();
 
-const route = useRoute();
-const router = useRouter();
+// Get Country, state, city
+const getAddress = async (zip) => {
+  try {
+    const response = await PublicAPI.getAddressByZip(zip);
+    Object.assign(customerData, response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 //Get customer data
 const customerData = reactive({
@@ -33,6 +43,11 @@ const customerData = reactive({
   email: "",
   phone: "",
   statusID: "",
+  address: "",
+  zip: "",
+  country: "",
+  state: "",
+  city: "",
 });
 // get initial email
 const initialEmail = ref({ email: "" });
@@ -59,6 +74,11 @@ const rules = computed(() => {
       email: { required, email, maxLength: maxLength(100) },
       phone: { required, numeric, minLength: minLength(10), maxLength: maxLength(10) },
       statusID: { required },
+      address: { required, maxLength: maxLength(100) },
+      zip: { required, numeric, minLength: minLength(5), maxLength: maxLength(5) },
+      country: { required },
+      state: { required },
+      city: { required },
     },
   }
 });
@@ -186,6 +206,71 @@ const handleCustomerUpdate = async () => {
           </option>
         </select>
       </div>
+      <!-- ================ ADDRESS FIELDS ================ -->
+      <!-- Address Line Field -->
+      <div class="col-md-6 form-group mt-3">
+        <label for="address" class="form-label">Address</label>
+        <span 
+          v-for="error of v$.customerData.address.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <input v-model="customerData.address" type="text" class="form-control" placeholder="1234 Main St" />
+      </div>
+      <!-- ZIP Field -->
+      <div class="col-lg-4 col-md-6 form-group mt-3">
+        <label for="zip" class="form-label">Zip</label>
+        <span 
+          v-for="error of v$.customerData.zip.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <div class="d-flex">
+          <input v-model="customerData.zip" type="text" class="form-control" id="zip">
+          <button @click="getAddress(customerData.zip)" type="button" class="btn btn-primary btn-sm">Autofill Address</button>
+        </div>
+      </div>
+      <!-- Country Field -->
+      <div class="col-lg-auto col-md-auto form-group mt-3">
+        <label for="country" class="form-label">Country</label>
+        <span 
+          v-for="error of v$.customerData.country.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <input v-model="customerData.country" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
+      </div>
+      <!-- State Field -->
+      <div class="col-lg-auto col-md-auto form-group mt-3">
+        <label for="state" class="form-label">State</label>
+        <span 
+          v-for="error of v$.customerData.state.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <input v-model="customerData.state" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
+      </div>
+      <!-- City Field -->
+      <div class="col-lg-auto col-md-auto form-group mt-3">
+        <label for="city" class="form-label">City</label>
+        <span 
+          v-for="error of v$.customerData.city.$errors"
+          :key="error.$uid"
+          class="error-container"
+        >
+          *{{ error.$message }}
+        </span>
+        <input v-model="customerData.city" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
+      </div>
+
     </div>
 
     <div class="text-center"><button type="submit">Save Changes</button></div>
