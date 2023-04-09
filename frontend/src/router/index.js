@@ -41,12 +41,6 @@ const router = createRouter({
             component: () => import('../components/Admin/CustomerDetails.vue'),
         },
         {
-            path: '/update-customer/:id',
-            name: 'update-customer',
-            props: true,
-            component: () => import('../components/Admin/UpdateCustomer.vue'),
-        },
-        {
             path: '/update-order/:id',
             name: 'update-order',
             props: true,
@@ -85,11 +79,6 @@ const router = createRouter({
             component: () => import('../components/Admin/AdminReports.vue'),
         },
       ],
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: () => import('../views/TestView.vue')
     },
   ]
 })

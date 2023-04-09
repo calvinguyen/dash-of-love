@@ -365,9 +365,9 @@ function resetFormData(object) {
         >
           *{{ error.$message }}
         </span>
-        <div class="d-flex">
-          <input v-model="customerData.zip" type="text" class="form-control" id="zip">
-          <button @click="getAddress(customerData.zip)" type="button" class="btn btn-primary btn-sm">Autofill Address</button>
+        <div class="d-flex gap-3">
+          <input v-model="customerData.zip" type="text" class="form-control" id="zip" placeholder="Your Zipcode">
+          <button @click="getAddress(customerData.zip)" type="button" class="btn btn-info btn-sm">Autofill Address</button>
         </div>
       </div>
       <!-- Country Field -->
