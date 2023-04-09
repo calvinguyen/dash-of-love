@@ -34,4 +34,7 @@ export default {
     getOrdersThisWeek() {
         return API().get(`/orders/admin/order/week`);
     },
+    getPaymentTypes() {
+        return API().get('/orders/payment/types');
+    },
 }

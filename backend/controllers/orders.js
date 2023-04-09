@@ -29,7 +29,8 @@ export async function getFullOrderById(id) {
     select \`Order\`.orderID, \`Order\`.order_date, \`Order\`.customerID,
     \`Order\`.cakesID, Cake_Type.typeID, Cake_Type.type, Cake_Flavor.flavorID, Cake_Flavor.flavor,
     \`Order\`.referralID, \`Order\`.cake_details, \`Order\`.final_price,
-    \`Order\`.statusID, \`Order\`.desired_date, \`Order\`.pick_up_details
+    \`Order\`.statusID, \`Order\`.desired_date, \`Order\`.pick_up_details,
+    \`Order\`.image, \`Order\`.paymentID
     from \`Order\`
     Inner join Order_Status
         On \`Order\`.statusID = Order_Status.statusID
@@ -39,7 +40,7 @@ export async function getFullOrderById(id) {
         On Product_Menu.typeID = Cake_Type.typeID
     Inner join Cake_Flavor
         On Product_Menu.flavorID = Cake_Flavor.flavorID
-    where \`Order\`.orderID = ?;
+    where \`Order\`.orderID = ?
     `;
     const [rows] = await db.query(sql, [id]);
 
@@ -62,7 +63,7 @@ export async function createOrder(customerID, cakesID, referralID, details, desi
 }
 
 // Update an order by id
-export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup, price) {
+export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup, price, paymentID) {
     const sql = `
       update \`Order\`
       set cakesID = ?,
@@ -71,10 +72,11 @@ export async function updateOrderById(orderID, cakesId, referralId, cake_details
       statusID = ?,
       desired_date = ?,
       pick_up_details = ?,
-      final_price = ?
+      final_price = ?,
+      paymentID = ?
       where orderID = ?
     `;
-    const [result] = await db.query(sql, [cakesId, referralId, cake_details, status, desired_date, pickup, price, orderID]);
+    const [result] = await db.query(sql, [cakesId, referralId, cake_details, status, desired_date, pickup, price, paymentID, orderID]);
     
     return getOrderById(orderID);
 }
@@ -207,5 +209,13 @@ export async function getOrdersThisWeek() {
         item.desired_date = item.desired_date.toLocaleDateString('fr-CA');
     });
   
+    return results
+}
+
+// Get Order Status Descriptions from status table
+export async function getPaymentTypes() {
+    const sql = "select * from Payment_Type";
+    const [results] = await db.query(sql);
+
     return results
 }

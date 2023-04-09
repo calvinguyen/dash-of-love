@@ -4,7 +4,7 @@ import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
     getCustomerOrders, getFullOrderById, getOrdersReadyToday, getOrdersNewToday,
-    getOrdersThisWeek
+    getOrdersThisWeek, getPaymentTypes
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -45,16 +45,12 @@ router.post("/", async (req, res) => {
 // Update an order by id
 router.put("/:id", async (req, res) => {
     const orderId = req.params.id;
-    const cakesId = req.body.cakesID;
-    const referralId = req.body.referralID;
-    const cake_details = req.body.cake_details;
-    const status = req.body.statusID;
-    const desired_date = req.body.desired_date;
-    const pickup = req.body.pick_up_details;
-    const price = req.body.final_price;
+    const {
+        cakesID, referralID, cake_details, statusID, desired_date, pick_up_details, final_price, paymentID
+    } = req.body;
 
     const result = await updateOrderById(
-        orderId, cakesId, referralId, cake_details, status, desired_date, pickup, price
+        orderId, cakesID, referralID, cake_details, statusID, desired_date, pick_up_details, final_price, paymentID
     );
 
     res.json(result);
@@ -111,6 +107,13 @@ router.get("/admin/order/new/:date", async (req, res) => {
 // Get orders this week
 router.get("/admin/order/week/", async (req, res) => {
     const data = await getOrdersThisWeek();
+
+    res.json(data);
+})
+
+// Get all rows from order_status
+router.get("/payment/types", async (req, res) => {
+    const data = await getPaymentTypes();
 
     res.json(data);
 })

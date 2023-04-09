@@ -2,7 +2,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import { ref, reactive, computed, onBeforeMount } from 'vue';
 import useVuelidate from '@vuelidate/core';
-import { required, maxLength, numeric, helpers } from '@vuelidate/validators';
+import { required, maxLength, helpers } from '@vuelidate/validators';
 import OrderAPI from '../../services/OrderAPI';
 import CustomerAPI from '../../services/CustomerAPI';
 import ReferralAPI from '../../services/ReferralAPI';
@@ -48,6 +48,17 @@ const getOrderStatuses = async () => {
   }
 }
 getOrderStatuses();
+// Get Payment Types from Payment_Type
+const paymentTypes = ref([]);
+const getPaymentTypes = async () => {
+  try {
+    const response = await OrderAPI.getPaymentTypes();
+    paymentTypes.value = response.data;
+  } catch(err) {
+    console.log(err);
+  }
+}
+getPaymentTypes();
 // Get referrals
 const referrals = ref([]);
 const loadReferrals = async () => {
@@ -91,6 +102,7 @@ const formData = reactive({
   desired_date: "",
   pick_up_details: "",
   final_price: "",
+  paymentID: "",
 });
 
 // get order
@@ -266,8 +278,10 @@ onBeforeMount(() => {
           </option>
         </select>
       </div>
+    </div>
+    <div class="row">
       <!-- Status Field  -->
-      <div class="col-lg-4 col-md-6 form-group mt-3">
+      <div class="col-3 form-group mt-3">
         <label for="status" class="form-label">Status</label>
         <span 
           v-for="error of v$.formData.statusID.$errors"
@@ -284,7 +298,7 @@ onBeforeMount(() => {
         </select>
       </div>
       <!-- Available Date Field -->
-      <div class="col-lg-4 col-md-6 form-group mt-3">
+      <div class="col-3 form-group mt-3">
         <label for="desiredDate" class="form-label">Desired Date</label>
         <span 
           v-for="error of v$.formData.desired_date.$errors"
@@ -295,8 +309,9 @@ onBeforeMount(() => {
         </span>
         <input v-model="formData.desired_date" type="date" class="form-control" id="desiredDate" :min="order.order_date">
       </div>
+      <div class="col-1"></div>
       <!-- Final Price Field -->
-      <div class="col-lg-4 col-md-6 form-group mt-3 final-price-container">
+      <div class="col-2 form-group mt-3 final-price-container">
         <label for="final_price" class="form-label">Final Price</label>
         <span 
           v-for="error of v$.formData.final_price.$errors"
@@ -312,7 +327,16 @@ onBeforeMount(() => {
           <input v-model.number="formData.final_price" type="number" step="0.01" class="form-control" id="final_price">
         </div>
       </div>
-
+      <!-- Payment Type Field -->
+      <div class="col-3 form-group mt-3">
+        <label for="paymentType" class="form-label">Payment Type</label>
+        <select v-model="formData.paymentID" class="form-select" id="paymentType">
+          <option disabled value="">Please select one</option>
+          <option v-for="payment in paymentTypes" :value="payment.paymentID" >
+            {{ payment.type }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="row">
@@ -429,7 +453,7 @@ form label {
 
 .final-price-container input {
   text-align: right;
-  max-width: 150px;
+  /* max-width: 150px; */
 }
 .final-price-container span {
   height: 44px;
