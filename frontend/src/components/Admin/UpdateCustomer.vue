@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import CustomerAPI from '../../services/CustomerAPI';
@@ -130,6 +130,16 @@ const handleCustomerUpdate = async () => {
     .catch(err => console.log(err));
 };
 
+const zipWatch = ref(customerData.zip);
+
+watch(zipWatch, async (newZip, oldZip) => {
+  if (newZip.length != 5) return;
+  try {
+    await getAddress(newZip);
+  } catch (error) {
+    console.error(error);
+  }
+})
 </script>
 
 
@@ -207,7 +217,7 @@ const handleCustomerUpdate = async () => {
       </div>
       <!-- ================ ADDRESS FIELDS ================ -->
       <!-- Address Line Field -->
-      <div class="col-md-6 form-group mt-3">
+      <div class="col-md-4 form-group mt-3">
         <label for="address" class="form-label">Address</label>
         <span 
           v-for="error of v$.customerData.address.$errors"
@@ -219,7 +229,7 @@ const handleCustomerUpdate = async () => {
         <input v-model="customerData.address" type="text" class="form-control" placeholder="1234 Main St" />
       </div>
       <!-- ZIP Field -->
-      <div class="col-lg-4 col-md-6 form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="zip" class="form-label">Zip</label>
         <span 
           v-for="error of v$.customerData.zip.$errors"
@@ -228,13 +238,10 @@ const handleCustomerUpdate = async () => {
         >
           *{{ error.$message }}
         </span>
-        <div class="d-flex">
-          <input v-model="customerData.zip" type="text" class="form-control" id="zip">
-          <button @click="getAddress(customerData.zip)" type="button" class="btn btn-primary btn-sm">Autofill Address</button>
-        </div>
+        <input v-model="customerData.zip" type="text" class="form-control" id="zip">
       </div>
       <!-- Country Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="country" class="form-label">Country</label>
         <span 
           v-for="error of v$.customerData.country.$errors"
@@ -246,7 +253,7 @@ const handleCustomerUpdate = async () => {
         <input v-model="customerData.country" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
       </div>
       <!-- State Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="state" class="form-label">State</label>
         <span 
           v-for="error of v$.customerData.state.$errors"
@@ -258,7 +265,7 @@ const handleCustomerUpdate = async () => {
         <input v-model="customerData.state" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
       </div>
       <!-- City Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="city" class="form-label">City</label>
         <span 
           v-for="error of v$.customerData.city.$errors"

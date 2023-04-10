@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref } from 'vue';
+import { reactive, computed, ref, watch } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidate/validators';
 import emailjs from '@emailjs/browser';
@@ -211,6 +211,14 @@ function resetFormData(object) {
     object[property] = "";
   }
 }
+
+watch(
+  () => customerData.zip,
+  (zip) => {
+    if (zip.length != 5) return;
+    getAddress(zip);
+  }
+);
 </script>
 
 
@@ -344,7 +352,7 @@ function resetFormData(object) {
       </div>
       <!-- ================ ADDRESS FIELDS ================ -->
       <!-- Address Line Field -->
-      <div class="col-md-6 form-group mt-3">
+      <div class="col-md-4 form-group mt-3">
         <label for="address" class="form-label">Address</label>
         <span 
           v-for="error of v$.customerData.address.$errors"
@@ -356,7 +364,7 @@ function resetFormData(object) {
         <input v-model="customerData.address" type="text" class="form-control" placeholder="1234 Main St" />
       </div>
       <!-- ZIP Field -->
-      <div class="col-lg-4 col-md-6 form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="zip" class="form-label">Zip</label>
         <span 
           v-for="error of v$.customerData.zip.$errors"
@@ -365,13 +373,10 @@ function resetFormData(object) {
         >
           *{{ error.$message }}
         </span>
-        <div class="d-flex gap-3">
-          <input v-model="customerData.zip" type="text" class="form-control" id="zip" placeholder="Your Zipcode">
-          <button @click="getAddress(customerData.zip)" type="button" class="btn btn-info btn-sm">Autofill Address</button>
-        </div>
+        <input v-model="customerData.zip" type="text" class="form-control" id="zip" placeholder="Your Zipcode">
       </div>
       <!-- Country Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="country" class="form-label">Country</label>
         <span 
           v-for="error of v$.customerData.country.$errors"
@@ -383,7 +388,7 @@ function resetFormData(object) {
         <input v-model="customerData.country" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
       </div>
       <!-- State Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="state" class="form-label">State</label>
         <span 
           v-for="error of v$.customerData.state.$errors"
@@ -395,7 +400,7 @@ function resetFormData(object) {
         <input v-model="customerData.state" type="text" class="form-control" placeholder="Enter Zip to autofill" disabled />
       </div>
       <!-- City Field -->
-      <div class="col-lg-auto col-md-auto form-group mt-3">
+      <div class="col-md-2 form-group mt-3">
         <label for="city" class="form-label">City</label>
         <span 
           v-for="error of v$.customerData.city.$errors"
