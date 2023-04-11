@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import 'mdb-vue-ui-kit/css/mdb.min.css';
 
 </script>
 

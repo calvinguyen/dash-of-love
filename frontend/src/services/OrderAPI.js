@@ -13,6 +13,9 @@ export default {
     createOrder(data) {
         return API().post('/orders/', data);
     },
+    createAdminOrder(data) {
+        return API().post('/orders/admin/order', data);
+    },
     getAdminOrderView() {
         return API().get('/orders/admin/order');
     },

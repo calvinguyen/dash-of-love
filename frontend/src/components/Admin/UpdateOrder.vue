@@ -102,7 +102,7 @@ const formData = reactive({
   desired_date: "",
   pick_up_details: "",
   final_price: "",
-  paymentID: "",
+  paymentID: null,
 });
 
 // get order
@@ -228,7 +228,7 @@ onBeforeMount(() => {
 
       <!-- Cake Type Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="cakeType" class="form-label">Cake Type</label>
+        <label for="cakeType" class="form-label">Cake Type*</label>
         <span 
           v-for="error of v$.selectedCakeType.typeID.$errors"
           :key="error.$uid"
@@ -246,7 +246,7 @@ onBeforeMount(() => {
       
       <!-- Cake Flavor Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="cakeFlavor" class="form-label">Cake Flavor</label>
+        <label for="cakeFlavor" class="form-label">Cake Flavor*</label>
         <span 
           v-for="error of v$.formData.cakesID.$errors"
           :key="error.$uid"
@@ -263,7 +263,7 @@ onBeforeMount(() => {
       </div>
       <!-- Referral Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="referral" class="form-label">Referral</label>
+        <label for="referral" class="form-label">Referral*</label>
         <span 
           v-for="error of v$.formData.referralID.$errors"
           :key="error.$uid"
@@ -282,7 +282,7 @@ onBeforeMount(() => {
     <div class="row">
       <!-- Status Field  -->
       <div class="col-3 form-group mt-3">
-        <label for="status" class="form-label">Status</label>
+        <label for="status" class="form-label">Status*</label>
         <span 
           v-for="error of v$.formData.statusID.$errors"
           :key="error.$uid"
@@ -299,7 +299,7 @@ onBeforeMount(() => {
       </div>
       <!-- Available Date Field -->
       <div class="col-3 form-group mt-3">
-        <label for="desiredDate" class="form-label">Desired Date</label>
+        <label for="desiredDate" class="form-label">Desired Date*</label>
         <span 
           v-for="error of v$.formData.desired_date.$errors"
           :key="error.$uid"
@@ -342,7 +342,7 @@ onBeforeMount(() => {
     <div class="row">
       <!-- Design Description Field -->
       <div class="form-group col-md-6">
-        <label for="cake_details" class="form-label">Cake Design Details:</label>
+        <label for="cake_details" class="form-label">Cake Design Details:*</label>
         <span 
           v-for="error of v$.formData.cake_details.$errors"
           :key="error.$uid"

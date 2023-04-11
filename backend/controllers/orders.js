@@ -62,6 +62,18 @@ export async function createOrder(customerID, cakesID, referralID, details, desi
     return getOrderById(id);
 }
 
+// Create a order
+export async function createAdminOrder(customerID, cakesID, referralID, details, desiredDate, image, pickup, price, payment) {
+    const sql = `
+      insert into \`Order\` (customerID, cakesID, referralID, cake_details, desired_date, image, pick_up_details, final_price, paymentID)
+      values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const [result] = await db.query(sql, [customerID, cakesID, referralID, details, desiredDate, image, pickup, price, payment]);
+    const id = result.insertId;
+
+    return getOrderById(id);
+}
+
 // Update an order by id
 export async function updateOrderById(orderID, cakesId, referralId, cake_details, status, desired_date, pickup, price, paymentID) {
     const sql = `

@@ -3,7 +3,7 @@ import {
     getOrders, getOrderById, createOrder, updateOrderById,
     updateOrderStatusById, getAdminOrderView, getOrderStatusDescriptions,
     getCustomerOrders, getFullOrderById, getOrdersReadyToday, getOrdersNewToday,
-    getOrdersThisWeek, getPaymentTypes
+    getOrdersThisWeek, getPaymentTypes, createAdminOrder
 } from "../controllers/orders.js"
 
 const router = express.Router()
@@ -38,6 +38,16 @@ router.post("/", async (req, res) => {
     } = req.body;
     
     const data = await createOrder(customerID, cakesID, referralID, cake_details, desired_date, image);
+    res.json(data);
+})
+
+// Create admin order
+router.post("/admin/order", async (req, res) => {
+    const { 
+        customerID, cakesID, referralID, cake_details, desired_date, image, pick_up_details, final_price, paymentID
+    } = req.body;
+
+    const data = await createAdminOrder(customerID, cakesID, referralID, cake_details, desired_date, image, pick_up_details, final_price, paymentID);
     res.json(data);
 })
 

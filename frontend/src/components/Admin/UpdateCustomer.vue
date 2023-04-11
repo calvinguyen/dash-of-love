@@ -130,16 +130,13 @@ const handleCustomerUpdate = async () => {
     .catch(err => console.log(err));
 };
 
-const zipWatch = ref(customerData.zip);
-
-watch(zipWatch, async (newZip, oldZip) => {
-  if (newZip.length != 5) return;
-  try {
-    await getAddress(newZip);
-  } catch (error) {
-    console.error(error);
+watch(
+  () => customerData.zip,
+  (zip) => {
+    if (zip.length != 5) return;
+    getAddress(zip);
   }
-})
+);
 </script>
 
 
@@ -200,7 +197,7 @@ watch(zipWatch, async (newZip, oldZip) => {
       </div>
       <!-- Status Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="status" class="form-label">Status</label>
+        <label for="status" class="form-label">Status*</label>
         <span 
           v-for="error of v$.customerData.statusID.$errors"
           :key="error.$uid"
@@ -218,7 +215,7 @@ watch(zipWatch, async (newZip, oldZip) => {
       <!-- ================ ADDRESS FIELDS ================ -->
       <!-- Address Line Field -->
       <div class="col-md-4 form-group mt-3">
-        <label for="address" class="form-label">Address</label>
+        <label for="address" class="form-label">Address*</label>
         <span 
           v-for="error of v$.customerData.address.$errors"
           :key="error.$uid"
@@ -230,7 +227,7 @@ watch(zipWatch, async (newZip, oldZip) => {
       </div>
       <!-- ZIP Field -->
       <div class="col-md-2 form-group mt-3">
-        <label for="zip" class="form-label">Zip</label>
+        <label for="zip" class="form-label">Zip*</label>
         <span 
           v-for="error of v$.customerData.zip.$errors"
           :key="error.$uid"

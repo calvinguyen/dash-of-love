@@ -108,7 +108,7 @@
 }
 
 .links .member .social a:hover {
-  color: #ffb03b;
+  color: #fa0909;
 }
 
 .links .member .social i {

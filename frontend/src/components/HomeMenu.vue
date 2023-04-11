@@ -74,7 +74,7 @@ const getFlavorsOfferedByType = (typeID) => {
   position: relative;
   z-index: 3;
   font-weight: 700;
-  color: #ff9b08;
+  color: #fa0909;
 }
 
 .menu .menu-content span {

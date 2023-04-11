@@ -10,6 +10,7 @@ import {
 } from 'mdb-vue-ui-kit';
 import UpdateCustomer from './UpdateCustomer.vue';
 import CustomerOrders from './CustomerOrders.vue';
+import OrderForm from './OrderForm.vue';
 
 const props = defineProps({
   id: String,
@@ -35,6 +36,7 @@ const activeTabId = ref('update-customer');
     <!-- Tabs navs -->
     <MDBTabNav justify tabsClasses="mb-3 tab-nav">
       <MDBTabItem tabId="update-customer" href="update-customer"><span class="menu-tab"> Edit Customer Details </span></MDBTabItem>
+      <MDBTabItem tabId="order-form" href="order-form"><span class="menu-tab"> Add New Order </span></MDBTabItem>
       <MDBTabItem tabId="order-history" href="order-history"><span class="menu-tab"> Order History </span></MDBTabItem>
     </MDBTabNav>
     <!-- Tabs content -->
@@ -42,6 +44,10 @@ const activeTabId = ref('update-customer');
 
       <MDBTabPane tabId="update-customer">
         <UpdateCustomer :id="props.id" />
+      </MDBTabPane>
+
+      <MDBTabPane tabId="order-form">
+        <OrderForm :customer-id="props.id" />
       </MDBTabPane>
 
       <MDBTabPane tabId="order-history">

@@ -6,11 +6,13 @@
   <div class="col-lg-5 align-items-stretch image-box"></div>
   <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch">
     <div class="content">
-      <h3><strong style="color:rgb(250, 9, 9);">Hello Everyone !</strong> Welcome to my page </h3>
-      <p class="fst-italic">A couple things to keep in mind for orders:</p>
+      <h3><strong style="color:rgb(250, 9, 9);">About A Dash of Love</strong></h3>
+      <p class="fst-italic">A few things to keep in mind for orders:</p>
       <ul>
-        <li><i class="bx bx-check-double"></i> No kid's character cake designs, please. Exception: Sanrio characters (like Hello Kitty) will be considered</li>
-        <li><i class="bx bx-check-double"></i> Must Match my style (check out my gallery below)</li>
+        <li><i class="bx bx-check-double"> </i> Feminine & vintage style cake designs are my specialty (See gallery below for examples)</li>
+        <li><i class="bx bx-check-double"></i> Please describe your custom cake clearly and attach an reference image if you have one</li>
+        <li><i class="bx bx-check-double"></i> Please allow a few business days for your order to be reviewed</li>
+        <li><i class="bx bx-check-double"></i> If the order is not within my style guidlines, I will not accept the order</li>
       </ul>
     </div>
   </div>
@@ -59,7 +61,7 @@
 
 .about .content ul i {
   font-size: 20px;
-  color: #ffb03b;
+  color: #fa0909;
   position: absolute;
   left: 0;
   top: 2px;

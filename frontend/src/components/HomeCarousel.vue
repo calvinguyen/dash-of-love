@@ -118,7 +118,7 @@ div[style='background-image: url("src/assets/img/slide/slide-3.jpg");'] {
 }
 
 #hero h2 span {
-  color: #ffb03b;
+  color: #fa0909;
 }
 
 #hero p {
@@ -144,12 +144,12 @@ div[style='background-image: url("src/assets/img/slide/slide-3.jpg");'] {
   -webkit-animation-delay: 0.8s;
   animation-delay: 0.8s;
   color: #fff;
-  border: 2px solid #ffb03b;
+  border: 2px solid #ff2323;
 }
 
 #hero .btn-menu:hover,
 #hero .btn-book:hover {
-  background: #ffb03b;
+  background: #ff2323;
   color: #fff;
 }
 

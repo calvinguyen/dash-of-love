@@ -67,7 +67,7 @@ function generateReport() {
       Download Report
     </button>
   </div>
-  <p>This report shows the tottal amount of clients placing orders per month through the application.</p>
+  <p>This report shows the total amount of clients placing orders per month through the application.</p>
   <p>
     Assigned Objectives: Incoming Social Media order messages are reduced by 80% & Potential audience reached is
     increased by 50%
@@ -79,7 +79,7 @@ function generateReport() {
       <tr>
         <th style="width:300px">Month</th>
         <th>Total Count</th>
-        <th>Mothly Avg Change (+/-)</th>
+        <th>Monthly Avg Change (+/-)</th>
         <th>Total: Not Insta</th>
       </tr>
     </thead>

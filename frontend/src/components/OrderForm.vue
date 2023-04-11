@@ -5,7 +5,7 @@ import { required, minLength, maxLength, email, numeric, alpha } from '@vuelidat
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
 import ReferralAPI from '../services/ReferralAPI';
 import productMenuAPI from '../services/productMenuAPI';
 import CustomerAPI from '../services/CustomerAPI';
@@ -200,7 +200,7 @@ const submitForm = async () => {
       Swal.fire({
         icon: 'success',
         title: '<h3 style="font-family: Poppins, sans-serif"> Order Request Received! </h3>',
-        text: "I'll get back to you if your order is accepted, but if you don't hear from me, I didn't accept",
+        text: "I'll get back to you if your order is accepted. Otherwise, I was not able to fulfil your order. Thank you! ",
       });
     })
     .catch(err => console.log(err));
@@ -235,7 +235,7 @@ watch(
     <div class="row">
       <!-- First Name Field -->
       <div class="col-md-6 form-group">
-        <label for="firstName" class="form-label">First Name</label>
+        <label for="firstName" class="form-label">First Name*</label>
         <span 
           v-for="error of v$.customerData.first_name.$errors"
           :key="error.$uid"
@@ -247,7 +247,7 @@ watch(
       </div>
       <!-- Last Name Field -->
       <div class="col-md-6 form-group">
-        <label for="lastName" class="form-label">Last Name</label>
+        <label for="lastName" class="form-label">Last Name*</label>
         <span 
           v-for="error of v$.customerData.last_name.$errors"
           :key="error.$uid"
@@ -259,7 +259,7 @@ watch(
       </div>
       <!-- Email Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label">Email*</label>
         <span 
           v-for="error of v$.customerData.email.$errors"
           :key="error.$uid"
@@ -271,7 +271,7 @@ watch(
       </div>
       <!-- Phone Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="phone" class="form-label">Phone</label>
+        <label for="phone" class="form-label">Phone*</label>
         <span 
           v-for="error of v$.customerData.phone.$errors"
           :key="error.$uid"
@@ -283,7 +283,7 @@ watch(
       </div>
       <!-- Available Date Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="desiredDate" class="form-label">Desired Date</label>
+        <label for="desiredDate" class="form-label">Desired Date*</label>
         <span 
           v-for="error of v$.orderData.desired_date.$errors"
           :key="error.$uid"
@@ -301,7 +301,7 @@ watch(
       </div>
       <!-- Cake Type Field  -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="cakeType" class="form-label">Cake Type</label>
+        <label for="cakeType" class="form-label">Cake Type*</label>
         <span 
           v-for="error of v$.selectedCakeType.typeID.$errors"
           :key="error.$uid"
@@ -318,7 +318,7 @@ watch(
       </div>
       <!-- Cake Flavor Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="cakeFlavor" class="form-label">Cake Flavor</label>
+        <label for="cakeFlavor" class="form-label">Cake Flavor*</label>
         <span 
           v-for="error of v$.orderData.cakesID.$errors"
           :key="error.$uid"
@@ -335,7 +335,7 @@ watch(
       </div>
       <!-- Referral Field -->
       <div class="col-lg-4 col-md-6 form-group mt-3">
-        <label for="referral" class="form-label">Referral</label>
+        <label for="referral" class="form-label">How did you hear about A Dash of Love?*</label>
         <span 
           v-for="error of v$.orderData.referralID.$errors"
           :key="error.$uid"
@@ -353,7 +353,7 @@ watch(
       <!-- ================ ADDRESS FIELDS ================ -->
       <!-- Address Line Field -->
       <div class="col-md-4 form-group mt-3">
-        <label for="address" class="form-label">Address</label>
+        <label for="address" class="form-label">Address*</label>
         <span 
           v-for="error of v$.customerData.address.$errors"
           :key="error.$uid"
@@ -365,7 +365,7 @@ watch(
       </div>
       <!-- ZIP Field -->
       <div class="col-md-2 form-group mt-3">
-        <label for="zip" class="form-label">Zip</label>
+        <label for="zip" class="form-label">Zip*</label>
         <span 
           v-for="error of v$.customerData.zip.$errors"
           :key="error.$uid"
@@ -429,7 +429,7 @@ watch(
 
     <!-- Design Description Field -->
     <div class="form-group mt-3">
-      <label for="details" class="form-label">Please give a description for desired design:</label>
+      <label for="details" class="form-label">Tell me more about your cake:*</label>
       <span 
         v-for="error of v$.orderData.cake_details.$errors"
         :key="error.$uid"
@@ -440,7 +440,7 @@ watch(
       <textarea v-model="orderData.cake_details" class="form-control" id="details" rows="5" ></textarea>
     </div>
 
-    <div class="text-center"><button type="submit">Send Message</button></div>
+    <div class="text-center"><button type="submit">Send Request</button></div>
   </form>
 
 </div>
@@ -455,7 +455,7 @@ watch(
   width: 100%;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
   padding: 30px;
-  background: #fff;
+  background: #fffaf3;
 }
 
 .custom-order .request-form .form-group {
@@ -482,16 +482,16 @@ form input[type='file'] {
 }
 
 .custom-order .request-form button[type=submit] {
-  background: #ffb03b;
+  background: #fa0909;
   border: 0;
   padding: 10px 24px;
-  color: #fff;
+  color: #ffffff;
   transition: 0.4s;
   border-radius: 50px;
 }
 
 .custom-order .request-form button[type=submit]:hover {
-  background: #ffa012;
+  background: #fc8484;
 }
 
 .error-container {
