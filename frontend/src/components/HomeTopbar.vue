@@ -57,9 +57,10 @@ onBeforeUnmount(() => {
 <header id="header" class="fixed-top d-flex align-items-center" :class="{ 'header-scrolled': scrolledNav }">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
       <div class="logo me-auto">
-        <RouterLink to="/admin">
+        <!-- <RouterLink to="/admin">
           <h1><a>DashofLove</a></h1>
-        </RouterLink>
+        </RouterLink> -->
+        <h1><a>DashofLove</a></h1>
       </div>
  
       <nav id="navbar" class="navbar order-last order-lg-0">

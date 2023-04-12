@@ -1,6 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import { signOut, getAuth } from 'firebase/auth';
+import { useRouter } from 'vue-router';
 import 'mdb-vue-ui-kit/css/mdb.min.css';
+
+const router = useRouter();
+
+let auth = getAuth();
+
+const handleLogout = () => {
+  signOut(auth).then(() => {
+    router.push('/');
+  });
+};
 
 </script>
 
@@ -52,10 +64,10 @@ import 'mdb-vue-ui-kit/css/mdb.min.css';
     <!-- Bottom Side Navlinks -->
     <ul class="bottom-navlinks">
       <li>
-        <RouterLink to="/" class="navlink-container">
+        <a @click="handleLogout" class="navlink-container">
           <i class='bx bx-log-out bx-md'></i>
           <span>Logout</span>
-        </RouterLink>
+        </a>
       </li>
     </ul>
   </nav>
@@ -81,6 +93,10 @@ import 'mdb-vue-ui-kit/css/mdb.min.css';
 #admin * {
   margin: 0;
   padding: 0;
+}
+
+#admin a {
+  cursor: pointer;
 }
 
 #admin a:hover {
