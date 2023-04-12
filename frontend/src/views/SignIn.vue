@@ -56,7 +56,7 @@ const login = () => {
       <label for="password" class="form-label">Password</label>
       <input v-model="password" class="form-control mb-4" type="password" placeholder="Password">
 
-      <p v-if="errMsg">{{ errMsg }}</p>
+      <p v-if="errMsg" style="color: red">{{ errMsg }}</p>
 
       <button @click="login">Login</button>
     </div>
