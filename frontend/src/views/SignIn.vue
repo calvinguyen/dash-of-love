@@ -50,7 +50,7 @@ const login = () => {
     <div class="text-container">
       <h1 class="mb-5">Sign In</h1>
 
-      <label for="email" class="form-label">Email Adress</label>
+      <label for="email" class="form-label">Email Address</label>
       <input v-model="email" class="form-control mb-3" type="text" placeholder="Email">
 
       <label for="password" class="form-label">Password</label>
