@@ -125,7 +125,7 @@ const table = ref({
     return table.value.rows.length;
   }),
   sortable: {
-    order: "orderID",
+    order: "order_date",
     sort: "desc",
   },
 })
