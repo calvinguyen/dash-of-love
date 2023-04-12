@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
 
@@ -9,6 +9,8 @@ const router = useRouter();
 const email = ref('');
 const password = ref('');
 const errMsg = ref();
+
+const pwMsg = ref();
 
 const login = () => {
   const auth = getAuth();
@@ -37,6 +39,20 @@ const login = () => {
     });
 }
 
+const resetPassword = () => {
+  const auth = getAuth();
+
+  sendPasswordResetEmail(auth, email.value)
+  .then(() => {
+    pwMsg.value = 'Password reset link sent to email!'
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    errMsg.value = errorMessage;
+  });
+}
+
 </script>
 
 <template>
@@ -59,6 +75,9 @@ const login = () => {
       <p v-if="errMsg" style="color: red">{{ errMsg }}</p>
 
       <button @click="login">Login</button>
+      <hr>
+      <button @click="resetPassword" class="reset mb-2">Forgot Password?</button>
+      <p v-if="pwMsg" style="color: blue; font-weight: bold;">{{ pwMsg }}</p>
     </div>
   </div>
 
@@ -121,8 +140,18 @@ const login = () => {
   font-size: 20px;
 }
 
+button.reset {
+  background: blue;
+  width: 100%;
+  font-size: 15px;
+}
+
 .text-container button:hover {
   background: #ff9898;
+}
+
+button.reset:hover {
+  background-color: royalblue;
 }
 
 </style>
