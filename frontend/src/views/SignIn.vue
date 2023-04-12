@@ -49,7 +49,7 @@ const resetPassword = () => {
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    errMsg.value = errorMessage;
+    errMsg.value = 'A user with this email does not exist!';
   });
 }
 
